@@ -9,5 +9,5 @@ public class RoleModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    
+
 }
