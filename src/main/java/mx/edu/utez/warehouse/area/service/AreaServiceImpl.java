@@ -2,7 +2,7 @@ package mx.edu.utez.warehouse.area.service;
 
 import mx.edu.utez.warehouse.area.model.AreaModel;
 import mx.edu.utez.warehouse.message.model.MessageModel;
-import mx.edu.utez.warehouse.utils.messageCatalog.MessageCatalog;
+import mx.edu.utez.warehouse.utils.MessageCatalog;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +26,13 @@ public class AreaServiceImpl implements AreaService {
             Page<AreaModel> areas = repository.findAll(pageable);
 
             if(areas.getNumberOfElements() == 0){
-                return new MessageModel(MessageCatalog.NO_RECORDS_FOUND.getMessage(), MessageCatalog.NO_RECORDS_FOUND.getTypeOfMessage(), null, false, null);
+                return new MessageModel(MessageCatalog.NO_RECORDS_FOUND, null, false, null);
             }
 
-            return new MessageModel(MessageCatalog.RECORDS_FOUND.getMessage(), MessageCatalog.RECORDS_FOUND.getTypeOfMessage(), areas, false, null);
-
+            return new MessageModel(MessageCatalog.RECORDS_FOUND, areas, false, null);
 
         }catch (Exception exception){
-            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND.getMessage(),
-                    MessageCatalog.UNK_ERROR_FOUND.getTypeOfMessage(), null, true, MessageCatalog.UNK_ERROR_FOUND.getMessage());
+            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true, MessageCatalog.UNK_ERROR_FOUND.getMessage());
         }
 
     }
@@ -52,18 +50,14 @@ public class AreaServiceImpl implements AreaService {
         try {
             boolean isRegister = repository.saveAndFlush(areaModel) != null;
             if (isRegister) {
-                messageModel = new MessageModel(MessageCatalog.SUCCESS_REGISTER.getMessage(),
-                        MessageCatalog.SUCCESS_REGISTER.getTypeOfMessage(), null, false, null);
+                messageModel = new MessageModel(MessageCatalog.SUCCESS_REGISTER, null, false, null);
             } else {
-                messageModel = new MessageModel(MessageCatalog.UNK_ERROR_FOUND.getMessage(),
-                        MessageCatalog.UNK_ERROR_FOUND.getTypeOfMessage(), null, true, MessageCatalog.UNK_ERROR_FOUND.getMessage());
+                messageModel = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true, MessageCatalog.UNK_ERROR_FOUND.getMessage());
             }
         } catch (DataAccessException exception) {
-            messageModel = new MessageModel(MessageCatalog.UNK_ERROR_FOUND.getMessage(),
-                    MessageCatalog.UNK_ERROR_FOUND.getTypeOfMessage(), null, true, exception.getMessage());
+            messageModel = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true, exception.getMessage());
         }catch (Exception exception){
-            messageModel = new MessageModel(MessageCatalog.UNK_ERROR_FOUND.getMessage(),
-                    MessageCatalog.UNK_ERROR_FOUND.getTypeOfMessage(), null, true, exception.getMessage());
+            messageModel = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true, exception.getMessage());
         }
         return messageModel;
     }

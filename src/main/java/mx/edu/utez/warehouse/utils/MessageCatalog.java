@@ -1,4 +1,4 @@
-package mx.edu.utez.warehouse.utils.messageCatalog;
+package mx.edu.utez.warehouse.utils;
 
 public enum MessageCatalog {
     SUCCESS_REGISTER("Se ha registrado correctamente", "info"),

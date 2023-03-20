@@ -1,8 +1,14 @@
 package mx.edu.utez.warehouse.area.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "area")
 public class AreaModel {
     @Id
@@ -15,27 +21,7 @@ public class AreaModel {
     @Column(nullable = false)
     private String address;
 
-    public long getId() {
-        return id;
-    }
+    @Column(nullable = false)
+    private int status;
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }

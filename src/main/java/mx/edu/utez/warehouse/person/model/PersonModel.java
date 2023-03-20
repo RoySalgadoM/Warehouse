@@ -1,8 +1,17 @@
 package mx.edu.utez.warehouse.person.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import mx.edu.utez.warehouse.user.model.UserModel;
+
+import java.util.Set;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "person")
 public class PersonModel {
     @Id
@@ -21,7 +30,11 @@ public class PersonModel {
     @Column(nullable = false)
     private String rfc;
 
-    public PersonModel(long id, String name, String surname, String secondSurname, String email, String phone, String rfc) {
+    @Column(nullable = false)
+    private int status;
+
+
+    public PersonModel(long id, String name, String surname, String secondSurname, String email, String phone, String rfc, int status) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -29,64 +42,16 @@ public class PersonModel {
         this.email = email;
         this.phone = phone;
         this.rfc = rfc;
+        this.status = status;
     }
-
-    public PersonModel() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public PersonModel(String name, String surname, String secondSurname, String email, String phone, String rfc, int status) {
         this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
         this.surname = surname;
-    }
-
-    public String getSecondSurname() {
-        return secondSurname;
-    }
-
-    public void setSecondSurname(String secondSurname) {
         this.secondSurname = secondSurname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getRfc() {
-        return rfc;
-    }
-
-    public void setRfc(String rfc) {
         this.rfc = rfc;
+        this.status = status;
     }
+
 }

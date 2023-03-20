@@ -1,5 +1,6 @@
 package mx.edu.utez.warehouse.area.controller;
 
+import jakarta.servlet.http.HttpSession;
 import mx.edu.utez.warehouse.WarehouseApplication;
 import mx.edu.utez.warehouse.area.service.AreaServiceImpl;
 import mx.edu.utez.warehouse.message.model.MessageModel;
@@ -27,7 +28,13 @@ public class AreaController {
         MessageModel areas = service.findAllAreas(page, size);
         areas.setUuid(uuid.toString());
         logger.info("[USER : Roy Salgado] || [UUID : " + uuid.toString() + "] ---> AREA MODULE RESPONSE: " + areas.toString());
-        model.addAttribute("message", areas);
+        model.addAttribute("result", areas);
         return "index";
+    }
+
+    @GetMapping("/private")
+    public String findAllAreas(Model model, HttpSession httpSession){
+        System.out.println(httpSession.getAttributeNames());
+        return "dashboard";
     }
 }

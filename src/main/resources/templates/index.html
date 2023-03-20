@@ -7,24 +7,6 @@
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 <body>
-    <h1>[[${message.message}]]</h1>
-    <h1>[[${message.typeOfMessage}]]</h1>
-    <h1>[[${message.isError}]]</h1>
-    <h1>[[${message.error}]]</h1>
-    <h1>[[${message.uuid}]]</h1>
 
-    <div class="card" style="width: 20em; margin-top: 25px; margin-left: 25px; display: inline-flex" th:each="areas : ${message.data}" th:if="${message.data} != null")>
-        <div class="image">
-            <div class="card-body">
-                <p class="card-text">[[${areas.id}]]</p>
-                <p class="card-text">[[${areas.identifier}]]</p>
-                <p class="card-text">[[${areas.address}]]</p>
-            </div>
-        </div>
-    </div>
-
-    <div th:if="${message.data} == null">
-        <h1>[[${message.message}]]</h1>
-    </div>
 </body>
 </html>
