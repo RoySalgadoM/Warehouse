@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mx.edu.utez.warehouse.user.model.UserModel;
-
-import java.util.Set;
 
 @Entity
 @Getter
