@@ -13,7 +13,7 @@ import lombok.Setter;
 public class PersonModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
@@ -28,10 +28,10 @@ public class PersonModel {
     private String rfc;
 
     @Column(nullable = false)
-    private int status;
+    private Integer status;
 
 
-    public PersonModel(long id, String name, String surname, String secondSurname, String email, String phone, String rfc, int status) {
+    public PersonModel(Long id, String name, String surname, String secondSurname, String email, String phone, String rfc, Integer status) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -41,7 +41,7 @@ public class PersonModel {
         this.rfc = rfc;
         this.status = status;
     }
-    public PersonModel(String name, String surname, String secondSurname, String email, String phone, String rfc, int status) {
+    public PersonModel(String name, String surname, String secondSurname, String email, String phone, String rfc, Integer status) {
         this.name = name;
         this.surname = surname;
         this.secondSurname = secondSurname;

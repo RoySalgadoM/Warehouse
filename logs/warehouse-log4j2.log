@@ -1,25 +1,39 @@
-2023-03-20 17:14:49,364 INFO o.s.t.c.s.AnnotationConfigContextLoaderUtils [main] Could not detect default configuration classes for test class [mx.edu.utez.warehouse.WarehouseApplicationTests]: WarehouseApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2023-03-20 17:14:49,459 INFO o.s.b.t.c.SpringBootTestContextBootstrapper [main] Found @SpringBootConfiguration mx.edu.utez.warehouse.WarehouseApplication for test class mx.edu.utez.warehouse.WarehouseApplicationTests
-2023-03-20 17:14:49,850 INFO o.s.b.StartupInfoLogger [main] Starting WarehouseApplicationTests using Java 19.0.2 with PID 13512 (started by exos0 in D:\Escuela\Warehouse)
-2023-03-20 17:14:49,894 INFO o.s.b.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
-2023-03-20 17:14:50,585 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-03-20 17:14:50,654 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 62 ms. Found 4 JPA repository interfaces.
-2023-03-20 17:14:51,221 INFO o.h.j.i.u.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-03-20 17:14:51,284 INFO o.h.Version [main] HHH000412: Hibernate ORM core version 6.1.7.Final
-2023-03-20 17:14:51,649 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Starting...
-2023-03-20 17:14:51,654 WARN c.z.h.u.DriverDataSource [main] Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
-2023-03-20 17:14:52,023 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@857f74a
-2023-03-20 17:14:52,025 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
-2023-03-20 17:14:52,045 INFO o.h.e.j.d.i.DialectFactoryImpl [main] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2023-03-20 17:14:52,047 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
-2023-03-20 17:14:52,970 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-03-20 17:14:52,982 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-03-20 17:14:53,394 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-03-20 17:14:53,496 INFO o.s.b.a.w.s.WelcomePageHandlerMapping [main] Adding welcome page template: index
-2023-03-20 17:14:53,723 INFO o.s.s.w.DefaultSecurityFilterChain [main] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2e2546bf, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5e572b08, org.springframework.security.web.context.SecurityContextHolderFilter@3f2feab7, org.springframework.security.web.header.HeaderWriterFilter@5d3d5242, org.springframework.security.web.csrf.CsrfFilter@23a9400c, org.springframework.security.web.authentication.logout.LogoutFilter@7acf07b2, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@c950fd, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2738a1fc, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6d7d0946, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6908674b, org.springframework.security.web.access.ExceptionTranslationFilter@61c11339, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5c141c7b]
-2023-03-20 17:14:54,094 INFO o.s.b.StartupInfoLogger [main] Started WarehouseApplicationTests in 4.49 seconds (process running for 6.016)
-2023-03-20 17:14:54,096 INFO m.e.u.w.u.Runner [main] STARTING RUNNER
-2023-03-20 17:14:54,407 INFO m.e.u.w.u.Runner [main] END RUNNER
-2023-03-20 17:14:54,630 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-03-20 17:14:54,633 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
-2023-03-20 17:14:54,644 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
+2023-03-20 19:47:59,589 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 8.0.0.Final
+2023-03-20 19:47:59,638 INFO o.s.b.StartupInfoLogger [restartedMain] Starting WarehouseApplication using Java 19.0.2 with PID 1660 (D:\Escuela\Warehouse\target\classes started by exos0 in D:\Escuela\Warehouse)
+2023-03-20 19:47:59,644 INFO o.s.b.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2023-03-20 19:47:59,716 INFO o.s.b.l.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-03-20 19:47:59,717 INFO o.s.b.l.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-03-20 19:48:00,564 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-03-20 19:48:00,652 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 78 ms. Found 4 JPA repository interfaces.
+2023-03-20 19:48:01,408 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8080 (http)
+2023-03-20 19:48:01,441 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8080"]
+2023-03-20 19:48:01,442 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2023-03-20 19:48:01,442 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/10.1.5]
+2023-03-20 19:48:01,518 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2023-03-20 19:48:01,519 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 1766 ms
+2023-03-20 19:48:01,772 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-03-20 19:48:01,832 INFO o.h.Version [restartedMain] HHH000412: Hibernate ORM core version 6.1.7.Final
+2023-03-20 19:48:02,176 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2023-03-20 19:48:02,182 WARN c.z.h.u.DriverDataSource [restartedMain] Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+2023-03-20 19:48:02,538 INFO c.z.h.p.HikariPool [restartedMain] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@293d54d4
+2023-03-20 19:48:02,540 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2023-03-20 19:48:02,563 INFO o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-03-20 19:48:02,565 WARN o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2023-03-20 19:48:03,767 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-03-20 19:48:03,777 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-03-20 19:48:04,176 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-03-20 19:48:04,310 INFO o.s.b.a.w.s.WelcomePageHandlerMapping [restartedMain] Adding welcome page template: index
+2023-03-20 19:48:04,490 INFO o.s.s.w.DefaultSecurityFilterChain [restartedMain] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@759eda22, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6f48f553, org.springframework.security.web.context.SecurityContextHolderFilter@520e28ed, org.springframework.security.web.header.HeaderWriterFilter@1dfe352e, org.springframework.security.web.csrf.CsrfFilter@7ac6f4c8, org.springframework.security.web.authentication.logout.LogoutFilter@5e82651e, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@55c21bbc, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1910df6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@72606d4a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@9b82d07, org.springframework.security.web.access.ExceptionTranslationFilter@42454535, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6ef50f62]
+2023-03-20 19:48:04,732 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2023-03-20 19:48:04,751 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8080"]
+2023-03-20 19:48:04,774 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port(s): 8080 (http) with context path ''
+2023-03-20 19:48:04,782 INFO o.s.b.StartupInfoLogger [restartedMain] Started WarehouseApplication in 5.663 seconds (process running for 7.386)
+2023-03-20 19:48:04,784 INFO m.e.u.w.u.Runner [restartedMain] STARTING RUNNER
+2023-03-20 19:48:05,018 INFO m.e.u.w.u.Runner [restartedMain] END RUNNER
+2023-03-20 19:48:05,358 INFO o.a.j.l.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-03-20 19:48:05,358 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2023-03-20 19:48:05,361 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 3 ms
+2023-03-20 19:48:05,437 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-1] [USER : ] || [UUID : 7ce8f244-f28d-45e1-8bfa-47298492d6a5] ---> EXECUTING AREA MODULE ---> findAllAreas()
+2023-03-20 19:48:05,467 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-1] [USER : ] || [UUID : 7ce8f244-f28d-45e1-8bfa-47298492d6a5] ---> AREA MODULE --> findAllAreas() RESPONSE: Page 1 of 2 containing mx.edu.utez.warehouse.area.model.AreaModel instances
+2023-03-20 19:48:35,772 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-2] [USER : ] || [UUID : 03f7a5b5-89b5-43d8-842a-b29d5fb34b99] ---> EXECUTING AREA MODULE ---> findById()
+2023-03-20 19:48:35,786 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-2] [USER : ] || [UUID : 03f7a5b5-89b5-43d8-842a-b29d5fb34b99] ---> AREA MODULE --> findById() RESPONSE: AreaModel{id=3, identifier='XML', address='Yaute', status=1}

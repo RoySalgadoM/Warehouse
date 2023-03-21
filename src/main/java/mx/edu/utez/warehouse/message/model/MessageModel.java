@@ -12,14 +12,12 @@ public class MessageModel {
     private String uuid;
     private MessageCatalog message;
     private Object data;
-    private boolean isError;
-    private String error;
+    private Boolean isError;
 
-    public MessageModel(MessageCatalog message, Object data, boolean isError, String error) {
+    public MessageModel(MessageCatalog message, Object data, Boolean isError) {
         this.message = message;
         this.data = data;
         this.isError = isError;
-        this.error = error;
     }
 
 }

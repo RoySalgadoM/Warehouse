@@ -21,6 +21,7 @@ public class WebSecurityConfig{
         try {
             http
                     .authorizeRequests()
+                    .requestMatchers("/**").permitAll()
                     .requestMatchers("/").access("hasAnyAuthority('ADMIN')")
                     /*
                     .requestMatchers("/").access("hasAnyAuthority('WAREHOUSER')")

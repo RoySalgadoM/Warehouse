@@ -20,50 +20,69 @@ public class AreaServiceImpl implements AreaService {
     AreaRepository repository;
 
     @Override
-    public MessageModel findAllAreas(int page, int size) {
+    public MessageModel findAllAreas(int page, int size, String username, String uuid) {
         try{
             Pageable pageable = PageRequest.of(page, size);
             Page<AreaModel> areas = repository.findAll(pageable);
 
+
             if(areas.getNumberOfElements() == 0){
-                return new MessageModel(MessageCatalog.NO_RECORDS_FOUND, null, false, null);
+                return new MessageModel(MessageCatalog.NO_RECORDS_FOUND, null, false);
             }
 
-            return new MessageModel(MessageCatalog.RECORDS_FOUND, areas, false, null);
+            return new MessageModel(MessageCatalog.RECORDS_FOUND, areas, false);
 
-        }catch (Exception exception){
-            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true, MessageCatalog.UNK_ERROR_FOUND.getMessage());
+        }catch (DataAccessException exception) {
+            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> findAllAreas() ERROR: " + exception.getMessage());
+            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+        }
+        catch (Exception exception){
+            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> findAllAreas() ERROR: " + exception.getMessage());
+            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
         }
 
     }
 
     @Override
-    public AreaModel findById(long id) {
-        Object findArea = repository.findById(id);
-        AreaModel area = (AreaModel) findArea;
-        return area;
+    public MessageModel findById(long id, String username, String uuid) {
+        try {
+            var findArea = repository.findById(id);
+            if(findArea.isEmpty()){
+                return new MessageModel(MessageCatalog.NO_RECORDS_FOUND, null, false);
+            }
+            return new MessageModel(MessageCatalog.RECORDS_FOUND, findArea.get(), false);
+
+        }catch (DataAccessException exception) {
+            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> findById() ERROR: " + exception.getMessage());
+            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+        }catch (Exception exception){
+            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> findById() ERROR: " + exception.getMessage());
+            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+        }
     }
 
     @Override
-    public MessageModel registerArea(AreaModel areaModel) {
+    public MessageModel registerArea(AreaModel areaModel, String username, String uuid) {
         MessageModel messageModel;
         try {
             boolean isRegister = repository.saveAndFlush(areaModel) != null;
             if (isRegister) {
-                messageModel = new MessageModel(MessageCatalog.SUCCESS_REGISTER, null, false, null);
+                messageModel = new MessageModel(MessageCatalog.SUCCESS_REGISTER, null, false);
             } else {
-                messageModel = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true, MessageCatalog.UNK_ERROR_FOUND.getMessage());
+                messageModel = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             }
         } catch (DataAccessException exception) {
-            messageModel = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true, exception.getMessage());
+            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> findById() ERROR: " + exception.getMessage());
+            messageModel = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
         }catch (Exception exception){
-            messageModel = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true, exception.getMessage());
+            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> findById() ERROR: " + exception.getMessage());
+            messageModel = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
         }
         return messageModel;
     }
 
     @Override
-    public boolean updateArea(AreaModel areaModel) {
+    public boolean updateArea(AreaModel areaModel, String username, String uuid) {
         if (repository.existsById(areaModel.getId())) {
             return false;
         }
@@ -71,7 +90,7 @@ public class AreaServiceImpl implements AreaService {
     }
 
     @Override
-    public boolean disableArea(long id) {
+    public boolean disableArea(long id, String username, String uuid) {
         return false;
     }
 }

@@ -44,7 +44,7 @@ public class Runner implements CommandLineRunner {
         }
         if(userRepository.count() == 0) {
             logger.info("CREATING ADMIN USER");
-            PersonModel personModel = new PersonModel(1, "Roy", "Salgado", "Martinez", "roy21rasm@gmail.com", "7771144520", "SAMR020621SL7", 1);
+            PersonModel personModel = new PersonModel(1L, "Roy", "Salgado", "Martinez", "roy21rasm@gmail.com", "7771144520", "SAMR020621SL7", 1);
             personRepository.save(personModel);
             Set<RoleModel> roles = new HashSet<RoleModel>();
             roles.add(new RoleModel(1L, AuthorityName.ADMIN));
