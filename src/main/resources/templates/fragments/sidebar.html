@@ -1,0 +1,78 @@
+<aside class="main-sidebar sidebar-dark-primary elevation-4" th:fragment="sidebar">
+    <!-- Brand Logo -->
+    <a href="#" class="brand-link"><span class="brand-text font-weight-light">SIGA</span>
+    </a>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="info">
+                <a href="#" class="d-block">Usuario</a>
+            </div>
+        </div>
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item">
+                    <a th:href="@{/products/}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Productos
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/orders/}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Pedidos
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/output/}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Salidas
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a th:href="@{/area/}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Áreas
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a th:href="@{/warehouses/}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Almacenes
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/users/}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Usuarios
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/supplies/}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Proveedores
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
