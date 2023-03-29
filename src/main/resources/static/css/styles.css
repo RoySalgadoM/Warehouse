@@ -1,0 +1,31 @@
+/* Estilos generales */
+
+.font-white{
+    color: white;
+    font-weight: bold;
+}
+
+.back-green{
+    background-color: #049474 !important;
+}
+
+.btn-add{
+    margin-top: 22px;
+}
+.span-total{
+    background-color: orange;
+    border-radius: 6px;
+
+}
+.div-Total{
+    float: right;
+}
+.espacioTextosModal{
+    margin-top: 15px;
+}
+.icon-collapse{
+    float:right;
+}
+.info-button{
+    width: 17px;
+}
