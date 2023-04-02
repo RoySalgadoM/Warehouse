@@ -18,6 +18,21 @@ public class IndexController {
         return "warehouse/warehouse";
     }
 
+    @GetMapping("/area")
+    public String area(Model modelo) {
+        return "area/area";
+    }
+
+    @GetMapping("/user")
+    public String user(Model modelo) {
+        return "user/user";
+    }
+
+    @GetMapping("/login")
+    public String login(Model modelo) {
+        return "login";
+    }
+
     @GetMapping("/supplies")
     public String listar3(Model modelo) {
         return "supplier/supplies";
