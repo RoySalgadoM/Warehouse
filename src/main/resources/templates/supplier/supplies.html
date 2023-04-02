@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio</title>
+    <link th:insert="fragments/header :: css">
+    <link th:insert="fragments/header :: cssAdmin">
+    <link th:insert="fragments/header :: fontawesome">
+    <link th:insert="fragments/header :: fontawesome2">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div th:insert="fragments/header :: js"></div>
+<div class="wrapper">
+    <div th:insert="fragments/navbar :: navbar"></div>
+    <div th:insert="fragments/sidebar :: sidebar"></div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Gestión de Proveedores</h1>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+
+            <section class="content">
+                <div class="card">
+                    <div class="card-header back-green" type="button" data-card-widget="collapse" title="Collapse" aria-expanded="false">
+                        <h3 class="card-title font-white">Registrar un nuevo proveedor</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                <i class="fas fa-minus font-white"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body collapse">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label>Nombre</label>
+                                    <input type="text" class="form-control"  placeholder="Ingrese un nombre"
+                                           value="" required="">
+                                </div>
+                                <div class="col-md-5 mb-3">
+                                    <label >RFC</label>
+                                    <input type="text" class="form-control"
+                                           placeholder="GABI020310CL2" value="" required="">
+
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label >Razon social</label>
+                                    <input type="text" class="form-control"  placeholder="Agricultura"
+                                           value="" required="">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label>Telefono</label>
+                                    <input type="tel" class="form-control"  placeholder="7774900025"
+                                           value="" required="">
+                                </div>
+                                <div class="col-md-5 mb-3">
+                                    <label >Correo Electronico</label>
+                                    <input type="email" class="form-control"
+                                           placeholder="suku@gmail.com" value="" required="">
+                                </div>
+
+                                <hr class="mb-4">
+                                <button type="button" class="btn btn-primary btn-block btn-lg" data-toggle="modal"
+                                        data-target="#createSupplier">
+                                    Crear proveedor
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header back-green" >
+                        <h3 class="card-title font-white">Listado de proveedores</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3 mt-2">
+                            <div class="col-md-4 ml-auto">
+                                <input class="form-control" type="search" placeholder="Ingresa una búsqueda" aria-label="Search">
+                            </div>
+                        </div>
+                        <table class="table table-striped projects">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">RFC</th>
+                                <th scope="col">Razon social</th>
+                                <th scope="col">Telefono</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Status</th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#updateSupplier">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" data-toggle="modal"
+                                            data-target="#showSupplier">
+                                        <i class="fa-solid fa-folder-open"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                                            data-target="#deleteSupplier">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div th:replace="supplier/createSupplier"></div>
+    <div th:replace="supplier/updateSupplier"></div>
+    <div th:replace="supplier/showSupplier"></div>
+    <div th:replace="supplier/deleteSupplier"></div>
+</div>
+</body>
+</html>

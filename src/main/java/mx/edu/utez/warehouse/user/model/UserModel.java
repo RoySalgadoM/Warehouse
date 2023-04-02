@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mx.edu.utez.warehouse.person.model.PersonModel;
-import mx.edu.utez.warehouse.role.model.RoleModel;
+import mx.edu.utez.warehouse.role.service.model.RoleModel;
 
 import java.util.Date;
 import java.util.Set;

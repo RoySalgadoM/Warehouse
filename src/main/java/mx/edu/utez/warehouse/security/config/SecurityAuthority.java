@@ -1,7 +1,7 @@
 package mx.edu.utez.warehouse.security.config;
 
 import lombok.AllArgsConstructor;
-import mx.edu.utez.warehouse.role.model.RoleModel;
+import mx.edu.utez.warehouse.role.service.model.RoleModel;
 import org.springframework.security.core.GrantedAuthority;
 
 @AllArgsConstructor

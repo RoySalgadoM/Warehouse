@@ -1,0 +1,89 @@
+<!-- Modal de editar factura ESTA BIEN-->
+<div class="modal fade" id="updateOutput" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Editar factura nuevamente</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label>Pedido Asociado</label>
+                        <input type="number" class="form-control" placeholder="123456" value=""
+                               required="">
+                    </div>
+                    <div class="col-md-5 mb-3">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control"  placeholder="Veronica Castro" value=""
+                               required="">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label>ID</label>
+                        <input type="number" class="form-control" placeholder="123456" value=""
+                               required="">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label>Fecha</label>
+                        <input type="date" class="form-control" placeholder="" value=""
+                               required="">
+                    </div>
+                    <div class="col-md-5 mb-3">
+                        <label>Codigo de pedido</label>
+                        <input type="number" class="form-control" placeholder="456327" value=""
+                               required="">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label>Tipo</label>
+                        <select class="custom-select d-block w-100"  required="">
+                            <option>Perecederos</option>
+                            <option>No Perecederos</option>
+                        </select>
+                    </div>
+                </div>
+                <h4 class="mb-3">Productos egresados</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label>Descripcion</label>
+                        <input type="text" class="form-control"
+                               placeholder="no se este pedido es de solo fruta" value="" required="">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label>Cantidad</label>
+                        <input type="number" class="form-control" placeholder="" value="345"
+                               required="">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label>Unidad de Medida</label>
+                        <input type="number" class="form-control" placeholder="789" value=""
+                               required="">
+                    </div>
+                </div>
+                <h4 class="mb-3">Area de destino</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" placeholder="Almacen 2" value=""
+                               required="">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label>Identificador</label>
+                        <input type="number" class="form-control" placeholder="234" value=""
+                               required="">
+                    </div>
+                    <div class="col-md-5 mb-3">
+                        <label>Direccion <span class="text-muted"></span></label>
+                        <input type="text" class="form-control"  placeholder="Palo escrito">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-package mx.edu.utez.warehouse.role.model;
+package mx.edu.utez.warehouse.role.service.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
