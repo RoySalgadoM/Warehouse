@@ -43,5 +43,15 @@ public class IndexController {
         return "output/outputs";
     }
 
+    @GetMapping("/order")
+    public String order(Model modelo) {
+        return "order/order";
+    }
+
+    @GetMapping("/entry")
+    public String emtry(Model modelo) {
+        return "entry/entry";
+    }
+
 
 }

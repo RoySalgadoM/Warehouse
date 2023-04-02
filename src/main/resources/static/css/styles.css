@@ -10,12 +10,13 @@
 }
 
 .btn-add{
-    margin-top: 22px;
+    margin-top: 30px;
 }
 .span-total{
     background-color: orange;
     border-radius: 6px;
-
+    float:right;
+    margin-left:20px;
 }
 .div-Total{
     float: right;
@@ -28,6 +29,14 @@
 }
 .info-button{
     width: 17px;
+}
+.margin-order{
+   margin-top:25px;
+   float: left;
+   margin-left:20px;
+}
+.margin-table-order{
+    margin-top:30px;
 }
 
 .button-area {
