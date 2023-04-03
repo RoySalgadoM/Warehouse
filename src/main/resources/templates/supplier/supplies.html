@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Inicio</title>
+    <title>Proveedor</title>
     <link th:insert="fragments/header :: css">
     <link th:insert="fragments/header :: cssAdmin">
     <link th:insert="fragments/header :: fontawesome">
@@ -94,30 +94,35 @@
                                 <th scope="col">Razon social</th>
                                 <th scope="col">Telefono</th>
                                 <th scope="col">Correo</th>
-                                <th scope="col">Status</th>
-                                <th scope="col"></th>
+                                <th scope="col">Modificar</th>
+                                <th scope="col">Detalles</th>
+                                <th scope="col">Eliminar</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
                                 <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
+                                <td>Isaac</td>
+                                <td>GABI030210CL2</td>
+                                <td>AGRICULTURA</td>
+                                <td>7774900025</td>
+                                <td>isucujacbo@gmail.com</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning" data-toggle="modal"
+                                            data-target="#updateSupplier">
+                                        <i class="nav-icon fas fa-edit"></i>
+                                    </button>
+                                </td>
                                 <td>
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#updateSupplier">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-secondary" data-toggle="modal"
                                             data-target="#showSupplier">
-                                        <i class="fa-solid fa-folder-open"></i>
+                                        <i class="nav-icon fas fa-info info-button"></i>
                                     </button>
+                                </td>
+                                <td>
                                     <button type="button" class="btn btn-danger" data-toggle="modal"
                                             data-target="#deleteSupplier">
-                                        <i class="fa-solid fa-trash-can"></i>
+                                        <i class="nav-icon fas fa-trash"></i>
                                     </button>
                                 </td>
                             </tr>

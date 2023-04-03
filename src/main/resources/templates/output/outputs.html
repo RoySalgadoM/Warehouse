@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Inicio</title>
+    <title>Salidas</title>
     <link th:insert="fragments/header :: css">
     <link th:insert="fragments/header :: cssAdmin">
     <link th:insert="fragments/header :: fontawesome">
@@ -15,7 +15,7 @@
     <div th:insert="fragments/sidebar :: sidebar"></div>
     <div class="content-wrapper">
         <div class="container-fluid">
-            <section class="content-header">
+            <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
@@ -23,7 +23,7 @@
                         </div>
                     </div>
                 </div><!-- /.container-fluid -->
-            </section>
+            </div>
 
             <section class="content">
                 <div class="card">
@@ -109,7 +109,7 @@
                                 </div>
                                 <hr class="mb-4">
                                 <button type="button" class="btn btn-primary btn-block btn-lg" data-toggle="modal"
-                                        data-target="#createOutput" style="background: rgb(115, 173, 115);">
+                                        data-target="#createOutput">
                                     Generar Factura
                                 </button>
                             </div>
@@ -135,35 +135,37 @@
                                 <th scope="col">Pedido Asociado</th>
                                 <th scope="col">Cod. Pedido</th>
                                 <th scope="col">Fecha</th>
-                                <th scope="col">Status</th>
-                                <th scope="col"></th>
+                                <th scope="col">Modificar</th>
+                                <th scope="col">Detalles</th>
+                                <th scope="col">Eliminar</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
                                 <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
+                                <td>Isaac</td>
+                                <td>idk</td>
+                                <td>123654</td>
+                                <td>10/03/2002</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning" data-toggle="modal"
+                                            data-target="#updateOutput">
+                                        <i class="nav-icon fas fa-edit"></i>
+                                    </button>
+                                </td>
                                 <td>
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#updateOutput">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-secondary" data-toggle="modal"
                                             data-target="#showOutput">
-                                        <i class="fa-solid fa-folder-open"></i>
+                                        <i class="nav-icon fas fa-info info-button"></i>
                                     </button>
-
+                                </td>
+                                <td>
                                     <button type="button" class="btn btn-danger" data-toggle="modal"
                                             data-target="#deleteOutput">
-                                        <i class="fa-solid fa-trash-can"></i>
+                                        <i class="nav-icon fas fa-trash"></i>
                                     </button>
-
-
                                 </td>
+
                             </tr>
                             </tbody>
                         </table>
