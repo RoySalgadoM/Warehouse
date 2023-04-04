@@ -1,0 +1,48 @@
+<!-- Modal de editar producto ESTA BIEN-->
+<div class="modal fade" id="updateProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Editar producto nuevamente</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label>Nombre</label><span class="text-danger">*</span>
+                        <input type="text" class="form-control"  placeholder="Hojas de color" value="" required="">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label>Descripcion</label><span class="text-danger">*</span>
+                        <input type="text" class="form-control" placeholder="Nuevas" value="" required="">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label>Cantidad</label><span class="text-danger">*</span>
+                        <input type="number" class="form-control" placeholder="2" value="" required="">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label>Unidad de medida<span class="text-danger">*</span></label>
+                        <select class="custom-select d-block w-100"  required="">
+                            <option selected>Selecciona un opción</option>
+                            <option value="1">Piezas</option>
+                            <option value="2">Cajas</option>
+                            <option value="2">otros</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label>Precio Unitario</label><span class="text-danger">*</span>
+                        <input type="number" class="form-control" placeholder="1.50" value="" required="">
+                    </div>
+                    <br>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>

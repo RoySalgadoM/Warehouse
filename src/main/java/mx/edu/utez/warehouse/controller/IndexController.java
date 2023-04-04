@@ -18,8 +18,12 @@ public class IndexController {
     }
 
     @GetMapping("/outputs")
-    public String listar4(Model modelo) {
+    public String output(Model modelo) {
         return "output/outputs";
+    }
+
+    @GetMapping("/product")
+    public String product(Model modelo) { return "product/product";
     }
 
     @GetMapping("/order")
@@ -28,7 +32,7 @@ public class IndexController {
     }
 
     @GetMapping("/entry")
-    public String emtry(Model modelo) {
+    public String entry(Model modelo) {
         return "entry/entry";
     }
 

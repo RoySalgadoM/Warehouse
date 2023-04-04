@@ -1,10 +1,140 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Pedidos</title>
+    <link th:insert="fragments/header :: css">
+    <link th:insert="fragments/header :: cssAdmin">
+    <link th:insert="fragments/header :: fontawesome">
+    <link th:insert="fragments/header :: fontawesome2">
 </head>
-<body>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div th:insert="fragments/header :: js"></div>
+<div class="wrapper">
+    <div th:insert="fragments/navbar :: navbar"></div>
+    <div th:insert="fragments/sidebar :: sidebar"></div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <div class="content-header"> <!--AQUÍ ISAAC METIÓ UN SECTION, EN VEZ DE UN DIV-->
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Gestión de productos</h1>
+                    </div>
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
 
+            <section class="content">
+                <div class="card">
+                    <div class="card-header back-green" type="button" data-card-widget="collapse" title="Collapse" aria-expanded="false">
+                        <h3 class="card-title font-white">Registrar un nuevo producto</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                <i class="fas fa-minus font-white"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body collapse">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label>Nombre</label><span class="text-danger">*</span>
+                                    <input type="text" class="form-control"  placeholder="Hojas de color" value="" required="">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label>Descripcion</label><span class="text-danger">*</span>
+                                    <input type="text" class="form-control" placeholder="Nuevas" value="" required="">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label>Cantidad</label><span class="text-danger">*</span>
+                                    <input type="number" class="form-control" placeholder="2" value="" required="">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label>Unidad de medida<span class="text-danger">*</span></label>
+                                    <select class="custom-select d-block w-100"  required="">
+                                        <option selected>Selecciona un opción</option>
+                                        <option value="1">Piezas</option>
+                                        <option value="2">Cajas</option>
+                                        <option value="2">otros</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label>Precio Unitario</label><span class="text-danger">*</span>
+                                    <input type="number" class="form-control" placeholder="1.50" value="" required="">
+                                </div>
+                                <br>
+                                <button type="button" class="btn btn-primary btn-block btn-lg" data-toggle="modal"
+                                        data-target="#createProduct">
+                                    Crear producto
+                                </button>
+                            </div>
+                       </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header back-green" >
+                        <h3 class="card-title font-white">Listado de Productos</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3 mt-2">
+                        <div class="col-md-4 ml-auto">
+                            <input class="form-control" type="search" placeholder="Ingresa una búsqueda" aria-label="Search">
+                        </div>
+                        <div class="container-fluid">
+                            <table class="table table-responsive projects margin-table-order">
+                                <thead>
+                                <tr class="text-center">
+                                    <th style="width: 1%">#</th>
+                                    <th style="width: 20%">Producto</th>
+                                    <th style="width: 20%">Descripcion</th>
+                                    <th style="width: 20%">Cantidad</th>
+                                    <th style="width: 20%">Unidad de medida</th>
+                                    <th style="width: 20%">Precio unitario</th>
+                                    <th style="width: 8%" class="text-center">Modificar</th>
+                                    <th style="width: 8%" class="text-center">Detalles</th>
+                                    <th style="width: 8%" class="text-center">Eliminar</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Hojas</td>
+                                    <td>Hojas blancas</td>
+                                    <td>20000</td>
+                                    <td>cajas</td>
+                                    <td>1.50</td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                data-target="#updateProduct">
+                                            <i class="nav-icon fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#showProduct">
+                                            <i class="nav-icon fas fa-info info-button"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#deleteProduct">
+                                            <i class="nav-icon fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div th:replace="product/createProduct"></div>
+    <div th:replace="product/showProduct"></div>
+    <div th:replace="product/deleteProduct"></div>
+    <div th:replace="product/updateProduct"></div>
+</div>
 </body>
 </html>
