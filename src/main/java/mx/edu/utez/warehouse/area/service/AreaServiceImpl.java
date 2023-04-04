@@ -20,10 +20,9 @@ public class AreaServiceImpl implements AreaService {
     AreaRepository repository;
 
     @Override
-    public MessageModel findAllAreas(int page, int size, String username, String uuid) {
+    public MessageModel findAllAreas(Pageable page, String username, String uuid) {
         try{
-            Pageable pageable = PageRequest.of(page, size);
-            Page<AreaModel> areas = repository.findAll(pageable);
+            Page<AreaModel> areas = repository.findAll(page);
 
 
             if(areas.getNumberOfElements() == 0){

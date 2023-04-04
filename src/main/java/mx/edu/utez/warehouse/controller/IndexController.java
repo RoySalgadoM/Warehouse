@@ -10,32 +10,11 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/warehouse")
-//@RequestMapping("/supplies")
 public class IndexController {
-
-    @GetMapping("/")
-    public String listar(Model modelo) {
-        return "warehouse/warehouse";
-    }
-
-    @GetMapping("/area")
-    public String area(Model modelo) {
-        return "area/area";
-    }
-
-    @GetMapping("/user")
-    public String user(Model modelo) {
-        return "user/user";
-    }
 
     @GetMapping("/login")
     public String login(Model modelo) {
         return "login";
-    }
-
-    @GetMapping("/supplies")
-    public String listar3(Model modelo) {
-        return "supplier/supplies";
     }
 
     @GetMapping("/outputs")

@@ -23,8 +23,8 @@
     <div class="form-container sign-in-container">
         <form th:action="@{/login}" method="post" class="signin-form">
             <h1>Iniciar Sesión</h1>
-            <input type="text" placeholder="Usuario" />
-            <input type="password" placeholder="Contraseña" />
+            <input type="text" name="username" placeholder="Usuario" />
+            <input type="password" name="password" placeholder="Contraseña" />
             <div th:if="${param.error}">
                 Invalid username and password.
             </div>

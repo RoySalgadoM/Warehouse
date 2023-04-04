@@ -24,7 +24,20 @@
                     </div>
                 </div>
             </section>
+            <h1>[[${result.message.message}]]</h1>
+            <h1>[[${result.message.typeOfMessage}]]</h1>
+            <h1>[[${result.isError}]]</h1>
+            <h1>[[${result.uuid}]]</h1>
 
+            <div class="card" style="width: 20em; margin-top: 25px; margin-left: 25px; display: inline-flex" th:each="areas : ${result.data}" th:if="${result.data} != null")>
+                <div class="image">
+                    <div class="card-body">
+                        <p class="card-text">[[${areas.id}]]</p>
+                        <p class="card-text">[[${areas.identifier}]]</p>
+                        <p class="card-text">[[${areas.address}]]</p>
+                    </div>
+                </div>
+            </div>
             <section class="content">
                 <div class="card">
                     <div class="card-header back-green" type="button" data-card-widget="collapse" title="Collapse" aria-expanded="false">

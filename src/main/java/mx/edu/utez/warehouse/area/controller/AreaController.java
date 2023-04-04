@@ -9,6 +9,9 @@ import mx.edu.utez.warehouse.utils.MessageCatalog;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,14 +23,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/areas")
+@RequestMapping("/area")
 public class AreaController {
     private static final Logger logger = LogManager.getLogger(WarehouseApplication.class);
     @Autowired
     AreaServiceImpl service;
 
     @GetMapping("/")
-    public String findAllAreas(Model model, HttpSession httpSession, @RequestParam int page, @RequestParam int size) {
+    public String findAllAreas(Model model, HttpSession httpSession, Pageable pageable) {
         UUID uuid = UUID.randomUUID();
         String username = "";
         try {
@@ -36,18 +39,18 @@ public class AreaController {
             username = user.getUsername();
 
             logger.info("[USER : " + username + "] || [UUID : " + uuid + "] ---> EXECUTING AREA MODULE ---> findAllAreas()");
-            MessageModel areas = service.findAllAreas(page, size, username, uuid.toString());
-            logger.info("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> findAllAreas() RESPONSE: " + areas.getData().toString());
+            MessageModel areas = service.findAllAreas(pageable, username, uuid.toString());
+            logger.info("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> findAllAreas() RESPONSE: " + areas.toString());
 
             areas.setUuid(uuid.toString());
             model.addAttribute("result", areas);
-            return "index";
+            return "area/area";
         } catch (Exception exception) {
             logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> findAllAreas() ERROR: " + exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
             model.addAttribute("result", message);
-            return "index";
+            return "area/area";
         }
     }
 
