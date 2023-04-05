@@ -2,6 +2,7 @@ package mx.edu.utez.warehouse.area.controller;
 
 import jakarta.servlet.http.HttpSession;
 import mx.edu.utez.warehouse.WarehouseApplication;
+import mx.edu.utez.warehouse.area.model.AreaModel;
 import mx.edu.utez.warehouse.area.service.AreaServiceImpl;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.security.config.SecurityUser;
@@ -15,10 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.UUID;
 
@@ -29,7 +28,7 @@ public class AreaController {
     @Autowired
     AreaServiceImpl service;
 
-    @GetMapping("/")
+    @GetMapping("/list")
     public String findAllAreas(Model model, HttpSession httpSession, Pageable pageable) {
         UUID uuid = UUID.randomUUID();
         String username = "";
@@ -37,13 +36,13 @@ public class AreaController {
             SecurityContextImpl securityContext = (SecurityContextImpl) httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
             SecurityUser user = (SecurityUser) securityContext.getAuthentication().getPrincipal();
             username = user.getUsername();
-
             logger.info("[USER : " + username + "] || [UUID : " + uuid + "] ---> EXECUTING AREA MODULE ---> findAllAreas()");
             MessageModel areas = service.findAllAreas(pageable, username, uuid.toString());
             logger.info("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> findAllAreas() RESPONSE: " + areas.toString());
 
             areas.setUuid(uuid.toString());
             model.addAttribute("result", areas);
+            model.addAttribute("pageSize", pageable.getPageSize());
             return "area/area";
         } catch (Exception exception) {
             logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> findAllAreas() ERROR: " + exception.getMessage());
@@ -78,6 +77,79 @@ public class AreaController {
             return "index";
         }
     }
+
+    @PostMapping("/save")
+    public String saveArea(Model model, AreaModel area, RedirectAttributes redirectAttributes, HttpSession httpSession) {
+        UUID uuid = UUID.randomUUID();
+        String username = "";
+        try {
+            SecurityContextImpl securityContext = (SecurityContextImpl) httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
+            SecurityUser user = (SecurityUser) securityContext.getAuthentication().getPrincipal();
+            username = user.getUsername();
+            logger.info("[USER : " + username + "] || [UUID : " + uuid + "] ---> EXECUTING AREA MODULE ---> saveArea()");
+            MessageModel areas = service.registerArea(area, username, uuid.toString());
+            logger.info("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> saveArea() RESPONSE: " + areas.toString());
+
+            areas.setUuid(uuid.toString());
+            model.addAttribute("result", areas);
+            return "redirect:/area/list";
+        }catch (Exception exception) {
+            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> saveArea() ERROR: " + exception.getMessage());
+            MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+            message.setUuid(uuid.toString());
+            redirectAttributes.addFlashAttribute("result", "message");
+            return "redirect:/area/list";
+        }
+    }
+    @PostMapping("/update")
+    public String updateArea(Model model, AreaModel area, RedirectAttributes redirectAttributes, HttpSession httpSession) {
+        UUID uuid = UUID.randomUUID();
+        String username = "";
+        try {
+            SecurityContextImpl securityContext = (SecurityContextImpl) httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
+            SecurityUser user = (SecurityUser) securityContext.getAuthentication().getPrincipal();
+            username = user.getUsername();
+            logger.info("[USER : " + username + "] || [UUID : " + uuid + "] ---> EXECUTING AREA MODULE ---> updateArea()");
+            MessageModel areas = service.updateArea(area, username, uuid.toString());
+            logger.info("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> updateArea() RESPONSE: " + areas.toString());
+
+            areas.setUuid(uuid.toString());
+            model.addAttribute("result", areas);
+            return "redirect:/area/list";
+        }catch (Exception exception) {
+            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> updateArea() ERROR: " + exception.getMessage());
+            MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+            message.setUuid(uuid.toString());
+            redirectAttributes.addFlashAttribute("result", "message");
+            return "redirect:/area/list";
+        }
+    }
+    @PostMapping("/disable")
+    public String disableArea(Model model, @RequestParam long id, RedirectAttributes redirectAttributes, HttpSession httpSession) {
+        UUID uuid = UUID.randomUUID();
+        String username = "";
+        try {
+            SecurityContextImpl securityContext = (SecurityContextImpl) httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
+            SecurityUser user = (SecurityUser) securityContext.getAuthentication().getPrincipal();
+            username = user.getUsername();
+            logger.info("[USER : " + username + "] || [UUID : " + uuid + "] ---> EXECUTING AREA MODULE ---> disableArea()");
+            MessageModel areas = service.disableArea(id, username, uuid.toString());
+            logger.info("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> disableArea() RESPONSE: " + areas.toString());
+
+            areas.setUuid(uuid.toString());
+            model.addAttribute("result", areas);
+            redirectAttributes.addFlashAttribute("msg_success", "¡Registro exitoso!");
+            return "redirect:/area/list";
+        }catch (Exception exception) {
+            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> disableArea() ERROR: " + exception.getMessage());
+            MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+            message.setUuid(uuid.toString());
+            redirectAttributes.addFlashAttribute("result", "message");
+            return "redirect:/area/list";
+        }
+    }
+
+
 
 
 }

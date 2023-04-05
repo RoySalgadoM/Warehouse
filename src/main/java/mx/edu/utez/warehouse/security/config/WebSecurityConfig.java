@@ -22,6 +22,8 @@ public class WebSecurityConfig{
             http
                     .authorizeRequests()
                     .requestMatchers("/css/**").permitAll()
+                    .requestMatchers("/").permitAll()
+
                     .requestMatchers("/js/**").permitAll()
                     .requestMatchers("/AdminLTE/**").permitAll()
                     .requestMatchers("/**").access("hasAnyAuthority('ADMIN')")

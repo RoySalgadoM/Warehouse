@@ -8,8 +8,6 @@ public interface AreaService {
     MessageModel findAllAreas(Pageable page, String username, String uuid);
     MessageModel findById(long id, String username, String uuid);
     MessageModel registerArea(AreaModel areaModel, String username, String uuid);
-    boolean updateArea(AreaModel areaModel, String username, String uuid);
-    boolean disableArea(long id, String username, String uuid);
-
-
+    MessageModel updateArea(AreaModel areaModel, String username, String uuid);
+    MessageModel disableArea(long id, String username, String uuid);
 }

@@ -1,4 +1,4 @@
-<div class="modal fade" id="updateArea" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="updateArea" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,24 +8,28 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form th:action="@{/area/update}" method="post">
                     <div class="row mt-2 mb-3">
-                        <div class="col-md-6 mb-3">
-                            <label class="font-weight-normal">Nombre<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Ingrese un nombre">
-                        </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-12 mb-3">
                             <label class="font-weight-normal">Identificador<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Ingrese un identificador">
+                            <input name="identifier" th:value="${updateArea != null ? updateArea.identifier : ''}" type="text" class="form-control" placeholder="Ingrese un identificador">
                         </div>
                         <div class="col-md-12 mb-3">
                             <label class="font-weight-normal">Dirección<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Ingrese una dirección">
+                            <input name="address" th:value="${updateArea != null ? updateArea.address : ''}" type="text" class="form-control" placeholder="Ingrese una dirección">
                         </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="font-weight-normal">Estado<span class="text-danger">*</span></label>
+                            <select name="size" class="custom-select">
+c
+                            </select>
+                        </div>
+
+                        <input name="id" type="hidden" class="form-control">
                     </div>
                     <div style="float: right">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary">Modificar</button>
+                        <button type="submit" class="btn btn-primary">Modificar</button>
                     </div>
                 </form>
             </div>
