@@ -1,6 +1,7 @@
 package mx.edu.utez.warehouse.area.controller;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import mx.edu.utez.warehouse.WarehouseApplication;
 import mx.edu.utez.warehouse.area.model.AreaModel;
 import mx.edu.utez.warehouse.area.service.AreaServiceImpl;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -29,7 +31,7 @@ public class AreaController {
     AreaServiceImpl service;
 
     @GetMapping("/list")
-    public String findAllAreas(Model model, HttpSession httpSession, Pageable pageable) {
+    public String findAllAreas(Model model, HttpSession httpSession, Pageable pageable, @ModelAttribute("area") AreaModel area) {
         UUID uuid = UUID.randomUUID();
         String username = "";
         try {
@@ -54,7 +56,8 @@ public class AreaController {
     }
 
     @GetMapping("/{id}")
-    public String findById(Model model, HttpSession httpSession, @PathVariable("id") Long id) {
+    @ResponseBody
+    public MessageModel findById(HttpSession httpSession, @PathVariable("id") Long id) {
         UUID uuid = UUID.randomUUID();
         String username = "";
         try {
@@ -63,23 +66,21 @@ public class AreaController {
             username = user.getUsername();
 
             logger.info("[USER : " + username + "] || [UUID : " + uuid + "] ---> EXECUTING AREA MODULE ---> findById()");
-            MessageModel area = service.findById(id, username, uuid.toString());
-            logger.info("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> findById() RESPONSE: " + (area.getData() == null ? "null" : area.getData().toString()));
+            MessageModel updateArea = service.findById(id, username, uuid.toString());
+            logger.info("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> findById() RESPONSE: " + (updateArea.getData() == null ? "null" : updateArea.getData().toString()));
 
-            area.setUuid(uuid.toString());
-            model.addAttribute("result", area);
-            return "index";
+            updateArea.setUuid(uuid.toString());
+            return updateArea;
         }catch (Exception exception) {
             logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> findById() ERROR: " + exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
-            model.addAttribute("result", message);
-            return "index";
+            return message;
         }
     }
 
     @PostMapping("/save")
-    public String saveArea(Model model, AreaModel area, RedirectAttributes redirectAttributes, HttpSession httpSession) {
+    public String saveArea(@Valid @ModelAttribute("area") AreaModel area, BindingResult result, Model model, RedirectAttributes redirectAttributes, HttpSession httpSession, Pageable pageable) {
         UUID uuid = UUID.randomUUID();
         String username = "";
         try {
@@ -87,11 +88,26 @@ public class AreaController {
             SecurityUser user = (SecurityUser) securityContext.getAuthentication().getPrincipal();
             username = user.getUsername();
             logger.info("[USER : " + username + "] || [UUID : " + uuid + "] ---> EXECUTING AREA MODULE ---> saveArea()");
+            if(result.hasErrors()) {
+                logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> saveArea() ERROR: " + result.getAllErrors().toString());
+                MessageModel areas = service.findAllAreas(pageable, username, uuid.toString());
+                areas.setUuid(uuid.toString());
+                areas.setMessage(MessageCatalog.VALIDATION_ERROR);
+                areas.setIsError(true);
+                model.addAttribute("result", areas);
+                model.addAttribute("data", area);
+                model.addAttribute("action", "save");
+                model.addAttribute("pageSize", pageable.getPageSize());
+
+                return "area/area";
+            }
             MessageModel areas = service.registerArea(area, username, uuid.toString());
             logger.info("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> saveArea() RESPONSE: " + areas.toString());
 
             areas.setUuid(uuid.toString());
             model.addAttribute("result", areas);
+            model.addAttribute("pageSize", pageable.getPageSize());
+
             return "redirect:/area/list";
         }catch (Exception exception) {
             logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> saveArea() ERROR: " + exception.getMessage());
@@ -102,7 +118,7 @@ public class AreaController {
         }
     }
     @PostMapping("/update")
-    public String updateArea(Model model, AreaModel area, RedirectAttributes redirectAttributes, HttpSession httpSession) {
+    public String updateArea(@Valid @ModelAttribute("area") AreaModel area, BindingResult result, Model model, RedirectAttributes redirectAttributes, HttpSession httpSession, Pageable pageable) {
         UUID uuid = UUID.randomUUID();
         String username = "";
         try {
@@ -110,11 +126,27 @@ public class AreaController {
             SecurityUser user = (SecurityUser) securityContext.getAuthentication().getPrincipal();
             username = user.getUsername();
             logger.info("[USER : " + username + "] || [UUID : " + uuid + "] ---> EXECUTING AREA MODULE ---> updateArea()");
+            if(result.hasErrors()) {
+                logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> updateArea() ERROR: " + result.getAllErrors().toString());
+                MessageModel areas = service.findAllAreas(pageable, username, uuid.toString());
+                areas.setUuid(uuid.toString());
+                areas.setMessage(MessageCatalog.VALIDATION_ERROR);
+                areas.setIsError(true);
+                model.addAttribute("result", areas);
+                model.addAttribute("data", area);
+                model.addAttribute("action", "update");
+                model.addAttribute("pageSize", pageable.getPageSize());
+
+                return "area/area";
+            }
             MessageModel areas = service.updateArea(area, username, uuid.toString());
+
             logger.info("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> updateArea() RESPONSE: " + areas.toString());
 
             areas.setUuid(uuid.toString());
             model.addAttribute("result", areas);
+            model.addAttribute("pageSize", pageable.getPageSize());
+
             return "redirect:/area/list";
         }catch (Exception exception) {
             logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> updateArea() ERROR: " + exception.getMessage());

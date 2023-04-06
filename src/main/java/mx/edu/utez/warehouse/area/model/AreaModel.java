@@ -31,11 +31,12 @@ public class AreaModel {
     @NotEmpty(message = "La dirección no puede estar vacío")
     @NotNull(message = "La dirección no puede ser nulo")
     @Size(min = 3, max = 45, message = "La dirección debe tener entre 3 y 45 caracteres")
-    @Pattern(regexp = "[A-Za-z0-9 ]+", message = "La dirección debe ser alfanumérico")
+    @Pattern(regexp = "[A-Za-z0-9 ]+", message = "La dirección debe ser alfanumérica")
     private String address;
 
-    @Column(nullable = true, columnDefinition = "int default 1")
-    @Positive(message = "El estado debe ser positivo")
+    @Column(nullable = true)
+    @Min(value = 0, message = "El status debe ser 0 o 1")
+    @Max(value = 1, message = "El status debe ser 0 o 1")
     private Integer status;
 
     @Override

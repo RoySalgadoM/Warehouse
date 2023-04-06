@@ -6,8 +6,8 @@ public enum MessageCatalog {
     SUCCESS_DISABLE("Se ha deshabilitado correctamente", "info"),
     RECORDS_FOUND("Registros listados correctamente", "info"),
     NO_RECORDS_FOUND("No hay registros para mostrar", "warning"),
-    UNK_ERROR_FOUND("Ha ocurrido un error inesperado, contacte a soporte", "error");
-
+    UNK_ERROR_FOUND("Ha ocurrido un error inesperado, contacte a soporte", "error"),
+    VALIDATION_ERROR("Uno o más valores de los campos es incorrecto", "error");
 
     private String message;
     private String typeOfMessage;

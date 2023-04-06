@@ -62,6 +62,7 @@ public class AreaServiceImpl implements AreaService {
     public MessageModel registerArea(AreaModel areaModel, String username, String uuid) {
         MessageModel messageModel;
         try {
+            areaModel.setStatus(1);
             boolean isRegister = repository.save(areaModel) != null;
             if (isRegister) {
                 messageModel = new MessageModel(MessageCatalog.SUCCESS_REGISTER, null, false);
@@ -87,7 +88,6 @@ public class AreaServiceImpl implements AreaService {
             }
             area.get().setAddress(areaModel.getAddress());
             area.get().setIdentifier(areaModel.getIdentifier());
-            area.get().setStatus(areaModel.getStatus());
             boolean isUpdate = repository.saveAndFlush(area.get()) != null;
             if (isUpdate) {
                 return new MessageModel(MessageCatalog.SUCCESS_UPDATE, null, false);
@@ -111,7 +111,7 @@ public class AreaServiceImpl implements AreaService {
             if (area.isEmpty()) {
                 return new MessageModel(MessageCatalog.NO_RECORDS_FOUND, null, false);
             }
-            area.get().setStatus(0);
+            area.get().setStatus(area.get().getStatus() == 1 ? 0 : 1);
             boolean isDisable = repository.saveAndFlush(area.get()) != null;
             if (isDisable) {
                 messageModel = new MessageModel(MessageCatalog.SUCCESS_DISABLE, null, false);
