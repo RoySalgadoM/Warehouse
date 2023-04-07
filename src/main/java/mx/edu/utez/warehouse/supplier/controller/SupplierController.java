@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/supplier")
 public class SupplierController {
-    @GetMapping("/")
-    public String listar(Model modelo) {
+    @GetMapping("/list")
+    public String findAllSupplies(Model modelo) {
         return "supplier/supplies";
     }
 }

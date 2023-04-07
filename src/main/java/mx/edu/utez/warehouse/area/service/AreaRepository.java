@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AreaRepository extends JpaRepository<AreaModel, Long> {
+    boolean existsByIdentifier(String identifier);
+    boolean existsByIdentifierAndIdNotLike(String identifier, long id);
+
 }

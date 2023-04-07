@@ -1,5 +1,7 @@
 package mx.edu.utez.warehouse.security.config;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,7 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class WebSecurityConfig{
-
+    private static final Logger logger = LogManager.getLogger(WebSecurityConfig.class);
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -20,13 +22,13 @@ public class WebSecurityConfig{
     public SecurityFilterChain filterChain(HttpSecurity http){
         try {
             http
-                    .authorizeRequests()
+                    .authorizeHttpRequests()
                     .requestMatchers("/css/**").permitAll()
-                    .requestMatchers("/").permitAll()
-
                     .requestMatchers("/js/**").permitAll()
                     .requestMatchers("/AdminLTE/**").permitAll()
-                    .requestMatchers("/**").access("hasAnyAuthority('ADMIN')")
+                    .requestMatchers("/errors/**").permitAll()
+                    .requestMatchers("/**").hasAnyAuthority("ADMIN")
+
                     /*
                     .requestMatchers("/").access("hasAnyAuthority('WAREHOUSER')")
                     .requestMatchers("/").access("hasAnyAuthority('INVOICER')")
@@ -37,10 +39,12 @@ public class WebSecurityConfig{
                     .loginPage("/login").permitAll()
                     .defaultSuccessUrl("/dashboard")
                     .and()
-                    .logout().permitAll();
+                    .logout().permitAll()
+                    .and().exceptionHandling().accessDeniedPage("/errors/403");
             return http.build();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception exception) {
+            logger.error("WEBSECURITYCONFIG ERROR: {}", exception.getMessage());
+
         }
         return null;
     }

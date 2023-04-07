@@ -1,12 +1,13 @@
 package mx.edu.utez.warehouse.area.service;
 
+import jakarta.persistence.NoResultException;
+import jakarta.validation.constraints.Positive;
 import mx.edu.utez.warehouse.area.model.AreaModel;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.utils.MessageCatalog;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,18 +24,14 @@ public class AreaServiceImpl implements AreaService {
         try {
             Page<AreaModel> areas = repository.findAll(page);
 
-
             if (areas.getNumberOfElements() == 0) {
                 return new MessageModel(MessageCatalog.NO_RECORDS_FOUND, null, false);
             }
 
             return new MessageModel(MessageCatalog.RECORDS_FOUND, areas, false);
 
-        } catch (DataAccessException exception) {
-            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> findAllAreas() ERROR: " + exception.getMessage());
-            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
         } catch (Exception exception) {
-            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> findAllAreas() ERROR: " + exception.getMessage());
+            logger.error("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> findAllAreas() ERROR: {}", username, uuid, exception.getMessage());
             return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
         }
 
@@ -45,15 +42,12 @@ public class AreaServiceImpl implements AreaService {
         try {
             var findArea = repository.findById(id);
             if (findArea.isEmpty()) {
-                return new MessageModel(MessageCatalog.NO_RECORDS_FOUND, null, false);
+                throw new NoResultException("The area could not be found");
             }
             return new MessageModel(MessageCatalog.RECORDS_FOUND, findArea.get(), false);
 
-        } catch (DataAccessException exception) {
-            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> findById() ERROR: " + exception.getMessage());
-            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
         } catch (Exception exception) {
-            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> findById() ERROR: " + exception.getMessage());
+            logger.error("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> findById() ERROR: {}", username, uuid, exception.getMessage());
             return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
         }
     }
@@ -63,17 +57,11 @@ public class AreaServiceImpl implements AreaService {
         MessageModel messageModel;
         try {
             areaModel.setStatus(1);
-            boolean isRegister = repository.save(areaModel) != null;
-            if (isRegister) {
-                messageModel = new MessageModel(MessageCatalog.SUCCESS_REGISTER, null, false);
-            } else {
-                messageModel = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
-            }
-        } catch (DataAccessException exception) {
-            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> saveArea() ERROR: " + exception.getMessage());
-            messageModel = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+            repository.save(areaModel);
+            messageModel = new MessageModel(MessageCatalog.SUCCESS_REGISTER, null, false);
+
         } catch (Exception exception) {
-            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> saveArea() ERROR: " + exception.getMessage());
+            logger.error("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> saveArea() ERROR: {}", username, uuid, exception.getMessage());
             messageModel = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
         }
         return messageModel;
@@ -84,48 +72,40 @@ public class AreaServiceImpl implements AreaService {
         try {
             var area = repository.findById(areaModel.getId());
             if (area.isEmpty()) {
-                return new MessageModel(MessageCatalog.NO_RECORDS_FOUND, null, false);
+                throw new NoResultException("The area could not be found");
             }
             area.get().setAddress(areaModel.getAddress());
             area.get().setIdentifier(areaModel.getIdentifier());
-            boolean isUpdate = repository.saveAndFlush(area.get()) != null;
-            if (isUpdate) {
-                return new MessageModel(MessageCatalog.SUCCESS_UPDATE, null, false);
-            } else {
-                return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
-            }
-        } catch (DataAccessException exception) {
-            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> updateArea() ERROR: " + exception.getMessage());
-            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+            repository.saveAndFlush(area.get());
+            return new MessageModel(MessageCatalog.SUCCESS_UPDATE, null, false);
+
         } catch (Exception exception) {
-            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> updateArea() ERROR: " + exception.getMessage());
+            logger.error("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> updateArea() ERROR: {}", username, uuid, exception.getMessage());
             return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
         }
     }
 
     @Override
     public MessageModel disableArea(long id, String username, String uuid) {
-        MessageModel messageModel;
         try {
             var area = repository.findById(id);
             if (area.isEmpty()) {
-                return new MessageModel(MessageCatalog.NO_RECORDS_FOUND, null, false);
+                throw new NoResultException("The area could not be found");
             }
             area.get().setStatus(area.get().getStatus() == 1 ? 0 : 1);
-            boolean isDisable = repository.saveAndFlush(area.get()) != null;
-            if (isDisable) {
-                messageModel = new MessageModel(MessageCatalog.SUCCESS_DISABLE, null, false);
-            } else {
-                messageModel = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
-            }
+            repository.saveAndFlush(area.get());
+            return new MessageModel(area.get().getStatus() == 1 ? MessageCatalog.SUCCESS_ENABLE : MessageCatalog.SUCCESS_DISABLE, null, false);
 
-        } catch (DataAccessException exception) {
-            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> disableArea() ERROR: " + exception.getMessage());
-            messageModel = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
         } catch (Exception exception) {
-            logger.error("[USER : " + username + "] || [UUID : " + uuid + "] ---> AREA MODULE --> disableArea() ERROR: " + exception.getMessage());
-            messageModel = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+            logger.error("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> disableArea() ERROR: {}", username, uuid, exception.getMessage());
+            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
         }
-        return messageModel;
+    }
+
+    public boolean isExistArea(String identifier) {
+        return repository.existsByIdentifier(identifier);
+    }
+    public boolean isExistAreaAndId(String identifier, Long id) {
+        return repository.existsByIdentifierAndIdNotLike(identifier, id);
     }
 }

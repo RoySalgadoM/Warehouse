@@ -1,16 +1,19 @@
-package mx.edu.utez.warehouse.role.service.model;
+package mx.edu.utez.warehouse.role.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "role")
 @Getter
 @Setter
 @NoArgsConstructor
-public class RoleModel {
+public class RoleModel implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

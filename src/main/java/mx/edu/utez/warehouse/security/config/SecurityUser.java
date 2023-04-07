@@ -3,6 +3,7 @@ package mx.edu.utez.warehouse.security.config;
 
 import lombok.AllArgsConstructor;
 import mx.edu.utez.warehouse.user.model.UserModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

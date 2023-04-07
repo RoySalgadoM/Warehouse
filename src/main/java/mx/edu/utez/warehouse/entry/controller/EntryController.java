@@ -1,4 +1,4 @@
-package mx.edu.utez.warehouse.warehouse.controller;
+package mx.edu.utez.warehouse.entry.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -6,11 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/warehouse")
-public class WarehouseController {
-
+@RequestMapping("/entry")
+public class EntryController {
     @GetMapping("/list")
-    public String findAllWarehouses(Model modelo) {
-        return "warehouse/warehouse";
+    public String findAllEntries(Model modelo) {
+        return "entry/entry";
     }
 }

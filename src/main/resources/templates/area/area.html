@@ -23,10 +23,18 @@
                         </div>
                     </div>
                 </div>
+                <div th:if="${resultAction != null ? (resultAction.message.name eq 'SUCCESS_REGISTER') || (resultAction.message.name eq 'SUCCESS_UPDATE') || (resultAction.message.name eq 'SUCCESS_DISABLE') || (resultAction.message.name eq 'SUCCESS_ENABLE'): false}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    [[${resultAction.message.message}]]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             </section>
+
             <section class="content">
                 <div class="card">
-                    <div class="card-header back-green" type="button" data-card-widget="collapse" title="Collapse" aria-expanded="false">
+                    <div class="card-header back-green" type="button" data-card-widget="collapse" title="Collapse"
+                         aria-expanded="false">
                         <h3 class="card-title font-white">Registrar área</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -34,39 +42,37 @@
                             </button>
                         </div>
                     </div>
-                    <div class="card-body" th:class="${(result.isError && action eq 'save') ? 'card-body': 'card-body collapse'}">
+                    <div class="card-body"
+                         th:class="${(result.isError && action eq 'save') ? 'card-body': 'card-body collapse'}">
                         <form th:action="@{/area/save}" method="post" th:object="${area}">
                             <div class="row mt-2 mb-3">
 
                                 <div class="col-md-3 mb-3">
-                                    <label class="font-weight-normal">Identificador<span class="text-danger">*</span></label>
-                                    <input th:value="${data != null ? data.identifier : ''}" type="text" name="identifier" class="form-control" placeholder="Ingrese un identificador" required>
-                                    <div th:if="${#fields.hasErrors('identifier')}" th:errors="*{identifier}" class="alert alert-danger"></div>
+                                    <label>Identificador<span
+                                            class="text-danger">*</span></label>
+                                    <input th:value="${data != null && action eq 'save' ? data.identifier : ''}" type="text"
+                                           name="identifier" class="form-control" placeholder="Ingrese un identificador"
+                                           >
+                                    <div th:if="${#fields.hasErrors('identifier') && action eq 'save'}" th:errors="*{identifier}"
+                                         class="alert alert-danger"></div>
 
                                 </div>
+
                                 <div class="col-md-3 mb-3">
-                                    <label class="font-weight-normal">Dirección<span class="text-danger">*</span></label>
-                                    <input th:value="${data != null ? data.address : ''}" type="text" name="address" class="form-control" placeholder="Ingrese una dirección" required>
-                                    <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="alert alert-danger"></div>
+                                    <label>Dirección<span
+                                            class="text-danger">*</span></label>
+                                    <input th:value="${data != null && action eq 'save' ? data.address : ''}" type="text" name="address"
+                                           class="form-control" placeholder="Ingrese una dirección" >
+                                    <div th:if="${#fields.hasErrors('address') && action eq 'save'}" th:errors="*{address}"
+                                         class="alert alert-danger"></div>
 
                                 </div>
                             </div>
                             <div class="row mt-2 mb-3" style="justify-content: center">
                                 <button
                                         type="submit"
-                                        class="btn-success button-area"
-                                        style="margin-right: 60px"
-                                >
-                                    Registrar
-                                </button>
-                                <button
-
-                                        type="button"
-                                        class="btn-danger button-area"
-                                        style="margin-left: 60px"
-                                >
-                                    Cancelar
-                                </button>
+                                        class="btn btn-primary btn-block btn-lg"
+                                >Registrar</button>
                             </div>
 
                         </form>
@@ -74,58 +80,56 @@
                 </div>
 
                 <div class="card">
-                    <div class="card-header back-green" >
+                    <div class="card-header back-green">
                         <h3 class="card-title font-white">Áreas</h3>
                     </div>
                     <div class="card-body">
                         <div class="row mb-3 mt-2 form-inline">
                             <p class="mr-2">Mostrar</p>
                             <form th:action="@{/area/list}" id="searchForm">
-                                <select th:value="${pageSize}" name="size" class="custom-select" onchange="changePageSize()">
+                                <select th:value="${pageSize}" name="size" class="custom-select"
+                                        onchange="changePageSize()">
 
-                                    <option th:each="s : ${ {5, 10, 20, 50, 100} }" th:value="${s}" th:text="${s}" th:selected="${s == pageSize}"></option>
+                                    <option th:each="s : ${ {5, 10, 20, 50, 100} }" th:value="${s}" th:text="${s}"
+                                            th:selected="${s == pageSize}"></option>
 
                                 </select>
                             </form>
 
                             <p class="ml-2">registros</p>
                         </div>
-                        <div class="row mb-3 mt-2">
-                            <div class="col-md-4 ml-auto">
-                                <input class="form-control" type="search"  placeholder="Ingresa una búsqueda" aria-label="Search">
-                            </div>
-                        </div>
-                        <table class="table table-striped projects">
+                        <table class="table table-responsive projects margin-table-order table-striped projects">
                             <thead>
-                            <tr>
-                                <th style="width: 1%">
+                            <tr class="text-center">
+                                <th style="width: 5%">
                                     #
                                 </th>
-                                <th style="width: 20%">
+                                <th style="width: 30%">
                                     Identificador
                                 </th>
-                                <th>
+                                <th style="width: 30%">
                                     Dirección
                                 </th>
                                 <th>
                                     Estado
                                 </th>
 
-                                <th style="width: 12%" class="text-center">
+                                <th style="width: 12%">
                                     Acciones
                                 </th>
                             </tr>
                             </thead>
-                            <div th:if="${result.data == null}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}" class="alert alert-warning alert-dismissible fade show" role="alert">
                                 [[${result.message.message}]]
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <tbody>
+                            <tbody class="text-center">
 
                             <tr th:each="area : ${result.data}" th:if="${result.data != null}">
                                 <td>
+                                    [[${area.id}]]
                                 </td>
                                 <td>
                                     [[${area.identifier}]]
@@ -134,25 +138,31 @@
                                     [[${area.address}]]
                                 </td>
                                 <td>
-                                    [[${area.status == 1 ? 'Activo' : 'Inactivo'}]]
+                                    <p th:class="${area.status == 1 ? 'text-success' : 'text-danger'}">[[${area.status == 1 ? 'Activo' : 'Inactivo'}]]</p>
                                 </td>
                                 <td>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-12">
-                                            <button th:attr="onclick=|getArea('${area.id}')|" id="updateBtnArea"  type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateArea">
+                                            <button th:attr="onclick=|getArea('${area.id}')|" id="updateBtnArea"
+                                                    type="button" class="btn btn-warning" data-toggle="modal"
+                                                    data-target="#updateArea">
                                                 <i class="nav-icon fas fa-edit"></i>
                                             </button>
                                         </div>
                                         <div class="col-lg-6 col-md-12">
-                                            <form th:if="${area.status == 1}" th:action="@{/area/disable}" method="post">
-                                                <input  th:value="${area.id}" name="id" type="hidden">
-                                                <button  type="button" class="btn btn-danger deleteBtnArea" data-toggle="modal" data-target="#deleteArea">
+                                            <form th:if="${area.status == 1}" th:action="@{/area/disable}"
+                                                  method="post">
+                                                <input th:value="${area.id}" name="id" type="hidden">
+                                                <button type="button" class="btn btn-danger deleteBtnArea"
+                                                        data-toggle="modal" data-target="#deleteArea">
                                                     <i class="nav-icon fa-solid fa-eye-slash"></i>
                                                 </button>
                                             </form>
-                                            <form th:if="${area.status == 0}" th:action="@{/area/disable}" method="post">
-                                                <input  th:value="${area.id}" name="id" type="hidden">
-                                                <button  type="button" class="btn btn-success deleteBtnArea" data-toggle="modal" data-target="#deleteArea">
+                                            <form th:if="${area.status == 0}" th:action="@{/area/disable}"
+                                                  method="post">
+                                                <input th:value="${area.id}" name="id" type="hidden">
+                                                <button type="button" class="btn btn-success deleteBtnArea"
+                                                        data-toggle="modal" data-target="#deleteArea">
                                                     <i class="nav-icon fa-solid fa-eye"></i>
                                                 </button>
                                             </form>
@@ -162,19 +172,24 @@
                             </tr>
                             </tbody>
                         </table>
-                        <nav th:if="${result.data != null ? result.data.totalPages > 0 : false}" aria-label="Page navigation example">
+                        <nav class="mt-3" th:if="${result.data != null ? result.data.totalPages > 0 : false}"
+                             aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item" th:classappend="${result.data.number == 0 ? 'disabled' : ''}">
-                                    <a th:href="@{/area/list(page=${result.data.number - 1}, size=${pageSize})}" class="page-link">Anterior</a>
+                                    <a th:href="@{/area/list(page=${result.data.number - 1}, size=${pageSize})}"
+                                       class="page-link">Anterior</a>
                                 </li>
                                 <li class="page-item" th:classappend="${i eq result.data.number + 1} ? 'active'"
                                     th:each="i : ${#numbers.sequence( 1, (result.data != null ? result.data.totalPages : 0) , 1)}">
-                                    <a class="page-link" th:href="@{/area/list?page={tmpPag} (tmpPag=${i-1}, size=${pageSize}) }" th:text="${i}"
+                                    <a class="page-link"
+                                       th:href="@{/area/list?page={tmpPag} (tmpPag=${i-1}, size=${pageSize}) }"
+                                       th:text="${i}"
                                        th:title="${'Page '+ i}" data-toggle="tooltip"></a>
                                 </li>
                                 <li class="page-item"
                                     th:classappend="${result.data.number == ((result.data != null ? result.data.totalPages : 0) - 1) ? 'disabled' : ''}">
-                                    <a th:href="@{/area/list(page=${result.data.number + 1}, size=${pageSize})}" class="page-link">Siguiente</a>
+                                    <a th:href="@{/area/list(page=${result.data.number + 1}, size=${pageSize})}"
+                                       class="page-link">Siguiente</a>
                                 </li>
                             </ul>
                         </nav>
@@ -191,9 +206,9 @@
     $('#updateArea').modal('show');
 
 </script>
-<script >
+<script>
 
-    $('.deleteBtnArea').on('click', function() {
+    $('.deleteBtnArea').on('click', function () {
         Swal.fire({
             title: '¿Está seguro de cambiar el estado de esta área?',
             icon: 'warning',
@@ -204,11 +219,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $(this).closest('form').submit();
-                Swal.fire(
-                    'Desactivado',
-                    'Esta área ha sido desactivada',
-                    'success'
-                )
+
             }
         });
     });
@@ -219,10 +230,13 @@
             $("#updateArea").find("#address").val(data.data.address);
             $("#updateArea").find("#status").val(data.data.status);
             $("#updateArea").find("#id").val(data.data.id);
+
+            $("#identifierdiv").css("display", "none");
+            $("#addressdiv").css("display", "none");
         });
     }
 
-    $('.updateBtnArea').on('click', function() {
+    $('.updateBtnArea').on('click', function () {
         Swal.fire({
             title: '¿Está seguro de modificar los datos?',
             icon: 'warning',
@@ -233,15 +247,12 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $(this).closest('form').submit();
-                Swal.fire(
-                    'Modicación exitosa',
-                    'success'
-                )
+
             }
         });
     });
 
-    const changePageSize =()=> {
+    const changePageSize = () => {
         $("#searchForm").submit();
     }
 </script>

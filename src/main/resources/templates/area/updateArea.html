@@ -14,14 +14,14 @@
 
                         <div class="col-md-12 mb-3">
                             <label class="font-weight-normal">Identificador<span class="text-danger">*</span></label>
-                            <input name="identifier"  id="identifier" th:value="${data != null ? data.identifier : ''}" type="text" min="3" max="10" class="form-control" placeholder="Ingrese un identificador" required>
-                            <div th:if="${#fields.hasErrors('identifier') && action eq 'update'}" th:errors="*{identifier}" class="alert alert-danger"></div>
+                            <input name="identifier"  id="identifier" th:value="${data != null && action eq 'update' ? data.identifier : ''}" type="text" min="3" max="10" class="form-control" placeholder="Ingrese un identificador" required>
+                            <div id="identifierdiv" th:if="${#fields.hasErrors('identifier') && action eq 'update'}" th:errors="*{identifier}" class="alert alert-danger"></div>
 
                         </div>
                         <div class="col-md-12 mb-3">
                             <label class="font-weight-normal">Dirección<span class="text-danger">*</span></label>
-                            <input name="address" id="address"  th:value="${data != null ? data.address : ''}" type="text" class="form-control" placeholder="Ingrese una dirección">
-                            <div th:if="${#fields.hasErrors('address') && action eq 'update'}" th:errors="*{address}" class="alert alert-danger"></div>
+                            <input name="address" id="address"  th:value="${data != null && action eq 'update' ? data.address : ''}" type="text" class="form-control" placeholder="Ingrese una dirección" required>
+                            <div id="addressdiv" th:if="${#fields.hasErrors('address') && action eq 'update'}" th:errors="*{address}" class="alert alert-danger"></div>
 
                         </div>
 

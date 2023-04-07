@@ -6,14 +6,14 @@
     <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="info">
-                <a href="#" class="d-block">Usuario</a>
+                <a href="#" class="d-block">Usuario:</a>
             </div>
         </div>
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a th:href="@{/products/}" class="nav-link">
+                    <a th:href="@{/product/list}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Productos
@@ -21,15 +21,25 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a th:href="@{/orders/}" class="nav-link">
+                    <a th:href="@{/templates/requisition/list}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Pedidos
                         </p>
                     </a>
                 </li>
+
                 <li class="nav-item">
-                    <a th:href="@{/output/}" class="nav-link">
+                    <a th:href="@{/entry/list}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Entradas
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a th:href="@{/output/list}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Salidas
@@ -38,7 +48,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a th:href="@{/area/}" class="nav-link">
+                    <a th:href="@{/area/list}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Áreas
@@ -47,7 +57,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a th:href="@{/warehouses/}" class="nav-link">
+                    <a th:href="@{/warehouse/list}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Almacenes
@@ -55,7 +65,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a th:href="@{/users/}" class="nav-link">
+                    <a th:href="@{/user/list}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Usuarios
@@ -63,7 +73,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a th:href="@{/supplies/}" class="nav-link">
+                    <a th:href="@{/supplier/list}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Proveedores

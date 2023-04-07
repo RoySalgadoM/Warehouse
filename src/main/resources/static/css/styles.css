@@ -5,6 +5,16 @@
     font-weight: bold;
 }
 
+.text-danger{
+    color: darkred;
+    font-weight: bold;
+}
+
+.text-success{
+    color: darkgreen;
+    font-weight: bold;
+}
+
 .back-green{
     background-color: #049474 !important;
 }

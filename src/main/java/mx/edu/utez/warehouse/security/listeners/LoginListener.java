@@ -27,12 +27,10 @@ public class LoginListener implements ApplicationListener<AuthenticationSuccessE
             userRepository.findByUsername(ud.getUsername()).ifPresent(user -> {
                 user.setLastAccess(new Date());
                 userRepository.save(user);
-                logger.info("[USER : " + ud.getUsername() + "] ---> LOGIN SUCCESSFULLY");
+                logger.info("[USER : {}] ---> LOGIN SUCCESSFULLY", ud.getUsername());
             });
-        }catch (DataAccessException exception){
-            logger.info("[USER : " + event.getAuthentication().getName() + "] ---> ERROR LOG LOGIN" + exception.getMessage());
         }catch (Exception exception){
-            logger.info("[USER : " + event.getAuthentication().getName() + "] ---> ERROR LOG LOGIN" + exception.getMessage());
+            logger.error("[USER : {}] ---> ERROR LOG LOGIN: {}", event.getAuthentication().getName(), exception.getMessage());
         }
     }
 }

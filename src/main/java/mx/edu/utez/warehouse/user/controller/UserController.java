@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    @GetMapping("/")
-    public String listar(Model modelo) {
+    @GetMapping("/list")
+    public String findAllUsers(Model modelo) {
         return "user/user";
     }
 }

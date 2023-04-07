@@ -1,16 +1,21 @@
 package mx.edu.utez.warehouse.person.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "person")
-public class PersonModel {
+public class PersonModel implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,24 +36,5 @@ public class PersonModel {
     private Integer status;
 
 
-    public PersonModel(Long id, String name, String surname, String secondSurname, String email, String phone, String rfc, Integer status) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.secondSurname = secondSurname;
-        this.email = email;
-        this.phone = phone;
-        this.rfc = rfc;
-        this.status = status;
-    }
-    public PersonModel(String name, String surname, String secondSurname, String email, String phone, String rfc, Integer status) {
-        this.name = name;
-        this.surname = surname;
-        this.secondSurname = secondSurname;
-        this.email = email;
-        this.phone = phone;
-        this.rfc = rfc;
-        this.status = status;
-    }
 
 }
