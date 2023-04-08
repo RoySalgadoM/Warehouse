@@ -20,30 +20,65 @@ public class SupplierModel {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    @NotEmpty(message = "El identificador no puede estar vacío")
-    @NotNull(message = "El identificador no puede ser nulo")
-    @Size(min = 3, max = 10, message = "El identificador debe tener entre 3 y 10 caracteres")
-    @Pattern(regexp = "[A-Za-z0-9 ]+", message = "El identificador debe ser alfanumérico")
+    @NotEmpty(message = "El nombre no puede estar vacío")
+    @NotNull(message = "El nombre no puede ser nulo")
+    @Size(min = 5, max = 15, message = "El nombre debe tener entre 5 a 10 caracteres")
+    @Pattern(regexp = "[A-Za-z ]+", message = "El nombre debe ser alfanumérico")
+    private String name;
+
+    @Column(nullable = false, unique = true)
+    @NotEmpty(message = "El RFC no puede estar vacío")
+    @NotNull(message = "El RFC no puede ser nulo")
+    @Size(min = 5, max = 13, message = "El RFC debe tener 5 ó 13 caracteres")
+    @Pattern(regexp = "[A-Za-z0-9 ]+", message = "El RFC debe ser alfanumérico")
     private String rfc;
 
     @Column(nullable = false, unique = true)
-    @NotEmpty(message = "El identificador no puede estar vacío")
-    @NotNull(message = "El identificador no puede ser nulo")
-    @Size(min = 3, max = 10, message = "El identificador debe tener entre 3 y 10 caracteres")
-    @Pattern(regexp = "[A-Za-z0-9 ]+", message = "El identificador debe ser alfanumérico")
+    @NotEmpty(message = "La razón social no puede estar vacío")
+    @NotNull(message = "La razón social no puede ser nulo")
+    @Size(min = 5, max = 15, message = "La razón social debe tener entre 5 y 15 caracteres")
+    @Pattern(regexp = "[A-Za-z ]+", message = "La razón social solo debe de contener letras")
     private String businessName;
 
-    @Column(nullable = false, unique = true)
-    @NotEmpty(message = "El identificador no puede estar vacío")
-    @NotNull(message = "El identificador no puede ser nulo")
-    @Size(min = 3, max = 10, message = "El identificador debe tener entre 3 y 10 caracteres")
-    @Pattern(regexp = "[A-Za-z0-9 ]+", message = "El identificador debe ser alfanumérico")
-    private String phone;
 
     @Column(nullable = false, unique = true)
-    @NotEmpty(message = "El identificador no puede estar vacío")
-    @NotNull(message = "El identificador no puede ser nulo")
-    @Size(min = 3, max = 10, message = "El identificador debe tener entre 3 y 10 caracteres")
+    @NotEmpty(message = "El numero de celular no puede estar vacío")
+    @NotNull(message = "El numero de celular no puede ser nulo")
+    @Size(min = 10, max = 12, message = "El celular debe de contener entre 10 y 12 caracteres")
+    @Pattern(regexp = "[0-9 ]+", message = "El celuanumérico")
+    private String phone;
+
+//    @Column(nullable = false, unique = true)
+//    @NotEmpty(message = "El correo no puede estar vacío")
+//    @NotNull(message = "El correo no puede ser nulo")
+//    @Size(min = 3, max = 25, message = "El correo debe tener entre  caracteres")
+////    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z]{2,}$",
+////            message = "El correo no cumple con el formato")
+////    @Email
+//    private String email;
+
+    @Column(nullable = false, unique = true)
+    @NotEmpty(message = "El correo no puede estar vacía")
+    @NotNull(message = "El correo no puede ser nulo")
     @Email(message = "El correo debe ser válido")
+    @Size(min = 3, max = 25, message = "El correo debe tener entre  caracteres")
     private String email;
+
+    @Column(nullable = false)
+    @Min(value = 0, message = "El status debe ser 0 o 1")
+    @Max(value = 1, message = "El status debe ser 0 o 1")
+    private Integer status;
+
+    @Override
+    public String toString() {
+        return "SupplierModel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", rfc='" + rfc + '\'' +
+                ", businessName=" + businessName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }

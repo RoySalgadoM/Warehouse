@@ -2,12 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>500</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link th:fragment="css" rel="stylesheet" th:href="@{/css/style500.css}">
 </head>
 <body>
-    <h1>500</h1>
-    <h2>Internal Server Error</h2>
-    <p>Sorry, something went wrong.</p>
-    [[${result.message.message}]][[${result.uuid}]]
+<div class='hover'>
+    <div class="text" style="font-size=15">
+        <h4>Internal Server 500. [[${result.message.message}]][[${result.uuid}]] </h4>
+    </div>
+    <div class='background'>
+        <div class='door'>500</div>
+        <div class='rug'></div>
+    </div>
+    <div class='foreground'>
+        <div class='bouncer'>
+            <div class='head'>
+                <div class='neck'></div>
+                <div class='eye left'></div>
+                <div class='eye right'></div>
+                <div class='ear'></div>
+            </div>
+            <div class='body'></div>
+            <div class='arm'></div>
+        </div>
+        <div class='poles'>
+            <div class='pole left'></div>
+            <div class='pole right'></div>
+            <div class='rope'></div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
