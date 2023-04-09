@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mx.edu.utez.warehouse.person.model.PersonModel;
 import mx.edu.utez.warehouse.role.model.RoleModel;
 
 import java.io.Serializable;

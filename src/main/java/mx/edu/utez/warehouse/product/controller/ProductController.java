@@ -59,7 +59,6 @@ public class ProductController {
             if (products.getIsError()) {
                 return "errorPages/500";
             }
-            List<Integer> list = new ArrayList<>();
 
             model.addAttribute("pageSize", pageable.getPageSize());
             return "product/product";

@@ -85,8 +85,6 @@ public class SupplierServiceImpl implements SupplierService{
             supplier.get().setBusinessName(supplierModel.getBusinessName());
             supplier.get().setPhone(supplierModel.getPhone());
             supplier.get().setEmail(supplierModel.getEmail());
-//            supplier.get().setAddress(supplierModel.getAddress());
-//            supplier.get().setIdentifier(supplierModel.getIdentifier());
             repository.saveAndFlush(supplier.get());
             return new MessageModel(MessageCatalog.SUCCESS_UPDATE, null, false);
 

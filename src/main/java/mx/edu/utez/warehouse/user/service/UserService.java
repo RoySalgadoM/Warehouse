@@ -1,10 +1,8 @@
 package mx.edu.utez.warehouse.user.service;
-import mx.edu.utez.warehouse.role.model.RoleModel;
 import mx.edu.utez.warehouse.user.model.UserModel;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Set;
 
 public interface UserService {
     MessageModel findAllUsers(Pageable page, String username, String uuid);
