@@ -17,6 +17,7 @@ import java.util.List;
 @Service
 public class SupplierServiceImpl implements SupplierService{
     private static final Logger logger = LogManager.getLogger(SupplierServiceImpl.class);
+    private static final String SUPPLIER_NOT_FOUND = "The supplier could not be found";
 
     @Autowired
     SupplierRepository repository;
@@ -48,7 +49,7 @@ public class SupplierServiceImpl implements SupplierService{
         try {
             var findSupplier = repository.findById(id);
             if (findSupplier.isEmpty()) {
-                throw new NoResultException("The supplier could not be found");
+                throw new NoResultException(SUPPLIER_NOT_FOUND);
             }
             return new MessageModel(MessageCatalog.RECORDS_FOUND, findSupplier.get(), false);
 
@@ -78,7 +79,7 @@ public class SupplierServiceImpl implements SupplierService{
         try {
             var supplier = repository.findById(supplierModel.getId());
             if (supplier.isEmpty()) {
-                throw new NoResultException("The supplier could not be found");
+                throw new NoResultException(SUPPLIER_NOT_FOUND);
             }
             supplier.get().setName(supplierModel.getName());
             supplier.get().setRfc(supplierModel.getRfc());
@@ -99,7 +100,7 @@ public class SupplierServiceImpl implements SupplierService{
         try {
             var supplier = repository.findById(id);
             if (supplier.isEmpty()) {
-                throw new NoResultException("The supplier could not be found");
+                throw new NoResultException(SUPPLIER_NOT_FOUND);
             }
             supplier.get().setStatus(supplier.get().getStatus() == 1 ? 0 : 1);
             repository.saveAndFlush(supplier.get());
@@ -111,10 +112,16 @@ public class SupplierServiceImpl implements SupplierService{
         }
     }
 
-    public boolean isExistSupplier(String name) {
-        return repository.existsByName(name);
+    public boolean isExistSupplierByRfcAndId(String name, Long id) {
+        return repository.existsByRfcAndIdNotLike(name, id);
     }
-    public boolean isExistSupplierAndId(String name, Long id) {
-        return repository.existsByNameAndIdNotLike(name, id);
+    public boolean isExistSupplierByRfc(String rfc) {
+        return repository.existsByRfc(rfc);
+    }
+    public boolean isExistSupplierByEmail(String email) {
+        return repository.existsByEmail(email);
+    }
+    public boolean isExistSupplierByEmailAndId(String email, Long id) {
+        return repository.existsByEmailAndIdNotLike(email, id);
     }
 }

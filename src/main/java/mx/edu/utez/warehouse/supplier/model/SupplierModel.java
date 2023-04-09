@@ -19,7 +19,7 @@ public class SupplierModel {
     @Positive(message = "El id debe ser positivo")
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     @NotEmpty(message = "El nombre no puede estar vacío")
     @NotNull(message = "El nombre no puede ser nulo")
     @Size(min = 5, max = 45, message = "El nombre debe tener entre 5 a 45 caracteres")
@@ -33,7 +33,7 @@ public class SupplierModel {
     @Pattern(regexp = "[A-Za-z0-9 ]+", message = "El RFC debe ser alfanumérico")
     private String rfc;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     @NotEmpty(message = "La razón social no puede estar vacío")
     @NotNull(message = "La razón social no puede ser nulo")
     @Size(min = 5, max = 20, message = "La razón social debe tener entre 5 y 15 caracteres")
@@ -41,10 +41,10 @@ public class SupplierModel {
     private String businessName;
 
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     @NotEmpty(message = "El número de celular no puede estar vacío")
     @NotNull(message = "El número de celular no puede ser nulo")
-    @Size(min = 10, max = 12, message = "El número debe de contener entre 10 y 12 caracteres")
+    @Size(min = 10, max = 13, message = "El número debe de contener entre 10 y 13 caracteres")
     @Pattern(regexp = "[0-9 ]+", message = "El número debe ser numérico")
     private String phone;
 

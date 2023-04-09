@@ -34,7 +34,7 @@
                             <div id="phonediv" th:if="${#fields.hasErrors('phone') && action eq 'update'}" th:errors="*{phone}" class="alert alert-danger"></div>
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label class="font-weight-normal">EMAIL<span class="text-danger">*</span></label>
+                            <label class="font-weight-normal">Email<span class="text-danger">*</span></label>
                             <input name="email" id="email"  th:value="${data != null && action eq 'update' ? data.email : ''}" type="text" class="form-control" placeholder="Ingrese email" required>
                             <div id="emaildiv" th:if="${#fields.hasErrors('email') && action eq 'update'}" th:errors="*{email}" class="alert alert-danger"></div>
                         </div>

@@ -24,7 +24,15 @@ import java.util.UUID;
 @RequestMapping("/supplier")
 public class SupplierController {
     private static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
+    private static final String ERROR_500 = "errorPages/500";
     private static final Logger logger = LogManager.getLogger(SupplierController.class);
+    private static final String RESULT = "result";
+    private static final String RESULT_ACTION = "resultAction";
+    private static final String PAGE_SIZE = "pageSize";
+    private static final String SUPPLIER_REDIRECT = "supplier/supplier";
+
+    private static final String SUPPLIER_REDIRECT_LIST = "redirect:/supplier/list";
+
     @Autowired
     SupplierServiceImpl service;
 
@@ -41,19 +49,19 @@ public class SupplierController {
             logger.info("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> findAllSupplies() RESPONSE: {}", username, uuid, supplies.getMessage());
             supplies.setUuid(uuid.toString());
 
-            model.addAttribute("result", supplies);
+            model.addAttribute(RESULT, supplies);
             if (supplies.getIsError()) {
-                return "errorPages/500";
+                return ERROR_500;
             }
 
-            model.addAttribute("pageSize", pageable.getPageSize());
-            return "supplier/supplier";
+            model.addAttribute(PAGE_SIZE, pageable.getPageSize());
+            return SUPPLIER_REDIRECT;
         } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> SUPPLIER MODULE ---> findAllSupplies() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
-            model.addAttribute("result", message);
-            return "errorPages/500";
+            model.addAttribute(RESULT, message);
+            return ERROR_500;
         }
     }
 
@@ -91,38 +99,42 @@ public class SupplierController {
             username = user.getUsername();
             logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING SUPPLIER MODULE ---> saveSupplier()", username, uuid);
             model.addAttribute("action", "save");
-            model.addAttribute("pageSize", pageable.getPageSize());
+            model.addAttribute(PAGE_SIZE, pageable.getPageSize());
 
-            if(service.isExistSupplier(supplier.getName())){
-                result.rejectValue("name", "supplier.name", "El nombre ya existe");
+            if(service.isExistSupplierByEmail(supplier.getEmail())){
+                result.rejectValue("email", "supplier.email", "El email ya existe");
             }
+            if (service.isExistSupplierByRfc(supplier.getRfc())) {
+                result.rejectValue("rfc", "supplier.rfc", "El RFC ya existe");
+            }
+
             if(result.hasErrors()) {
                 logger.error("[USER : {}] || [UUID : {}] ---> SUPPLIER MODULE ---> saveSupplier() ERROR: {}", username, uuid, result.getAllErrors());
                 MessageModel supplies = service.findAllSupplies(pageable, username, uuid.toString());
                 supplies.setUuid(uuid.toString());
                 supplies.setMessage(MessageCatalog.VALIDATION_ERROR);
                 supplies.setIsError(true);
-                model.addAttribute("result", supplies);
+                model.addAttribute(RESULT, supplies);
                 model.addAttribute("data", supplier);
 
-                return "supplier/supplier";
+                return SUPPLIER_REDIRECT;
             }
             MessageModel supplies = service.registerSupplier(supplier, username, uuid.toString());
             supplies.setUuid(uuid.toString());
             logger.info("[USER : {}] || [UUID : {}] ---> SUPPLIER MODULE ---> saveSupplier() RESPONSE: {}", username, uuid, supplies.getMessage());
 
             if (supplies.getIsError()){
-                model.addAttribute("result", supplies);
-                return "errorPages/500";
+                model.addAttribute(RESULT, supplies);
+                return ERROR_500;
             }
-            redirectAttributes.addFlashAttribute("resultAction", supplies);
-            return "redirect:/supplier/list";
+            redirectAttributes.addFlashAttribute(RESULT_ACTION, supplies);
+            return SUPPLIER_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> SUPPLIER MODULE ---> saveSupplier() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
-            model.addAttribute("result", message);
-            return "errorPages/500";
+            model.addAttribute(RESULT, message);
+            return ERROR_500;
         }
     }
 
@@ -136,40 +148,44 @@ public class SupplierController {
             username = user.getUsername();
             logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING SUPPLIER MODULE ---> updateSupplier()", username, uuid);
 
-            if(service.isExistSupplierAndId(supplier.getName(), supplier.getId())){
-                result.rejectValue("name", "supplier.name", "El nombre ya existe");
+            if(service.isExistSupplierByEmailAndId(supplier.getEmail(), supplier.getId())){
+                result.rejectValue("email", "supplier.email", "El correo ya existe");
             }
+            if (service.isExistSupplierByRfcAndId(supplier.getRfc(), supplier.getId())) {
+                result.rejectValue("rfc", "supplier.rfc", "El RFC ya existe");
+            }
+
             if(result.hasErrors()) {
                 logger.error("[USER : {}] || [UUID : {}] ---> SUPPLIER MODULE ---> updateSupplier() ERROR: {}", username, uuid, result.getAllErrors());
                 MessageModel supplies = service.findAllSupplies(pageable, username, uuid.toString());
                 supplies.setUuid(uuid.toString());
                 supplies.setMessage(MessageCatalog.VALIDATION_ERROR);
                 supplies.setIsError(true);
-                model.addAttribute("result", supplies);
-                model.addAttribute("data", supplies);
+                model.addAttribute(RESULT, supplies);
+                model.addAttribute("data", supplier);
                 model.addAttribute("action", "update");
-                model.addAttribute("pageSize", pageable.getPageSize());
+                model.addAttribute(PAGE_SIZE, pageable.getPageSize());
 
-                return "supplier/supplier";
+                return SUPPLIER_REDIRECT;
             }
             MessageModel supplies = service.updateSupplier(supplier, username, uuid.toString());
             supplies.setUuid(uuid.toString());
 
             logger.info("[USER : {}] || [UUID : {}] ---> SUPPLIER MODULE ---> updateSupplier() RESPONSE: {}", username, uuid, supplies.getMessage());
             if(supplies.getIsError()) {
-                model.addAttribute("result", supplies);
-                return "errorPages/500";
+                model.addAttribute(RESULT, supplies);
+                return ERROR_500;
             }
 
-            redirectAttributes.addFlashAttribute("pageSize", pageable.getPageSize());
-            redirectAttributes.addFlashAttribute("resultAction", supplies);
-            return "redirect:/supplier/list";
+            redirectAttributes.addFlashAttribute(PAGE_SIZE, pageable.getPageSize());
+            redirectAttributes.addFlashAttribute(RESULT_ACTION, supplies);
+            return SUPPLIER_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> SUPPLIER MODULE ---> updateSupplier() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
-            model.addAttribute("result", message);
-            return "errorPages/500";
+            model.addAttribute(RESULT, message);
+            return ERROR_500;
         }
     }
 
@@ -187,18 +203,18 @@ public class SupplierController {
             supplies.setUuid(uuid.toString());
 
             if(supplies.getIsError()) {
-                model.addAttribute("result", supplies);
-                return "errorPages/500";
+                model.addAttribute(RESULT, supplies);
+                return ERROR_500;
             }
 
-            redirectAttributes.addFlashAttribute("resultAction", supplies);
-            return "redirect:/supplier/list";
+            redirectAttributes.addFlashAttribute(RESULT_ACTION, supplies);
+            return SUPPLIER_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> SUPPLIER MODULE ---> disableSupplier() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
-            model.addAttribute("result", message);
-            return "errorPages/500";
+            model.addAttribute(RESULT, message);
+            return ERROR_500;
         }
     }
 

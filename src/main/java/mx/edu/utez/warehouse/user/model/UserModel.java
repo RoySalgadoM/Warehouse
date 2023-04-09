@@ -47,7 +47,7 @@ public class UserModel implements Serializable {
     @NotEmpty(message = "El correo no puede estar vacía")
     @NotNull(message = "El correo no puede ser nulo")
     @Email(message = "El correo debe ser válido")
-    @Size(min = 3, max = 25, message = "El correo debe tener entre  caracteres")
+    @Size(min = 8, max = 35, message = "El correo debe tener entre 8 y 35 caracteres")
     private String email;
 
     @Column(nullable = false)
@@ -76,7 +76,7 @@ public class UserModel implements Serializable {
     @Column(nullable = false)
     @NotEmpty(message = "El teléfono no puede estar vacío")
     @Size(min = 10, max = 13, message = "El teléfono debe tener entre 10 y 14 caracteres")
-    @Pattern(regexp = "[0-9]+", message = "El teléfono debe ser válido")
+    @Pattern(regexp = "[0-9 ]+", message = "El teléfono debe ser válido")
 
     private String phone;
 
