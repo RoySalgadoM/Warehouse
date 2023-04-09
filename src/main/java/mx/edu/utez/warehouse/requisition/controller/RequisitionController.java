@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/requisition")
+@RequestMapping("/order")
 public class RequisitionController {
     @GetMapping("/list")
     public String findAllOrders(Model modelo) {
-        return "order/order";
+        return "requisition/order";
     }
 }

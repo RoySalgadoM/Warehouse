@@ -6,8 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mx.edu.utez.warehouse.requisition.model.RequisitionModel;
+import mx.edu.utez.warehouse.requisition.model.RequisitionProduct;
 import mx.edu.utez.warehouse.user.model.UserModel;
 
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -45,4 +48,7 @@ public class WarehouseModel {
     @JoinTable(name = "warehouse_user", joinColumns = @JoinColumn(name = "warehouse_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<UserModel> users;
+
+    @OneToMany(mappedBy = "warehouse")
+    private List<RequisitionModel> requisition;
 }

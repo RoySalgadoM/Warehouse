@@ -34,6 +34,9 @@ public class SupplierModel {
     private String businessName;
 
     @Column(nullable = false, unique = true)
+    private String name;
+
+    @Column(nullable = false, unique = true)
     @NotEmpty(message = "El identificador no puede estar vacío")
     @NotNull(message = "El identificador no puede ser nulo")
     @Size(min = 3, max = 10, message = "El identificador debe tener entre 3 y 10 caracteres")

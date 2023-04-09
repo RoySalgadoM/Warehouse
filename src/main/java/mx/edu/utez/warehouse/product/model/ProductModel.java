@@ -6,8 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mx.edu.utez.warehouse.requisition.model.RequisitionProduct;
 
 import java.sql.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -56,9 +58,10 @@ public class ProductModel {
     private String serialNumber;
 
     @Column(nullable = false)
-    @NotEmpty(message = "El tipo de producto no puede estar vacío")
-    @NotNull(message = "El tipo de producto no puede ser nulo")
-    @Size(min = 5, max = 45, message = "El tipo de producto debe tener entre 5 y 45 caracteres")
-    @Pattern(regexp = "[A-Za-z0-9 ]+", message = "El tipo de producto debe ser alfanumérico")
-    private String type;
+    @Min(value = 1, message = "El tipo debe ser 1 o 2")
+    @Max(value = 2, message = "El tipo debe ser 1 o 2")
+    private Integer type;
+
+    @OneToMany(mappedBy = "product")
+    private List<RequisitionProduct> requisitionProducts;
 }

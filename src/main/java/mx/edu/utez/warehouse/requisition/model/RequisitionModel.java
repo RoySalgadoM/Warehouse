@@ -8,8 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mx.edu.utez.warehouse.order_status.model.OrderStatusModel;
 import mx.edu.utez.warehouse.product.model.ProductModel;
+import mx.edu.utez.warehouse.warehouse.model.WarehouseModel;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -30,7 +32,6 @@ public class RequisitionModel {
     private Date orderDate;
 
     @Column(nullable = false, unique = true)
-
     private String code;
 
     @Column(nullable = false)
@@ -40,22 +41,25 @@ public class RequisitionModel {
     private Double totalAmount;
 
     @Column(nullable = false)
-    @Positive(message = "El de total de productos debe ser positivo")
+    @Positive(message = "El total de productos debe ser positivo")
     @NotNull(message = "El total de productos no puede ser nulo")
     @NotEmpty(message = "El total de productos no puede estar vacío")
     private Integer totalOfProducts;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
     private OrderStatusModel status;
 
     @Column(nullable = false)
-    @Min(value = 1, message = "El status debe ser 1 o 2")
-    @Max(value = 2, message = "El status debe ser 1 o 2")
+    @Min(value = 1, message = "El tipo debe ser 1 o 2")
+    @Max(value = 2, message = "El tipo debe ser 1 o 2")
     private Integer type;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "requisition_product", joinColumns = @JoinColumn(name = "requisition_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Set<ProductModel> products;
+    @OneToMany(mappedBy = "requisition")
+    private List<RequisitionProduct> requisitionProducts;
+
+    @ManyToOne
+    @JoinColumn(name = "warehouse_id", nullable = false)
+    private WarehouseModel warehouse;
+
 }

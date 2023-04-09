@@ -10,19 +10,29 @@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div th:insert="fragments/header :: js"></div>
+<script>
+    const getProducts = () => {
+        let type = document.getElementById("typeOrder").value;
+        console.log(type);
+        $.get("/entry/product/" + type, function (data) {
+            console.log(data);
+        });
+    }
+</script>
 <div class="wrapper">
     <div th:insert="fragments/navbar :: navbar"></div>
     <div th:insert="fragments/sidebar :: sidebar"></div>
     <div class="content-wrapper">
         <div class="container-fluid">
             <div class="content-header"> <!--AQUÍ ISAAC METIÓ UN SECTION, EN VEZ DE UN DIV-->
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0">Gestión de entradas</h1>
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Gestión de Entradas</h1>
+                        </div>
                     </div>
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-
+                </div>
+            </div>
             <section class="content">
                 <div class="card">
                     <div class="card-header back-green" type="button" data-card-widget="collapse" title="Collapse" aria-expanded="false">
@@ -33,38 +43,114 @@
                             </button>
                         </div>
                     </div>
-                    <div class="card-body collapse">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <label>Pedido asociado </label><span class="text-danger">*</span>
-                                    <input type="text" class="form-control"  placeholder="5454524145" value="" required="">
+                    <div class="card-body" th:class="${(result.isError && action eq 'save') ? 'card-body': 'card-body collapse'}">
+                        <form th:action="@{/entry/save}" method="post" th:object="${entry}">
+                            <div id="pedido">
+                                <h5>Datos de pedido</h5>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label>Código de pedido</label><span class="text-danger">*</span>
+                                        <input type="text" class="form-control" placeholder="0045871" value="" required="">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label>Fecha</label><span class="text-danger">*</span>
+                                        <input type="date" class="form-control" placeholder="" value="" required="">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label>Tipo de pedido<span class="text-danger">*</span></label>
+                                        <select class="custom-select d-block w-100" th:field="*{requisition.type}" id="typeOrder" name="typeOrder" onchange="getProducts();">
+                                            <option type="submit" th:value="1">Perecederos</option>
+                                            <option type="submit" th:value="2">No Perecederos</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label>Proveedor<span class="text-danger">*</span></label>
+                                        <select class="custom-select d-block w-100" name="supplier" th:field="*{supplier.id}">
+                                            <option th:each="tmpSupplier : ${listSupplies}" th:value="${tmpSupplier.id}" th:text="${tmpSupplier.name}" />
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label>Almacén al que se dirige</label><span class="text-danger">*</span>
+                                        <select class="custom-select d-block w-100" th:field="*{requisition.warehouse.id}">
+                                            <option th:each="tmpWarehouse : ${listWarehouses}" th:value="${tmpWarehouse.id}" th:text="${tmpWarehouse.name}" />
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-md-4 mb-3">
-                                    <label>No. serie (No perecedero)</label><span class="text-danger">*</span>
-                                    <input type="text" class="form-control" placeholder="Ingrese un número de serie" value="" required="">
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label>Caducidad (perecedero)</label><span class="text-danger">*</span>
-                                    <input type="date" class="form-control" value="" required="">
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label>Cantidad de productos que ingresan</label><span class="text-danger">*</span>
-                                    <input type="number" class="form-control" value="" required="" placeholder="Ingrese una cantidad de productos">
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label>Fecha de ingreso</label><span class="text-danger">*</span>
-                                    <input type="date" class="form-control" value="" required="" >
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label>Monto de ingreso</label><span class="text-danger">*</span>
-                                    <input type="number" class="form-control" value="" required="" placeholder="Ingrese la cantidad total">
-                                </div>
-                                <button type="button" class="btn btn-primary btn-block btn-lg" data-toggle="modal"
-                                        data-target="#createEntry">
-                                    Registrar entrada
-                                </button>
                             </div>
+                            <div id="entrada">
+                                <h5>Datos de la entrada</h5>
+                                <hr>
+                                <div class="row mt-2">
+                                    <div style="margin-left:20px;">
+                                        <h5>Productos</h5>
+                                    </div>
+                                    <br>
+                                    <div class="col-md-3 margin-order">
+                                        <label for="" class="font-weight-normal">Producto<span class="text-danger">*</span></label>
+                                        <select  class="custom-select d-block w-100" id="" >
+                                            <option th:each="tmpProduct : ${listProducts}" th:value="${tmpProduct.id}" th:text="${tmpProduct.description}" />
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 margin-order">
+                                        <label for="" class="font-weight-normal">Cantidad<span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="cantidad" placeholder="eje: 2">
+                                    </div>
+                                    <div class="col-md-3 margin-order">
+                                        <button type="button" class="btn btn-primary btn-add">Agregar producto <i class="nav-icon fas fa-cart-plus"></i></button>
+                                    </div>
+                                    <br><hr>
+                                    <div class="container-fluid d-flex justify-content-center margin-table-order">
+                                        <table class="table table-responsive projects">
+                                            <thead>
+                                            <tr class="text-center">
+                                                <th style="width: 1%">#</th>
+                                                <th style="width: 20%">Producto</th>
+                                                <th style="width: 20%">Descripción</th>
+                                                <th style="width: 20%">Cantidad</th>
+                                                <th style="width: 20%">Unidad de medida</th>
+                                                <th style="width: 20%">Precio unitario</th>
+                                                <th style="width: 8%" class="text-center">Quitar</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="text-center">
+                                            <tr>
+                                                <td>1</td>
+                                                <td>
+                                                    <a> Hojas blancas </a>
+                                                    <br/>
+                                                </td>
+                                                <td>
+                                                    <a>hojas blancas al 90%</a>
+                                                </td>
+                                                <td>
+                                                    <a>3</a>
+                                                </td>
+                                                <td>
+                                                    <a>cajas</a>
+                                                </td>
+                                                <td>
+                                                    <a>$200.00</a>
+                                                </td>
+                                                <td>
+                                                    <button  class="btn btn-danger" data-toggle="modal" data-target="#deleteProductOrder">
+                                                        <i class="nav-icon fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="float: right !important;" class="mb-3">
+                                <h5><span class="span-total" >Cantidad de productos que ingresan: 30</span></h5>
+                                <h5><span class="span-total" >Total de ingreso: $1,300</span></h5>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-block btn-lg mt-3" data-toggle="modal"
+                                    data-target="#createEntry">
+                                Registrar entrada
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -74,117 +160,61 @@
                         <h3 class="card-title font-white">Entradas</h3>
                     </div>
                     <div class="card-body">
+                        <div class="row mb-3 mt-2 form-inline">
+                            <p class="mr-2">Mostrar</p>
+                            <form th:action="@{/area/list}" id="searchForm">
+                                <select th:value="${pageSize}" name="size" class="custom-select"
+                                        onchange="changePageSize()">
+
+                                    <option th:each="s : ${ {5, 10, 20, 50, 100} }" th:value="${s}" th:text="${s}"
+                                            th:selected="${s == pageSize}"></option>
+                                </select>
+                            </form>
+                            <p class="ml-2">registros</p>
+                        </div>
                         <div class="row mb-3 mt-2">
                             <div class="container-fluid">
                                 <table class="table table-responsive projects margin-table-order table-striped projects">
                                     <thead>
                                     <tr class="text-center">
-                                        <th style="width: 1%">#</th>
+                                        <th style="width: 5%">#</th>
                                         <th style="width: 20%">Fecha ingreso</th>
                                         <th style="width: 20%">Pedido asociado</th>
-                                        <th style="width: 8%" class="text-center">Detalles</th>
-                                        <th style="width: 8%" class="text-center">Modificar</th>
+                                        <th style="width: 12%" class="text-center">Acciones</th>
                                     </tr>
                                     </thead>
                                     <tbody class="text-center">
                                     <tr>
-                                        <td>1</td>
-                                        <td>
-                                            <a> 17/02/2022 </a>
-                                            <br />
-                                        </td>
-                                        <td>
-                                            <a>0000000</a>
-                                        </td>
-                                        <td>
-                                            <button  class="btn btn-primary" data-toggle="modal" data-target="#detailsEntry">
-                                                <i class="nav-icon fas fa-info info-button"></i>
+                                        <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            [[${result.message.message}]]
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
                                             </button>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-warning" data-toggle="modal" data-target="#updateEntry">
-                                                <i class="nav-icon fas fa-edit"></i>
-                                            </button>
-                                        </td>
+                                        </div>
                                     </tr>
-                                    <tr>
-                                        <td>2</td>
+                                    <tr th:each="entry : ${result.data}" th:if="${result.data != null}">
                                         <td>
-                                            <a>20/02/2022</a>
-                                            <br />
+                                            [[${entry.id}]]
                                         </td>
                                         <td>
-                                            <a>0000000</a>
+                                            [[${entry.supplier.businessName}]]
                                         </td>
                                         <td>
-                                            <button class="btn btn-primary" data-toggle="modal" data-target="#detailsEntry">
-                                                <i class="nav-icon fas fa-info info-button"></i>
-                                            </button>
+
                                         </td>
                                         <td>
-                                            <btn class="btn btn-warning" data-toggle="modal" data-target="#updateEntry">
-                                                <i class="nav-icon fas fa-edit"></i>
-                                            </btn>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>
-                                            <a> 31/03/2022 </a>
-                                            <br />
-                                        </td>
-                                        <td>
-                                            <a>0000000</a>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-primary" data-toggle="modal" data-target="#detailsEntry">
-                                                <i class="nav-icon fas fa-info info-button"></i>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <btn class="btn btn-warning" data-toggle="modal" data-target="#updateEntry">
-                                                <i class="nav-icon fas fa-edit"></i>
-                                            </btn>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>
-                                            <a> 04/04/2022 </a>
-                                            <br />
-                                        </td>
-                                        <td>
-                                            <a>0000000</a>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-primary" data-toggle="modal" data-target="#detailsEntry">
-                                                <i class="nav-icon fas fa-info info-button"></i>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <btn class="btn btn-warning" data-toggle="modal" data-target="#updateEntry">
-                                                <i class="nav-icon fas fa-edit"></i>
-                                            </btn>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>
-                                            <a>17/05/2022 </a>
-                                            <br />
-                                        </td>
-                                        <td>
-                                            <a>0000000</a>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-primary" data-toggle="modal" data-target="#detailsEntry">
-                                                <i class="nav-icon fas fa-info info-button"></i>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <btn class="btn btn-warning" data-toggle="modal" data-target="#updateEntry">
-                                                <i class="nav-icon fas fa-edit"></i>
-                                            </btn>
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-12">
+                                                    <button  class="btn btn-primary" data-toggle="modal" data-target="#detailsEntry">
+                                                        <i class="nav-icon fas fa-info info-button"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="col-lg-6 col-md-12">
+                                                    <button class="btn btn-warning" data-toggle="modal" data-target="#updateEntry">
+                                                        <i class="nav-icon fas fa-edit"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                     </tbody>

@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-
 @Entity
 @Getter
 @Setter
@@ -57,7 +56,6 @@ public class UserModel implements Serializable {
     @OneToOne
     @JoinColumn(name = "person_id", nullable = false)
     private PersonModel person;
-
 
     public UserModel(Long id, String username, String password, Integer status, Set<RoleModel> authorities, PersonModel person, Date lastAccess, String email) {
         this.id = id;
