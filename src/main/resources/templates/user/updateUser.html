@@ -8,48 +8,69 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form th:action="@{/user/update}" th:object="${user}" method="post">
                     <div class="row mt-2 mb-3">
+                        <input type="hidden" name="id" id="id" th:value="${data != null ? data.id : ''}">
+                        <input type="hidden" name="password" id="password" th:value="${data != null ? data.password : ''}">
                         <div class="col-md-6 mb-3">
                             <label class="font-weight-normal">Nombre<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Ingrese nombre">
+                            <input name="name"  id="name" th:value="${data != null && action eq 'update' ? data.name : ''}" type="text" min="3" max="10" class="form-control" placeholder="Ingrese un nombre" required>
+                            <div id="namediv" th:if="${#fields.hasErrors('name') && action eq 'update'}" th:errors="*{
+                           name}" class="alert alert-danger"></div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="font-weight-normal">Apellido Paterno<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Ingrese apellido paterno">
+                            <input name="surname"  id="surname" th:value="${data != null && action eq 'update' ? data.surname : ''}" type="text" min="3" max="10" class="form-control" placeholder="Ingrese apellido" required>
+                            <div id="surnamediv" th:if="${#fields.hasErrors('surname') && action eq 'update'}" th:errors="*{
+                           surname}" class="alert alert-danger"></div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="font-weight-normal">Apellido Materno<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Ingrese apellido materno">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="font-weight-normal">Correo Electrónico<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Ingrese correo electrónico">
+                            <input name="secondSurname"  id="secondSurname" th:value="${data != null && action eq 'update' ? data.secondSurname : ''}" type="text" min="3" max="10" class="form-control" placeholder="Ingrese apellido" required>
+                            <div id="secondSurnamediv" th:if="${#fields.hasErrors('secondSurname') && action eq 'update'}" th:errors="*{
+                           secondSurname}" class="alert alert-danger"></div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="font-weight-normal">Teléfono<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Ingrese teléfono">
+                            <input name="phone"  id="phone" th:value="${data != null && action eq 'update' ? data.phone : ''}" type="text" min="3" max="10" class="form-control" placeholder="Ingrese teléfono" required>
+                            <div id="phonediv" th:if="${#fields.hasErrors('phone') && action eq 'update'}" th:errors="*{
+                           phone}" class="alert alert-danger"></div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="font-weight-normal">RFC<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Ingrese RFC">
+                            <input name="rfc"  id="rfc" th:value="${data != null && action eq 'update' ? data.rfc : ''}" type="text" class="form-control" placeholder="Ingrese rfc" required>
+                            <div id="rfcdiv" th:if="${#fields.hasErrors('rfc') && action eq 'update'}" th:errors="*{
+                           rfc}" class="alert alert-danger"></div>
                         </div>
                         <div class="col-md-6 mb-3">
+                            <label class="font-weight-normal">Usuario<span class="text-danger">*</span></label>
+                            <input name="username"  id="username" th:value="${data != null && action eq 'update' ? data.username : ''}" type="text" class="form-control" placeholder="Ingrese usuario" required>
+                            <div id="usernamediv" th:if="${#fields.hasErrors('username') && action eq 'update'}" th:errors="*{
+                           username}" class="alert alert-danger"></div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="font-weight-normal">Correo Electrónico<span class="text-danger">*</span></label>
+                            <input name="email"  id="email" th:value="${data != null && action eq 'update' ? data.email : ''}" type="text" class="form-control" placeholder="Ingrese email" required>
+                            <div id="emaildiv" th:if="${#fields.hasErrors('email') && action eq 'update'}" th:errors="*{
+                           email}" class="alert alert-danger"></div>
+                        </div>
+
+
+
+                        <div class="col-md-6 mb-3">
                             <label class="font-weight-normal">Roles<span class="text-danger">*</span></label>
-                            <select class="custom-select">
-                                <option selected>Designa rol</option>
-                                <option value="1">Administrador</option>
-                                <option value="2">Almacenista</option>
-                                <option value="3">Facturacion</option>
+                            <select class="custom-select" id="authorities" name="authorities" multiple>
+                                <option th:each="tmpRoles : ${listRole}" th:value="${tmpRoles.id}" th:text="${tmpRoles.name}"th:selected="${tmpRoles.id == 1}"></option>
                             </select>
                         </div>
-                    </div>
-                    <div style="float: right">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary">Modificar</button>
+                        <div style="float: right">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary updateBtnUser">Modificar</button>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+

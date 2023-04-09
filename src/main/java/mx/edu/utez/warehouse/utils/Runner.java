@@ -1,5 +1,6 @@
 package mx.edu.utez.warehouse.utils;
 
+
 import mx.edu.utez.warehouse.order_status.model.OrderStatusModel;
 import mx.edu.utez.warehouse.order_status.model.OrderStatusName;
 import mx.edu.utez.warehouse.order_status.service.OrderStatusRepository;
@@ -18,17 +19,21 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 
 @Configuration
 @Component
 public class Runner implements CommandLineRunner {
     private static final Logger logger = LogManager.getLogger(Runner.class);
 
+
     @Autowired
     private RoleRepository roleInterface;
+
 
     @Autowired
     private OrderStatusRepository orderStatusRepository;
@@ -51,18 +56,19 @@ public class Runner implements CommandLineRunner {
             orderStatusRepository.save(new OrderStatusModel(3L, OrderStatusName.DELIVERED));
             orderStatusRepository.save(new OrderStatusModel(4L, OrderStatusName.CANCELED));
 
+
         }
         if(userRepository.count() == 0) {
             logger.info("CREATING ADMIN USER");
-            PersonModel personModel = new PersonModel(1L, "Roy", "Salgado", "Martinez", "roy21rasm@gmail.com", "7771144520", "SAMR020621SL7", 1);
-            personRepository.save(personModel);
             Set<RoleModel> roles = new HashSet<>();
             roles.add(new RoleModel(1L, AuthorityName.ADMIN));
-
-            userRepository.saveAndFlush(new UserModel(1L, "roysalgado", passwordEncoder.encode("rasm"), 1,  roles, personModel, new Date(), "roy21rasm@gmail.com"));
+            userRepository.saveAndFlush(new UserModel(1L, "roysalgado", passwordEncoder.encode("rasm"), 1,  roles, new Date(), "roy21rasm@gmail.com", "Roy", "Salgado", "Martinez", "7771144520", "SAMR020621SL7"));
         }
         logger.info("END RUNNER");
 
 
+
+
     }
 }
+
