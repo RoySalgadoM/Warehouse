@@ -5,6 +5,7 @@ import mx.edu.utez.warehouse.supplier.model.SupplierModel;
 import org.springframework.data.domain.Pageable;
 
 public interface SupplierService {
+    List<SupplierModel> findSupplies();
     MessageModel findAllSupplies(Pageable page, String username, String uuid);
     MessageModel findById(long id, String username, String uuid);
     MessageModel registerSupplier(SupplierModel supplierModel, String username, String uuid);

@@ -21,12 +21,11 @@ public class EntryModel {
     @Positive(message = "El id debe ser positivo")
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "supplier_id", nullable = false)
     private SupplierModel supplier;
+
     @OneToOne
     @JoinColumn(name = "requisition_id", nullable = false)
     private RequisitionModel requisition;
-
-
 }

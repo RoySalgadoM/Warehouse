@@ -20,6 +20,11 @@ public class SupplierServiceImpl implements SupplierService{
     SupplierRepository repository;
 
     @Override
+    public List<SupplierModel> findSupplies() {
+        return repository.findAll();
+    }
+    
+    @Override
     public MessageModel findAllSupplies(Pageable page, String username, String uuid) {
         try {
             Page<SupplierModel> supplies = repository.findAll(page);

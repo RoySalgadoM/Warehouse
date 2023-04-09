@@ -46,7 +46,6 @@
                          th:class="${(result.isError && action eq 'save') ? 'card-body': 'card-body collapse'}">
                         <form th:action="@{/area/save}" method="post" th:object="${area}">
                             <div class="row mt-2 mb-3">
-
                                 <div class="col-md-3 mb-3">
                                     <label>Identificador<span
                                             class="text-danger">*</span></label>
@@ -55,9 +54,7 @@
                                            >
                                     <div th:if="${#fields.hasErrors('identifier') && action eq 'save'}" th:errors="*{identifier}"
                                          class="alert alert-danger"></div>
-
                                 </div>
-
                                 <div class="col-md-3 mb-3">
                                     <label>Dirección<span
                                             class="text-danger">*</span></label>
@@ -92,86 +89,87 @@
 
                                     <option th:each="s : ${ {5, 10, 20, 50, 100} }" th:value="${s}" th:text="${s}"
                                             th:selected="${s == pageSize}"></option>
-
                                 </select>
                             </form>
-
                             <p class="ml-2">registros</p>
                         </div>
-                        <table class="table table-responsive projects margin-table-order table-striped projects">
-                            <thead>
-                            <tr class="text-center">
-                                <th style="width: 5%">
-                                    #
-                                </th>
-                                <th style="width: 30%">
-                                    Identificador
-                                </th>
-                                <th style="width: 30%">
-                                    Dirección
-                                </th>
-                                <th>
-                                    Estado
-                                </th>
+                        <div class="row mb-3 mt-2">
+                            <div class="container-fluid">
+                                <table class="table table-responsive projects margin-table-order table-striped projects">
+                                    <thead>
+                                    <tr class="text-center">
+                                        <th style="width: 5%">
+                                            #
+                                        </th>
+                                        <th style="width: 30%">
+                                            Identificador
+                                        </th>
+                                        <th style="width: 30%">
+                                            Dirección
+                                        </th>
+                                        <th style="width: 8%">
+                                            Estado
+                                        </th>
 
-                                <th style="width: 12%">
-                                    Acciones
-                                </th>
-                            </tr>
-                            </thead>
-                            <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}" class="alert alert-warning alert-dismissible fade show" role="alert">
-                                [[${result.message.message}]]
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <tbody class="text-center">
-
-                            <tr th:each="area : ${result.data}" th:if="${result.data != null}">
-                                <td>
-                                    [[${area.id}]]
-                                </td>
-                                <td>
-                                    [[${area.identifier}]]
-                                </td>
-                                <td>
-                                    [[${area.address}]]
-                                </td>
-                                <td>
-                                    <p th:class="${area.status == 1 ? 'text-success' : 'text-danger'}">[[${area.status == 1 ? 'Activo' : 'Inactivo'}]]</p>
-                                </td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-12">
-                                            <button th:attr="onclick=|getArea('${area.id}')|" id="updateBtnArea"
-                                                    type="button" class="btn btn-warning" data-toggle="modal"
-                                                    data-target="#updateArea">
-                                                <i class="nav-icon fas fa-edit"></i>
-                                            </button>
-                                        </div>
-                                        <div class="col-lg-6 col-md-12">
-                                            <form th:if="${area.status == 1}" th:action="@{/area/disable}"
-                                                  method="post">
-                                                <input th:value="${area.id}" name="id" type="hidden">
-                                                <button type="button" class="btn btn-danger deleteBtnArea"
-                                                        data-toggle="modal" data-target="#deleteArea">
-                                                    <i class="nav-icon fa-solid fa-eye-slash"></i>
-                                                </button>
-                                            </form>
-                                            <form th:if="${area.status == 0}" th:action="@{/area/disable}"
-                                                  method="post">
-                                                <input th:value="${area.id}" name="id" type="hidden">
-                                                <button type="button" class="btn btn-success deleteBtnArea"
-                                                        data-toggle="modal" data-target="#deleteArea">
-                                                    <i class="nav-icon fa-solid fa-eye"></i>
-                                                </button>
-                                            </form>
-                                        </div>
+                                        <th style="width: 12%">
+                                            Acciones
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        [[${result.message.message}]]
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                                    <tbody class="text-center">
+                                    <tr th:each="area : ${result.data}" th:if="${result.data != null}">
+                                        <td>
+                                            [[${area.id}]]
+                                        </td>
+                                        <td>
+                                            [[${area.identifier}]]
+                                        </td>
+                                        <td>
+                                            [[${area.address}]]
+                                        </td>
+                                        <td>
+                                            <p th:class="${area.status == 1 ? 'text-success' : 'text-danger'}">[[${area.status == 1 ? 'Activo' : 'Inactivo'}]]</p>
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-12">
+                                                    <button th:attr="onclick=|getArea('${area.id}')|" id="updateBtnArea"
+                                                            type="button" class="btn btn-warning" data-toggle="modal"
+                                                            data-target="#updateArea">
+                                                        <i class="nav-icon fas fa-edit"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="col-lg-6 col-md-12">
+                                                    <form th:if="${area.status == 1}" th:action="@{/area/disable}"
+                                                          method="post">
+                                                        <input th:value="${area.id}" name="id" type="hidden">
+                                                        <button type="button" class="btn btn-danger deleteBtnArea"
+                                                                data-toggle="modal" data-target="#deleteArea">
+                                                            <i class="nav-icon fa-solid fa-eye-slash"></i>
+                                                        </button>
+                                                    </form>
+                                                    <form th:if="${area.status == 0}" th:action="@{/area/disable}"
+                                                          method="post">
+                                                        <input th:value="${area.id}" name="id" type="hidden">
+                                                        <button type="button" class="btn btn-success deleteBtnArea"
+                                                                data-toggle="modal" data-target="#deleteArea">
+                                                            <i class="nav-icon fa-solid fa-eye"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         <nav class="mt-3" th:if="${result.data != null ? result.data.totalPages > 0 : false}"
                              aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">
