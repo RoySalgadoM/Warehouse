@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AreaServiceImpl implements AreaService {
     private static final Logger logger = LogManager.getLogger(AreaServiceImpl.class);
-
+    private static final String AREA_NOT_FOUND = "The area could not be found";
     @Autowired
     AreaRepository repository;
 
@@ -41,7 +41,7 @@ public class AreaServiceImpl implements AreaService {
         try {
             var findArea = repository.findById(id);
             if (findArea.isEmpty()) {
-                throw new NoResultException("The area could not be found");
+                throw new NoResultException(AREA_NOT_FOUND);
             }
             return new MessageModel(MessageCatalog.RECORDS_FOUND, findArea.get(), false);
 
@@ -71,7 +71,7 @@ public class AreaServiceImpl implements AreaService {
         try {
             var area = repository.findById(areaModel.getId());
             if (area.isEmpty()) {
-                throw new NoResultException("The area could not be found");
+                throw new NoResultException(AREA_NOT_FOUND);
             }
             area.get().setAddress(areaModel.getAddress());
             area.get().setIdentifier(areaModel.getIdentifier());
@@ -89,7 +89,7 @@ public class AreaServiceImpl implements AreaService {
         try {
             var area = repository.findById(id);
             if (area.isEmpty()) {
-                throw new NoResultException("The area could not be found");
+                throw new NoResultException(AREA_NOT_FOUND);
             }
             area.get().setStatus(area.get().getStatus() == 1 ? 0 : 1);
             repository.saveAndFlush(area.get());

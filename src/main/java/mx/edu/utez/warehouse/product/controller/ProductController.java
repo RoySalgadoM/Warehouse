@@ -11,32 +11,30 @@ import mx.edu.utez.warehouse.utils.MessageCatalog;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.util.ArrayUtils;
 
-import java.sql.Date;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
     private static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
+    private static final String RESULT = "result";
+    private static final String ERROR_500 = "errorPages/500";
+    private static final String PAGE_SIZE = "pageSize";
+    private static final String PRODUCT_REDIRECT = "product/product";
+    private static final String UNIT_NOT_VALID = "El tipo de unidad no es válido";
+    private static final String PRODUCT_VALUE_CONSTANT = "product.unit";
+    private static final String RESULT_ACTION = "resultAction";
+    private static final String PRODUCT_REDIRECT_LIST = "redirect:/product/list";
     private static final Logger logger = LogManager.getLogger(ProductController.class);
 
     @Autowired
@@ -55,19 +53,19 @@ public class ProductController {
             logger.info("[USER : {}] || [UUID : {}] ---> PRODUCT MODULE ---> findAllProducts() RESPONSE: {}", username, uuid, products.getMessage());
             products.setUuid(uuid.toString());
 
-            model.addAttribute("result", products);
+            model.addAttribute(RESULT, products);
             if (products.getIsError()) {
-                return "errorPages/500";
+                return ERROR_500;
             }
 
-            model.addAttribute("pageSize", pageable.getPageSize());
-            return "product/product";
+            model.addAttribute(PAGE_SIZE, pageable.getPageSize());
+            return PRODUCT_REDIRECT;
         } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> PRODUCT MODULE ---> findAllProducts() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
-            model.addAttribute("result", message);
-            return "errorPages/500";
+            model.addAttribute(RESULT, message);
+            return ERROR_500;
         }
     }
 
@@ -104,7 +102,7 @@ public class ProductController {
             username = user.getUsername();
             logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING PRODUCT MODULE ---> saveProduct()", username, uuid);
             model.addAttribute("action", "save");
-            model.addAttribute("pageSize", pageable.getPageSize());
+            model.addAttribute(PAGE_SIZE, pageable.getPageSize());
             if(product.getType() == 1){
                 product.setSerialNumber(null);
             }
@@ -120,10 +118,10 @@ public class ProductController {
             }
 
             if (!ArrayUtils.contains(new String[]{"Piezas", "Cajas", "Unidades", "Toneladas", "Kilos", "Gramos", "Litros", "Metros", "Centímetros"}, product.getUnit())){
-                result.rejectValue("unit", "product.unit", "El tipo de unidad no es válido");
+                result.rejectValue("unit", PRODUCT_VALUE_CONSTANT, UNIT_NOT_VALID);
             }
             if (!ArrayUtils.contains(new Integer[]{1, 2}, product.getType())){
-                result.rejectValue("unit", "product.unit", "El tipo de unidad no es válido");
+                result.rejectValue("unit", PRODUCT_VALUE_CONSTANT, UNIT_NOT_VALID);
             }
             if(result.hasErrors()) {
                 logger.error("[USER : {}] || [UUID : {}] ---> PRODUCT MODULE ---> saveProduct() ERROR: {}", username, uuid, result.getAllErrors());
@@ -131,10 +129,10 @@ public class ProductController {
                 products.setUuid(uuid.toString());
                 products.setMessage(MessageCatalog.VALIDATION_ERROR);
                 products.setIsError(true);
-                model.addAttribute("result", products);
+                model.addAttribute(RESULT, products);
                 model.addAttribute("data", product);
 
-                return "product/product";
+                return PRODUCT_REDIRECT;
             }
 
             MessageModel products = service.registerProduct(product, username, uuid.toString());
@@ -142,17 +140,17 @@ public class ProductController {
             logger.info("[USER : {}] || [UUID : {}] ---> PRODUCT MODULE ---> saveProduct() RESPONSE: {}", username, uuid, products.getMessage());
 
             if (products.getIsError()){
-                model.addAttribute("result", products);
-                return "errorPages/500";
+                model.addAttribute(RESULT, products);
+                return ERROR_500;
             }
-            redirectAttributes.addFlashAttribute("resultAction", products);
-            return "redirect:/product/list";
+            redirectAttributes.addFlashAttribute(RESULT_ACTION, products);
+            return PRODUCT_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> PRODUCT MODULE ---> saveProduct() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
-            model.addAttribute("result", message);
-            return "errorPages/500";
+            model.addAttribute(RESULT, message);
+            return ERROR_500;
         }
     }
 
@@ -180,7 +178,7 @@ public class ProductController {
             }
 
             if (!ArrayUtils.contains(new String[]{"Piezas", "Cajas", "Unidades", "Toneladas", "Kilos", "Gramos", "Litros", "Metros", "Centímetros"}, product.getUnit())){
-                result.rejectValue("unit", "product.unit", "El tipo de unidad no es válido");
+                result.rejectValue("unit", PRODUCT_VALUE_CONSTANT, UNIT_NOT_VALID);
             }
 
             if(result.hasErrors()) {
@@ -189,31 +187,31 @@ public class ProductController {
                 products.setUuid(uuid.toString());
                 products.setMessage(MessageCatalog.VALIDATION_ERROR);
                 products.setIsError(true);
-                model.addAttribute("result", products);
+                model.addAttribute(RESULT, products);
                 model.addAttribute("data", product);
                 model.addAttribute("action", "update");
-                model.addAttribute("pageSize", pageable.getPageSize());
+                model.addAttribute(PAGE_SIZE, pageable.getPageSize());
 
-                return "product/product";
+                return PRODUCT_REDIRECT;
             }
             MessageModel products = service.updateProduct(product, username, uuid.toString());
             products.setUuid(uuid.toString());
 
             logger.info("[USER : {}] || [UUID : {}] ---> PRODUCT MODULE ---> updateProduct() RESPONSE: {}", username, uuid, products.getMessage());
             if(products.getIsError()) {
-                model.addAttribute("result", products);
-                return "errorPages/500";
+                model.addAttribute(RESULT, products);
+                return ERROR_500;
             }
 
-            redirectAttributes.addFlashAttribute("pageSize", pageable.getPageSize());
-            redirectAttributes.addFlashAttribute("resultAction", products);
-            return "redirect:/product/list";
+            redirectAttributes.addFlashAttribute(PAGE_SIZE, pageable.getPageSize());
+            redirectAttributes.addFlashAttribute(RESULT_ACTION, products);
+            return PRODUCT_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> PRODUCT MODULE ---> updateProduct() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
-            model.addAttribute("result", message);
-            return "errorPages/500";
+            model.addAttribute(RESULT, message);
+            return ERROR_500;
         }
     }
 
@@ -231,18 +229,18 @@ public class ProductController {
             products.setUuid(uuid.toString());
 
             if(products.getIsError()) {
-                model.addAttribute("result", products);
-                return "errorPages/500";
+                model.addAttribute(RESULT, products);
+                return ERROR_500;
             }
 
-            redirectAttributes.addFlashAttribute("resultAction", products);
-            return "redirect:/product/list";
+            redirectAttributes.addFlashAttribute(RESULT_ACTION, products);
+            return PRODUCT_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> PRODUCT MODULE ---> disableProduct() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
-            model.addAttribute("result", message);
-            return "errorPages/500";
+            model.addAttribute(RESULT, message);
+            return ERROR_500;
         }
     }
 
