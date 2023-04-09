@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+    <form th:action="@{/product/newProd}" method="post" id="searchForm">
+        <input name="products">
+        <select name="product" class="custom-select">
+            <option value="1">CAJA DE MOTA</option>
+            <option value="2">VERGA</option>
+            <option value="3">SEXO DURO</option>
+        </select>
+        <button type="button" onclick="addProduct()">Agregar</button>
+        <button type="submit">Submit</button>
+    </form>
+    <script>
+        const addProduct = () => {
+            let current = document.getElementById('searchForm').product.value;
+            let products = document.getElementById('searchForm').products.value;
+            if(products === '') products = JSON.parse([]);
+            else products = JSON.parse(products);
+
+            if(products.find((product) => product.id === current)) return;
+
+            products.push({
+                id: current,
+                quantity: 1
+            });
+        }
+        const deleteValue = (id)=>{
+            let products = document.getElementById('searchForm').products.value;
+            products = JSON.parse(products);
+            products.find((product) => product.id === id).quantity--;
+        }
+        const addValue = (id)=>{
+            let products = document.getElementById('searchForm').products.value;
+            products = JSON.parse(products);
+            products.find((product) => product.id === id).quantity++;
+        }
+    </script>
+</body>
+</html>

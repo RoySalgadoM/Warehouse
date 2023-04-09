@@ -1,7 +1,6 @@
 package mx.edu.utez.warehouse.area.service;
 
 import jakarta.persistence.NoResultException;
-import jakarta.validation.constraints.Positive;
 import mx.edu.utez.warehouse.area.model.AreaModel;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.utils.MessageCatalog;
