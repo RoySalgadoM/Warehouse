@@ -80,7 +80,7 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label>Tipo<span class="text-danger">*</span></label>
-                                    <select class="custom-select d-block w-100" name="type" id="type" onchange="showFields()" th:value="${data != null && action eq 'save' ? data.type : ''}">
+                                    <select class="custom-select d-block w-100" name="type" id="type" onchange="showFields()"  th:value="${data != null && action eq 'save' ? data.type : ''}">
                                         <option th:value="1">Perecederos</option>
                                         <option th:value="2">No perecederos</option>
                                     </select>
@@ -96,12 +96,11 @@
                                 <div class="col-md-4 mb-3" id="divSerialC" style="display: none">
                                     <label>Número de serie</label><span class="text-danger">*</span>
                                     <input type="text" id="serialC" name="serialNumber" class="form-control" th:value="${data != null && action eq 'save' ? data.serialNumber : ''}">
-                                    <div th:if="${#fields.hasErrors('serialNumber') && action eq 'save'}" th:errors="*{address}"
+                                    <div th:if="${#fields.hasErrors('serialNumber') && action eq 'save'}" th:errors="*{serialNumber}"
                                          class="alert alert-danger"></div>
                                 </div>
                                 <br>
-                                <button type="button" class="btn btn-primary btn-block btn-lg" data-toggle="modal"
-                                        data-target="#createProduct">
+                                <button type="submit" class="btn btn-primary btn-block btn-lg" >
                                     Crear producto
                                 </button>
 
@@ -212,14 +211,15 @@
 
     const getProduct = (id) => {
         $.get("/product/" + id, function (data) {
+            let date = new Date().toJSON().slice(0, 10).replace(/-/g, '-');
             $("#updateProduct").find("#name").val(data.data.name);
             $("#updateProduct").find("#description").val(data.data.description);
             $("#updateProduct").find("#unit").val(data.data.unit);
             $("#updateProduct").find("#unitPrice").val(data.data.unitPrice);
-            $("#updateProduct").find("#type").val(data.data.type);
+            $("#updateProduct").find("#typeUpdate").val(data.data.type);
             if(data.data.type == 2) {
                 $("#updateProduct").find("#divEx").css("display", "none");
-                $("#updateProduct").find("#expirationDate").val("1989-01-01");
+                $("#updateProduct").find("#expirationDate").val(date);
                 $("#updateProduct").find("#serialNumber").val(data.data.serialNumber);
                 $("#updateProduct").find("#divSerial").css("display", "block");
             } else {
@@ -278,11 +278,12 @@
         });
     });
     const showFields = ()=>{
+        let date = new Date();
         let type = $("#type").val();
         if (type == 2) {
             $("#divSerialC").css("display", "block");
             $("#divExC").css("display", "none");
-            $("#expC").val("");
+            $("#expC").val(date.getDate());
         } else {
             $("#divSerialC").css("display", "none");
             $("#divExC").css("display", "inline-table");
@@ -294,17 +295,36 @@
     }
 
     const onLoad = ()=>{
-        let type = $("#type").val();
+        let date = new Date().toJSON().slice(0, 10).replace(/-/g, '-');
+
+        let typeUpdate = $("#typeUpdate").val();
+        let type = "[[${product.type}]]";
         console.log(type)
         if (type == 2) {
+            $("#divSerialC").css("display", "block");
+            $("#divExC").css("display", "none");
+            $("#expC").val(date);
+            $("#type").val(2);
+        } else {
+            $("#divSerialC").css("display", "none");
+            $("#divExC").css("display", "inline-table");
+            $("#serialC").val("");
+            $("#type").val(1);
+        }
+
+        if (typeUpdate == 2) {
             $("#divSerial").css("display", "block");
             $("#divEx").css("display", "none");
-            $("#exp").val("");
+            $("#exp").val(date);
+            $("#type").val(2);
         } else {
             $("#divSerial").css("display", "none");
             $("#divEx").css("display", "inline-table");
             $("#serial").val("");
+            $("#type").val(1);
         }
+
+
     }
 </script>
 </body>

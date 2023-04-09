@@ -56,8 +56,8 @@ public class ProductModel {
     @Column(nullable = true)
     private String serialNumber;
 
-    @Min(value = 1, message = "El tipo debe ser 1 o 2")
-    @Max(value = 2, message = "El tipo debe ser 1 o 2")
+    @Min(value = 1, message = "El tipo de producto no es válido")
+    @Max(value = 2, message = "El tipo de producto no es válido")
     private Integer type;
 
     @Column(nullable = false)
