@@ -8,23 +8,14 @@
     <link th:insert="fragments/header :: fontawesome">
     <link th:insert="fragments/header :: fontawesome2">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed" onload="getProducts()">
 <div th:insert="fragments/header :: js"></div>
-<script>
-    const getProducts = () => {
-        let type = document.getElementById("typeOrder").value;
-        console.log(type);
-        $.get("/entry/product/" + type, function (data) {
-            console.log(data);
-        });
-    }
-</script>
 <div class="wrapper">
     <div th:insert="fragments/navbar :: navbar"></div>
     <div th:insert="fragments/sidebar :: sidebar"></div>
     <div class="content-wrapper">
         <div class="container-fluid">
-            <div class="content-header"> <!--AQUÍ ISAAC METIÓ UN SECTION, EN VEZ DE UN DIV-->
+            <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
@@ -60,7 +51,7 @@
                                     <div class="col-md-4 mb-3">
                                         <label>Tipo de pedido<span class="text-danger">*</span></label>
                                         <select class="custom-select d-block w-100" th:field="*{requisition.type}" id="typeOrder" name="typeOrder" onchange="getProducts()">
-                                            <option type="submit" th:value="1">Perecederos</option>
+                                            <option type="submit" th:value="1" selected>Perecederos</option>
                                             <option type="submit" th:value="2">No Perecederos</option>
                                         </select>
                                     </div>
@@ -87,17 +78,20 @@
                                     </div>
                                     <br>
                                     <div class="col-md-3 margin-order">
-                                        <label for="" class="font-weight-normal">Producto<span class="text-danger">*</span></label>
-                                        <select  class="custom-select d-block w-100" id="" >
-                                            <option th:each="tmpProduct : ${listProducts}" th:value="${tmpProduct.id}" th:text="${tmpProduct.description}" />
-                                        </select>
+                                        <label class="font-weight-normal">Producto<span class="text-danger">*</span></label>
+                                        <form th:action="@{/product/newProd}" method="post" id="productForm">
+                                            <input type="hidden" name="requisition.products" id="requisition.products">
+                                            <select class="custom-select d-block w-100" name="product" id="product">
+
+                                            </select>
+                                        </form>
                                     </div>
                                     <div class="col-md-2 margin-order">
-                                        <label for="" class="font-weight-normal">Cantidad<span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" id="cantidad" placeholder="eje: 2">
+                                        <label class="font-weight-normal">Cantidad<span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="quantity" placeholder="Ej: 2">
                                     </div>
                                     <div class="col-md-3 margin-order">
-                                        <button type="button" class="btn btn-primary btn-add">Agregar producto <i class="nav-icon fas fa-cart-plus"></i></button>
+                                        <button type="button" class="btn btn-primary btn-add" onclick="addProduct()">Agregar producto <i class="nav-icon fas fa-cart-plus"></i></button>
                                     </div>
                                     <br><hr>
                                     <div class="container-fluid d-flex justify-content-center margin-table-order">
@@ -113,39 +107,16 @@
                                                 <th style="width: 8%" class="text-center">Quitar</th>
                                             </tr>
                                             </thead>
-                                            <tbody class="text-center">
-                                            <tr>
-                                                <td>1</td>
-                                                <td>
-                                                    <a> Hojas blancas </a>
-                                                    <br/>
-                                                </td>
-                                                <td>
-                                                    <a>hojas blancas al 90%</a>
-                                                </td>
-                                                <td>
-                                                    <a>3</a>
-                                                </td>
-                                                <td>
-                                                    <a>cajas</a>
-                                                </td>
-                                                <td>
-                                                    <a>$200.00</a>
-                                                </td>
-                                                <td>
-                                                    <button  class="btn btn-danger" data-toggle="modal" data-target="#deleteProductOrder">
-                                                        <i class="nav-icon fas fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                            <tbody class="text-center" id="tableProducts">
+
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                             <div style="float: right !important;" class="mb-3">
-                                <h5><span class="span-total" >Cantidad de productos que ingresan: 30</span></h5>
-                                <h5><span class="span-total" >Total de ingreso: $1,300</span></h5>
+                                <h5><span class="span-total" >Cantidad de productos que ingresan:</span><span id="totalQuantity"></span></h5>
+                                <h5><span class="span-total" >Total de ingreso:</span><span id="totalEntry"></span></h5>
                             </div>
                             <button type="button" class="btn btn-primary btn-block btn-lg mt-3" data-toggle="modal"
                                     data-target="#createEntry">
@@ -200,7 +171,6 @@
                                             [[${entry.supplier.businessName}]]
                                         </td>
                                         <td>
-
                                         </td>
                                         <td>
                                             <div class="row">
@@ -229,6 +199,90 @@
     <div th:replace="entry/createEntry"></div>
     <div th:replace="entry/showEntry"></div>
     <div th:replace="entry/updateEntry"></div>
+
+    <script>
+        let products = [];
+        let productsList = [];
+
+        const getProducts = () => {
+            let type = document.getElementById("typeOrder").value;
+            $.get("/entry/product/" + type, function (data) {
+                let content = "";
+                productsList = data;
+                data.forEach((product) => {
+                    content += "<option value='" + product.id + "'>" + product.name + "</option>";
+                });
+                $("#product").html(content);
+            });
+        }
+
+        const addProduct = () => {
+            let current = document.getElementById('product').value;
+            console.log(current);
+            products = document.getElementById('requisition.products').value;
+            if(products === '') products = [];
+            else products = JSON.parse(products);
+
+            if(products.find((product) => product.id == current)) return;
+            if(productsList.find((product) => product.id == current)){
+                let product = productsList.find((product) => product.id == current);
+                let quantity = document.getElementById("quantity").value;
+                current = {
+                    id: product.id,
+                    name: product.name,
+                    description: product.description,
+                    unitPrice: product.unitPrice,
+                    quantity: parseInt(quantity),
+                    unit: product.unit
+                }
+                console.log(current);
+                products.push(current);
+                productsSelected();
+            }
+            document.getElementById('requisition.products').value = JSON.stringify(products);
+            console.log(products);
+        }
+
+        const removeProduct = (id) => {
+            products = products.filter((product) => product.id != id);
+            productsSelected();
+            document.getElementById('requisition.products').value = JSON.stringify(products);
+        }
+
+        const productsSelected = () => {
+            let content = "";
+            products.forEach((product) => {
+                content += "<tr>";
+                content += "<td>" + product.id + "</td>";
+                content += "<td>" + product.name + "</td>";
+                content += "<td>" + product.description + "</td>";
+                content += "<td>" + product.quantity + "</td>";
+                content += "<td>" + product.unit + "</td>";
+                content += "<td>" + product.unitPrice + "</td>";
+                content += "<td><button class='btn btn-danger' onclick='removeProduct(" + product.id + ")'><i class='fas fa-trash'></i></button></td>";
+                content += "</tr>";
+            });
+            $("#tableProducts").html(content);
+        }
+
+        const totalEntry = () => {
+            let total = 0;
+            products.forEach((product) => {
+                total += product.quantity * product.unitPrice;
+            });
+            document.getElementById("totalEntry").value = total;
+        }
+
+        const totalQuantity = () => {
+            let total = 0;
+            products.forEach((product) => {
+                total += product.quantity * product.unitPrice;
+            });
+            document.getElementById("totalQuantity").value = total;
+        }
+
+
+    </script>
 </div>
 </body>
 </html>

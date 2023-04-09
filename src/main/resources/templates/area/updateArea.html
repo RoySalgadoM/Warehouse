@@ -20,7 +20,7 @@
                         </div>
                         <div class="col-md-12 mb-3">
                             <label class="font-weight-normal">Dirección<span class="text-danger">*</span></label>
-                            <input name="address" id="address"  th:value="${data != null && action eq 'update' ? data.address : ''}" type="text" class="form-control" placeholder="Ingrese una dirección" required>
+                            <input name="address" id="address" th:value="${data != null && action eq 'update' ? data.address : ''}" type="text" class="form-control" placeholder="Ingrese una dirección" required>
                             <div id="addressdiv" th:if="${#fields.hasErrors('address') && action eq 'update'}" th:errors="*{address}" class="alert alert-danger"></div>
 
                         </div>

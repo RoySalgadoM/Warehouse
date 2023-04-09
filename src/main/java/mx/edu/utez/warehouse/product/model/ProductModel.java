@@ -45,19 +45,13 @@ public class ProductModel {
     private String unit;
 
     @Column(nullable = false)
-    @NotEmpty(message = "El precio no puede estar vacío")
-    @NotNull(message = "El precio no puede ser nulo")
     @Min(value = 1, message = "El precio debe ser mayor a 0")
     private Double unitPrice;
 
     @Column(nullable = true)
-    @NotEmpty(message = "El tipo de unidad no puede estar vacío")
     private Date expirationDate;
 
     @Column(nullable = true)
-    @NotEmpty(message = "El tipo de unidad no puede estar vacío")
-    @Size(min = 5, max = 45, message = "El tipo de unidad debe tener entre 5 y 45 caracteres")
-    @Pattern(regexp = "[A-Za-z0-9 ]+", message = "El tipo de unidad debe ser alfanumérico")
     private String serialNumber;
 
     @Min(value = 1, message = "El tipo debe ser 1 o 2")

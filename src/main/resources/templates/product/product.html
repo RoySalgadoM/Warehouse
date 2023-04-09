@@ -45,22 +45,39 @@
                                     <label>Descripcion</label><span class="text-danger">*</span>
                                     <input type="text" class="form-control" placeholder="Nuevas" value="" required="">
                                 </div>
-                                <div class="col-md-4 mb-3">
-                                    <label>Cantidad</label><span class="text-danger">*</span>
-                                    <input type="number" class="form-control" placeholder="2" value="" required="">
-                                </div>
+
                                 <div class="col-md-4 mb-3">
                                     <label>Unidad de medida<span class="text-danger">*</span></label>
-                                    <select class="custom-select d-block w-100"  required="">
-                                        <option selected>Selecciona un opción</option>
-                                        <option value="1">Piezas</option>
-                                        <option value="2">Cajas</option>
-                                        <option value="2">otros</option>
+                                    <select class="custom-select d-block w-100">
+                                        <option value="Piezas">Piezas</option>
+                                        <option value="Cajas">Cajas</option>
+                                        <option value="Unidades">Unidades</option>
+                                        <option value="Toneladas">Toneladas</option>
+                                        <option value="Kilos">Kilos</option>
+                                        <option value="Gramos">Gramos</option>
+                                        <option value="Litros">Litros</option>
+                                        <option value="Metros">Metros</option>
+                                        <option value="Centimetros">Centimetros</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label>Precio Unitario</label><span class="text-danger">*</span>
                                     <input type="number" class="form-control" placeholder="1.50" value="" required="">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label>Tipo<span class="text-danger">*</span></label>
+                                    <select class="custom-select d-block w-100" name="type" id="type" onchange="showFields()">
+                                        <option value="1">Perecederos</option>
+                                        <option value="2">No perecederos</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3" id="divExC">
+                                    <label>Fecha de expiración</label><span class="text-danger">*</span>
+                                    <input type="date" id="expC" class="form-control" name="expirationDate">
+                                </div>
+                                <div class="col-md-4 mb-3" id="divSerialC" style="display: none">
+                                    <label>Número de serie</label><span class="text-danger">*</span>
+                                    <input type="text" id="serialC" name="serialNumber" class="form-control">
                                 </div>
                                 <br>
                                 <button type="button" class="btn btn-primary btn-block btn-lg" data-toggle="modal"
@@ -86,39 +103,55 @@
                                         <th style="width: 1%">#</th>
                                         <th style="width: 20%">Nombre</th>
                                         <th style="width: 20%">Descripcion</th>
-                                        <th style="width: 20%">Cantidad</th>
                                         <th style="width: 20%">Unidad de medida</th>
                                         <th style="width: 20%">Precio unitario</th>
+                                        <th style="width: 20%">Estado</th>
                                         <th style="width: 8%" class="text-center">Modificar</th>
                                         <th style="width: 8%" class="text-center">Detalles</th>
                                         <th style="width: 8%" class="text-center">Eliminar</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
-                                    <tr>
+                                    <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        [[${result.message.message}]]
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <tbody class="text-center">
+                                    <tr th:each="product : ${result.data}" th:if="${result.data != null}">
                                         <th scope="row">1</th>
-                                        <td>Hojas</td>
-                                        <td>Hojas blancas</td>
-                                        <td>20000</td>
-                                        <td>cajas</td>
-                                        <td>1.50</td>
+                                        <td>[[${product.id}]]</td>
+                                        <td>[[${product.name}]]</td>
+                                        <td>[[${product.description}]]</td>
+                                        <td>[[${product.unitPrice}]]</td>
+                                        <td><p th:class="${product.status == 1 ? 'text-success' : 'text-danger'}">[[${product.status == 1 ? 'Activo' : 'Inactivo'}]]</p></td>
                                         <td>
-                                            <button type="button" class="btn btn-warning" data-toggle="modal"
+                                            <button th:attr="onclick=|getProduct('${product.id}')|" id="updateBtnProduct" type="button" class="btn btn-warning" data-toggle="modal"
                                                     data-target="#updateProduct">
                                                 <i class="nav-icon fas fa-edit"></i>
                                             </button>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            <button type="button" class="btn btn-primary" th:attr="onclick=|getProductSh('${product.id}')|" data-toggle="modal"
                                                     data-target="#showProduct">
                                                 <i class="nav-icon fas fa-info info-button"></i>
                                             </button>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                    data-target="#deleteProduct">
-                                                <i class="nav-icon fas fa-trash"></i>
-                                            </button>
+                                            <form th:if="${product.status == 1}" th:action="@{/product/disable}"
+                                                  method="post">
+                                                <input th:value="${product.id}" name="id" type="hidden">
+                                                <button type="button" class="btn btn-danger deleteBtnProduct">
+                                                    <i class="nav-icon fa-solid fa-eye-slash"></i>
+                                                </button>
+                                            </form>
+                                            <form th:if="${product.status == 0}" th:action="@{/product/disable}"
+                                                  method="post">
+                                                <input th:value="${product.id}" name="id" type="hidden">
+                                                <button type="button" class="btn btn-success deleteBtnProduct">
+                                                    <i class="nav-icon fa-solid fa-eye"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -135,5 +168,105 @@
     <div th:replace="product/deleteProduct"></div>
     <div th:replace="product/updateProduct"></div>
 </div>
+<script th:if="${result.isError && action eq 'update'}">
+
+    $('#updateProduct').modal('show');
+
+</script>
+<script>
+
+    $('.deleteBtnProduct').on('click', function () {
+        Swal.fire({
+            title: '¿Está seguro de cambiar el estado de este producto?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $(this).closest('form').submit();
+            }
+        });
+    });
+
+    const getProduct = (id) => {
+        $.get("/product/" + id, function (data) {
+            $("#updateProduct").find("#name").val(data.data.name);
+            $("#updateProduct").find("#description").val(data.data.description);
+            $("#updateProduct").find("#unit").val(data.data.unit);
+            $("#updateProduct").find("#unitPrice").val(data.data.unitPrice);
+            $("#updateProduct").find("#type").val(data.data.type);
+            if(data.data.type == 2) {
+                $("#updateProduct").find("#divEx").css("display", "none");
+                $("#updateProduct").find("#expirationDate").val("1989-01-01");
+                $("#updateProduct").find("#serialNumber").val(data.data.serialNumber);
+                $("#updateProduct").find("#divSerial").css("display", "block");
+            } else {
+                $("#updateProduct").find("#divEx").css("display", "inline-table");
+                $("#updateProduct").find("#expirationDate").val(data.data.expirationDate);
+                $("#updateProduct").find("#serialNumber").val("");
+                $("#updateProduct").find("#divSerial").css("display", "none");
+            }
+
+            $("#updateProduct").find("#id").val(data.data.id);
+
+        });
+    }
+
+    const getProductSh = (id) => {
+        $.get("/product/" + id, function (data) {
+            $("#showProduct").find("#nameSh").val(data.data.name);
+            $("#showProduct").find("#descriptionSh").val(data.data.description);
+            $("#showProduct").find("#unitSh").val(data.data.unit);
+            $("#showProduct").find("#unitPriceSh").val(data.data.unitPrice);
+            if(data.data.expirationDate == null) {
+                $("#showProduct").find("#divExSh").css("display", "none");
+                $("#showProduct").find("#expirationDateSh").val("");
+                $("#showProduct").find("#serialNumberSh").val(data.data.serialNumber);
+                $("#showProduct").find("#divSerialSh").css("display", "block");
+            } else {
+                $("#showProduct").find("#divExSh").css("display", "inline-table");
+                $("#showProduct").find("#expirationDateSh").val(data.data.expirationDate);
+                $("#showProduct").find("#serialNumberSh").val("");
+                $("#showProduct").find("#divSerialSh").css("display", "none");
+            }
+
+        });
+    }
+
+    $('.updateBtnArea').on('click', function () {
+        Swal.fire({
+            title: '¿Está seguro de modificar los datos?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $(this).closest('form').submit();
+
+            }
+        });
+    });
+    const showFields = ()=>{
+        let type = $("#type").val();
+        if (type == 2) {
+            $("#divSerialC").css("display", "block");
+            $("#divExC").css("display", "none");
+            $("#expC").val("");
+        } else {
+            $("#divSerialC").css("display", "none");
+            $("#divExC").css("display", "inline-table");
+            $("#serialC").val("");
+        }
+    }
+    const changePageSize = () => {
+        $("#searchForm").submit();
+    }
+
+
+</script>
 </body>
 </html>

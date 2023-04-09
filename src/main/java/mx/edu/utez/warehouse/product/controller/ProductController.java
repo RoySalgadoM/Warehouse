@@ -11,18 +11,23 @@ import mx.edu.utez.warehouse.utils.MessageCatalog;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Controller
@@ -73,7 +78,6 @@ public class ProductController {
             List<Integer> list = new ArrayList<>();
 
             model.addAttribute("pageSize", pageable.getPageSize());
-            model.addAttribute("list", list);
             return "product/product";
         } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> PRODUCT MODULE ---> findAllProducts() ERROR: {}", username, uuid, exception.getMessage());
@@ -159,6 +163,17 @@ public class ProductController {
             SecurityUser user = (SecurityUser) securityContext.getAuthentication().getPrincipal();
             username = user.getUsername();
             logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING PRODUCT MODULE ---> updateProduct()", username, uuid);
+            if(product.getType().equals("1")){
+                product.setSerialNumber(null);
+            }
+            if(product.getType().equals("2")){
+                product.setExpirationDate(null);
+                product.getSerialNumber();
+                if(!(Pattern.matches("[A-Za-z0-9 ]+", product.getSerialNumber()))){
+                    result.rejectValue("serialNumber", "product.serialNumber", "El número serial debe ser alfanumérico");
+                }
+            }
+
 
             if(result.hasErrors()) {
                 logger.error("[USER : {}] || [UUID : {}] ---> PRODUCT MODULE ---> updateProduct() ERROR: {}", username, uuid, result.getAllErrors());
@@ -222,5 +237,10 @@ public class ProductController {
             return "errorPages/500";
         }
     }
-
+    @InitBinder
+    public void initBinder(WebDataBinder webDataBinder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        webDataBinder.registerCustomEditor(Date.class,
+                new CustomDateEditor(dateFormat, false));
+    }
 }

@@ -2,7 +2,7 @@
 <div class="modal fade" id="showProduct" tabindex="-1"
      role="dialog" aria-labelledby="exampleModalCenterTitle"
      aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">Datos
@@ -14,38 +14,44 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label>Nombre</label><span class="text-danger">*</span>
-                        <input type="text" class="form-control"  placeholder="Hojas de color" value="" required="" disabled>
+                        <input type="text" id="nameSh" name="nameSh" class="form-control" readonly>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label>Descripcion</label><span class="text-danger">*</span>
-                        <input type="text" class="form-control" placeholder="Nuevas" value="" required="" disabled>
+                        <input type="text" id="descriptionSh" name="descriptionSh" class="form-control" readonly>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label>Cantidad</label><span class="text-danger">*</span>
-                        <input type="number" class="form-control" placeholder="2" value="" required="" disabled>
-                    </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label>Unidad de medida<span class="text-danger">*</span></label>
-                        <select class="custom-select d-block w-100"  required="" disabled>
-                            <option selected>Selecciona un opción</option>
-                            <option value="1">Piezas</option>
-                            <option value="2">Cajas</option>
-                            <option value="2">otros</option>
+                        <select class="custom-select d-block w-100" name="unitSh" id="unitSh" disabled>
+                            <option value="Piezas">Piezas</option>
+                            <option value="Cajas">Cajas</option>
+                            <option value="Unidades">Unidades</option>
+                            <option value="Toneladas">Toneladas</option>
+                            <option value="Kilos">Kilos</option>
+                            <option value="Gramos">Gramos</option>
+                            <option value="Litros">Litros</option>
+                            <option value="Metros">Metros</option>
+                            <option value="Centimetros">Centimetros</option>
                         </select>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label>Precio Unitario</label><span class="text-danger">*</span>
-                        <input type="number" class="form-control" placeholder="1.50" value="" required="" disabled>
+                        <input type="number" class="form-control" name="unitPriceSh" id="unitPriceSh" readonly>
                     </div>
-                    <br>
+                    <div class="col-md-6 mb-3" id="divExSh">
+                        <label>Fecha de expiración</label><span class="text-danger">*</span>
+                        <input type="date" class="form-control" name="expirationDateSh" id="expirationDateSh" readonly>
+                    </div>
+                    <div class="col-md-6 mb-3" id="divSerialSh">
+                        <label>Número de serie</label><span class="text-danger">*</span>
+                        <input type="text" id="serialNumberSh" name="serialNumberSh" class="form-control" readonly>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"
-                        data-dismiss="modal">Cerrar</button>
-                <!--                <button type="button" class="btn btn-primary">Guardar</button>-->
+                <div style="float: right">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>

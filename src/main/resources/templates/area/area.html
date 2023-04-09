@@ -138,14 +138,14 @@
                                         </td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-12">
+                                                <div class="col-lg-6">
                                                     <button th:attr="onclick=|getArea('${area.id}')|" id="updateBtnArea"
                                                             type="button" class="btn btn-warning" data-toggle="modal"
                                                             data-target="#updateArea">
                                                         <i class="nav-icon fas fa-edit"></i>
                                                     </button>
                                                 </div>
-                                                <div class="col-lg-6 col-md-12">
+                                                <div class="col-lg-6 ">
                                                     <form th:if="${area.status == 1}" th:action="@{/area/disable}"
                                                           method="post">
                                                         <input th:value="${area.id}" name="id" type="hidden">

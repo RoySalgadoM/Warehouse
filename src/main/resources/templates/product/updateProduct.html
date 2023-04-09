@@ -1,47 +1,77 @@
 <!-- Modal de editar producto ESTA BIEN-->
 <div class="modal fade" id="updateProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
      aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Editar producto nuevamente</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Modificar producto</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"></span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label>Nombre</label><span class="text-danger">*</span>
-                        <input type="text" class="form-control"  placeholder="Hojas de color" value="" required="">
+                <form th:action="@{/product/update}" th:object="${product}" method="post">
+                    <div class="row">
+                        <input type="hidden" name="id" id="id" th:value="${data != null ? data.id : ''}">
+                        <input type="hidden" id="type" name="type" th:value="${data != null ? data.type : ''}">
+                        <div class="col-md-6 mb-3">
+                            <label>Nombre</label><span class="text-danger">*</span>
+                            <input type="text" id="name" name="name" class="form-control"
+                                   th:value="${data != null ? data.id : ''}">
+                            <div id="namediv" th:if="${#fields.hasErrors('name') && action eq 'update'}" th:errors="*{name}" class="alert alert-danger"></div>
+
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Descripcion</label><span class="text-danger">*</span>
+                            <input type="text" id="description" name="description"
+                                   th:value="${data != null ? data.description : ''}" class="form-control">
+                            <div id="descriptiondiv" th:if="${#fields.hasErrors('description') && action eq 'update'}" th:errors="*{description}" class="alert alert-danger"></div>
+
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Unidad de medida<span class="text-danger">*</span></label>
+                            <select class="custom-select d-block w-100" name="unit" id="unit"
+                                    th:value="${data != null ? data.unit : ''}">
+                                <option value="Piezas">Piezas</option>
+                                <option value="Cajas">Cajas</option>
+                                <option value="Unidades">Unidades</option>
+                                <option value="Toneladas">Toneladas</option>
+                                <option value="Kilos">Kilos</option>
+                                <option value="Gramos">Gramos</option>
+                                <option value="Litros">Litros</option>
+                                <option value="Metros">Metros</option>
+                                <option value="Centimetros">Centimetros</option>
+                            </select>
+                            <div id="unitdiv" th:if="${#fields.hasErrors('unit') && action eq 'update'}" th:errors="*{unit}" class="alert alert-danger"></div>
+
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Precio Unitario</label><span class="text-danger">*</span>
+                            <input type="number" class="form-control" name="unitPrice" id="unitPrice"
+                                   th:value="${data != null ? data.unitPrice : ''}">
+                            <div id="unitPricediv" th:if="${#fields.hasErrors('unitPrice') && action eq 'update'}" th:errors="*{unitPrice}" class="alert alert-danger"></div>
+
+                        </div>
+                        <div class="col-md-6 mb-3" id="divEx">
+                            <label>Fecha de expiración</label><span class="text-danger">*</span>
+                            <input type="date" class="form-control" name="expirationDate" id="expirationDate"
+                                   th:value="${data != null ? data.expirationDate : ''}">
+                            <div id="expirationDatediv" th:if="${#fields.hasErrors('expirationDate') && action eq 'update'}" th:errors="*{expirationDate}" class="alert alert-danger"></div>
+                        </div>
+                        <div class="col-md-6 mb-3" id="divSerial">
+                            <label>Número de serie</label><span class="text-danger">*</span>
+                            <input type="text" id="serialNumber" name="serialNumber"
+                                   th:value="${data != null ? data.serialNumber : ''}" class="form-control">
+                            <div id="serialNumberdiv" th:if="${#fields.hasErrors('serialNumber') && action eq 'update'}" th:errors="*{serialNumber}" class="alert alert-danger"></div>
+                        </div>
+                        <br>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label>Descripcion</label><span class="text-danger">*</span>
-                        <input type="text" class="form-control" placeholder="Nuevas" value="" required="">
+                    <div style="float: right">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button  class="btn btn-primary">Actualizar</button>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label>Cantidad</label><span class="text-danger">*</span>
-                        <input type="number" class="form-control" placeholder="2" value="" required="">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label>Unidad de medida<span class="text-danger">*</span></label>
-                        <select class="custom-select d-block w-100"  required="">
-                            <option selected>Selecciona un opción</option>
-                            <option value="1">Piezas</option>
-                            <option value="2">Cajas</option>
-                            <option value="2">otros</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label>Precio Unitario</label><span class="text-danger">*</span>
-                        <input type="number" class="form-control" placeholder="1.50" value="" required="">
-                    </div>
-                    <br>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Actualizar</button>
+
+                </form>
             </div>
         </div>
     </div>
