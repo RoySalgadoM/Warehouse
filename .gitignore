@@ -32,3 +32,4 @@ build/
 
 ### VS Code ###
 .vscode/
+logs/warehouse-log4j2.log
