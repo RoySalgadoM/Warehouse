@@ -4,6 +4,8 @@ import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.product.model.ProductModel;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface ProductService {
     List<ProductModel> findProductsByType(Integer type);
     MessageModel findAllProducts(Pageable page, String username, String uuid);

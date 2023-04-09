@@ -7,12 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mx.edu.utez.warehouse.order_status.model.OrderStatusModel;
-import mx.edu.utez.warehouse.product.model.ProductModel;
 import mx.edu.utez.warehouse.warehouse.model.WarehouseModel;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -56,7 +54,7 @@ public class RequisitionModel {
     private Integer type;
 
     @OneToMany(mappedBy = "requisition")
-    private List<RequisitionProduct> requisitionProducts;
+    private List<RequisitionProductModel> requisitionProductModels;
 
     @ManyToOne
     @JoinColumn(name = "warehouse_id", nullable = false)

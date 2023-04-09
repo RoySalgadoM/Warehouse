@@ -59,7 +59,7 @@
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label>Tipo de pedido<span class="text-danger">*</span></label>
-                                        <select class="custom-select d-block w-100" th:field="*{requisition.type}" id="typeOrder" name="typeOrder" onchange="getProducts();">
+                                        <select class="custom-select d-block w-100" th:field="*{requisition.type}" id="typeOrder" name="typeOrder" onchange="getProducts()">
                                             <option type="submit" th:value="1">Perecederos</option>
                                             <option type="submit" th:value="2">No Perecederos</option>
                                         </select>

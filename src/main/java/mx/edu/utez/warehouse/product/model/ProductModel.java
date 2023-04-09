@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mx.edu.utez.warehouse.requisition.model.RequisitionProduct;
+import mx.edu.utez.warehouse.requisition.model.RequisitionProductModel;
 
 import java.sql.Date;
 import java.util.List;
@@ -70,7 +70,7 @@ public class ProductModel {
     private Integer status;
 
     @OneToMany(mappedBy = "product")
-    private List<RequisitionProduct> requisitionProducts;
+    private List<RequisitionProductModel> requisitionProductModels;
 
     @Override
     public String toString() {

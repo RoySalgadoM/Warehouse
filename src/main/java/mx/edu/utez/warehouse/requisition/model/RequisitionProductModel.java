@@ -15,7 +15,7 @@ import mx.edu.utez.warehouse.product.model.ProductModel;
 @AllArgsConstructor
 @Entity
 @Table(name = "requisition_product")
-public class RequisitionProduct {
+public class RequisitionProductModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
