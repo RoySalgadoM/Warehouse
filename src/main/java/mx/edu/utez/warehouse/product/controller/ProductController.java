@@ -41,25 +41,6 @@ public class ProductController {
 
     @Autowired
     private ProductService service;
-    @GetMapping("/new")
-    public String newMethod(Model model){
-        List<Integer> list = new ArrayList<>();
-        list.add(1);
-        list.add(2);
-        Integer product = 0;
-        model.addAttribute("list" , list);
-        model.addAttribute("product", product);
-
-        return "product/AAA";
-    }
-
-    @PostMapping("/newProd")
-    public String newProd(@RequestParam("products") String products){
-        List<Integer> bindProd = new ArrayList<>(Arrays.asList(products.split(",")).stream().map(Integer::parseInt).collect(Collectors.toList()));
-        System.out.println(products);
-        return "product/AAA";
-    }
-
 
     @GetMapping("/list")
     public String findAllProducts(Model model, HttpSession httpSession, Pageable pageable, @ModelAttribute("product") ProductModel product){

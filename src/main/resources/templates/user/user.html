@@ -23,7 +23,8 @@
                         </div>
                     </div>
                 </div>
-                <div th:if="${resultAction != null ? (resultAction.message.name eq 'SUCCESS_REGISTER') || (resultAction.message.name eq 'SUCCESS_UPDATE') || (resultAction.message.name eq 'SUCCESS_DISABLE') || (resultAction.message.name eq 'SUCCESS_ENABLE'): false}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <div th:if="${resultAction != null ? (resultAction.message.name eq 'SUCCESS_REGISTER') || (resultAction.message.name eq 'SUCCESS_UPDATE') || (resultAction.message.name eq 'SUCCESS_DISABLE') || (resultAction.message.name eq 'SUCCESS_ENABLE'): false}"
+                     class="alert alert-success alert-dismissible fade show" role="alert">
                     [[${resultAction.message.message}]]
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -34,17 +35,18 @@
 
             <section class="content">
                 <div class="card">
-                    <div class="card-header back-green" type="button" data-card-widget="collapse" title="Collapse" aria-expanded="false">
+                    <div class="card-header back-green" type="button" data-card-widget="collapse" title="Collapse"
+                         aria-expanded="false">
                         <h3 class="card-title font-white">Registrar usuario</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                <i class="fas fa-minus font-white"></i>
+                                <i class="fas fa-plus font-white"></i>
                             </button>
                         </div>
                     </div>
                     <div class="card-body"
                          th:class="${(result.isError && action eq 'save') ? 'card-body': 'card-body collapse'}">
-                        <form th:action="@{/user/save}" method="post" th:object="${user}" >
+                        <form th:action="@{/user/save}" method="post" th:object="${user}">
                             <div class="row mt-2 mb-3">
                                 <div class="col-md-3 mb-3">
                                     <label class="font-weight-normal">Nombre<span class="text-danger">*</span></label>
@@ -58,22 +60,27 @@
 
                                 <div class="col-md-3 mb-3">
                                     <label class="font-weight-normal">Apellido Paterno<span class="text-danger">*</span></label>
-                                    <input th:value="${data != null && action eq 'save' ? data.surname : ''}" type="text"
+                                    <input th:value="${data != null && action eq 'save' ? data.surname : ''}"
+                                           type="text"
                                            name="surname" class="form-control" placeholder="Ingrese apellido paterno"
                                     >
-                                    <div th:if="${#fields.hasErrors('surname') && action eq 'save'}" th:errors="*{surname}"
+                                    <div th:if="${#fields.hasErrors('surname') && action eq 'save'}"
+                                         th:errors="*{surname}"
                                          class="alert alert-danger"></div>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label class="font-weight-normal">Apellido Materno<span class="text-danger">*</span></label>
-                                    <input th:value="${data != null && action eq 'save' ? data.secondSurname : ''}" type="text"
+                                    <input th:value="${data != null && action eq 'save' ? data.secondSurname : ''}"
+                                           type="text"
                                            name="secondSurname" class="form-control" placeholder="Ingrese username"
                                     >
-                                    <div th:if="${#fields.hasErrors('secondSurname') && action eq 'save'}" th:errors="*{secondSurname}"
+                                    <div th:if="${#fields.hasErrors('secondSurname') && action eq 'save'}"
+                                         th:errors="*{secondSurname}"
                                          class="alert alert-danger"></div>
                                 </div>
                                 <div class="col-md-3 mb-3">
-                                    <label class="font-weight-normal">Correo Electrónico<span class="text-danger">*</span></label>
+                                    <label class="font-weight-normal">Correo Electrónico<span
+                                            class="text-danger">*</span></label>
                                     <input th:value="${data != null && action eq 'save' ? data.email : ''}" type="text"
                                            name="email" class="form-control" placeholder="Ingrese email"
                                     >
@@ -100,36 +107,28 @@
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label class="font-weight-normal">Usuario<span class="text-danger">*</span></label>
-                                    <input th:value="${data != null && action eq 'save' ? data.username : ''}" type="text"
+                                    <input th:value="${data != null && action eq 'save' ? data.username : ''}"
+                                           type="text"
                                            name="username" class="form-control" placeholder="Ingrese username"
                                     >
-                                    <div th:if="${#fields.hasErrors('username') && action eq 'save'}" th:errors="*{username}"
+                                    <div th:if="${#fields.hasErrors('username') && action eq 'save'}"
+                                         th:errors="*{username}"
                                          class="alert alert-danger"></div>
                                 </div>
-                         
+
                                 <div class="col-md-3 mb-3">
                                     <label class="font-weight-normal">Roles<span class="text-danger">*</span></label>
                                     <select class="custom-select" id="authorities" name="authorities" multiple>
-                                        <option th:each="tmpRoles : ${listRole}" th:value="${tmpRoles.id}" th:text="${tmpRoles.name}" th:selected="${tmpRoles.id == 1}"></option>
+                                        <option th:each="tmpRoles : ${listRole}" th:value="${tmpRoles.id}"
+                                                th:text="${tmpRoles.name}"></option>
                                     </select>
+                                    <div th:if="${#fields.hasErrors('authorities') && action eq 'save'}"
+                                         th:errors="*{authorities}"
+                                         class="alert alert-danger"></div>
                                 </div>
-                            </div>
-                            <div class="row mt-2 mb-3" style="justify-content: center">
-                                <button
-                                        type="submit"
-                                        class="btn-success button-area"
-                                        style="margin-right: 60px"
-                                >
+                                <br>
+                                <button type="submit" class="btn btn-primary btn-block btn-lg">
                                     Registrar
-                                </button>
-                                <button
-
-
-                                        type="button"
-                                        class="btn-danger button-area"
-                                        style="margin-left: 60px"
-                                >
-                                    Cancelar
                                 </button>
                             </div>
                         </form>
@@ -138,30 +137,24 @@
 
 
                 <div class="card">
-                    <div class="card-header back-green" >
+                    <div class="card-header back-green">
                         <h3 class="card-title font-white">Usuarios</h3>
                     </div>
                     <div class="card-body">
                         <div class="row mb-3 mt-2">
                             <p class="mr-2">Mostrar</p>
-                            <form th:action="@{/user/list}">
+                            <form th:action="@{/user/list}" id="searchForm">
                                 <select th:value="${pageSize}" name="size" class="custom-select"
                                         onchange="changePageSize()">
-
-
                                     <option th:each="s : ${ {5, 10, 20, 50, 100} }" th:value="${s}" th:text="${s}"
                                             th:selected="${s == pageSize}"></option>
-
-
                                 </select>
                             </form>
-
-
                             <p class="ml-2">registros</p>
                         </div>
-                        <table class="table table-striped projects">
+                        <table class="table table-striped projects table-responsive">
                             <thead>
-                            <tr>
+                            <tr class="text-center">
                                 <th style="width: 1%">
                                     #
                                 </th>
@@ -183,26 +176,24 @@
                                 <th>
                                     Estado
                                 </th>
-
-
-                                <th style="width: 12%" class="text-center">
-                                    Acciones
-                                </th>
+                                <th style="width: 8%" class="text-center">Modificar</th>
+                                <th style="width: 8%" class="text-center">Estado</th>
                             </tr>
                             </thead>
-                            <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}"
+                                 class="alert alert-warning alert-dismissible fade show" role="alert">
                                 [[${result.message.message}]]
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <tbody>
+                            <tbody class="text-center">
                             <tr th:each="user: ${result.data}" th:if="${result.data != null}">
                                 <td>
                                     [[${user.id}]]
                                 </td>
                                 <td>
-                                    [[${user.name + '  '+ user.surname +'  '+ user.secondSurname} ]]
+                                    [[${user.name + ' '+ user.surname +' '+ user.secondSurname} ]]
                                 </td>
                                 <td>
                                     [[${user.email}]]
@@ -217,41 +208,33 @@
                                     [[${user.rfc}]]
                                 </td>
                                 <td>
-                                    <p th:class="${user.status == 1 ? 'text-success' : 'text-danger'}">[[${user.status == 1 ? 'Activo' : 'Inactivo'}]]</p>
+                                    <p th:class="${user.status == 1 ? 'text-success' : 'text-danger'}">[[${user.status
+                                        == 1 ? 'Activo' : 'Inactivo'}]]</p>
                                 </td>
                                 <td>
-
-
+                                    <button th:attr="onclick=|getUser('${user.id}')|" id="updateBtnUser"
+                                            type="button" class="btn btn-warning" data-toggle="modal"
+                                            data-target="#updateUser">
+                                        <i class="nav-icon fas fa-edit"></i>
                                     </button>
-                                    <div class="col-lg-6 col-md-12">
-                                        <button th:attr="onclick=|getUser('${user.id}')|" id="updateBtnUser"
-                                                type="button" class="btn btn-warning" data-toggle="modal"
-                                                data-target="#updateUser">
-                                            <i class="nav-icon fas fa-edit"></i>
+                                </td>
+                                <td>
+                                    <form th:if="${user.status == 1}" th:action="@{/user/disable}"
+                                          method="post">
+                                        <input th:value="${user.id}" name="id" type="hidden">
+                                        <button type="button" class="btn btn-danger deleteBtnUser"
+                                                data-toggle="modal" data-target="#deleteUser">
+                                            <i class="nav-icon fa-solid fa-eye-slash"></i>
                                         </button>
-
-
-                                    </div>
-
-
-                                    <div class="col-lg-6 col-md-12">
-                                        <form th:if="${user.status == 1}" th:action="@{/user/disable}"
-                                              method="post">
-                                            <input th:value="${user.id}" name="id" type="hidden">
-                                            <button type="button" class="btn btn-danger deleteBtnUser"
-                                                    data-toggle="modal" data-target="#deleteUser">
-                                                <i class="nav-icon fa-solid fa-eye-slash"></i>
-                                            </button>
-                                        </form>
-                                        <form th:if="${user.status == 0}" th:action="@{/user/disable}"
-                                              method="post">
-                                            <input th:value="${user.id}" name="id" type="hidden">
-                                            <button type="button" class="btn btn-success deleteBtnUser"
-                                                    data-toggle="modal" data-target="#deleteUser">
-                                                <i class="nav-icon fa-solid fa-eye"></i>
-                                            </button>
-                                        </form>
-                                    </div>
+                                    </form>
+                                    <form th:if="${user.status == 0}" th:action="@{/user/disable}"
+                                          method="post">
+                                        <input th:value="${user.id}" name="id" type="hidden">
+                                        <button type="button" class="btn btn-success deleteBtnUser"
+                                                data-toggle="modal" data-target="#deleteUser">
+                                            <i class="nav-icon fa-solid fa-eye"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             </tbody>
@@ -260,27 +243,23 @@
                              aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item" th:classappend="${result.data.number == 0 ? 'disabled' : ''}">
-                                    <a th:href="@{/area/list(page=${result.data.number - 1}, size=${pageSize})}"
+                                    <a th:href="@{/user/list(page=${result.data.number - 1}, size=${pageSize})}"
                                        class="page-link">Anterior</a>
                                 </li>
                                 <li class="page-item" th:classappend="${i eq result.data.number + 1} ? 'active'"
                                     th:each="i : ${#numbers.sequence( 1, (result.data != null ? result.data.totalPages : 0) , 1)}">
                                     <a class="page-link"
-                                       th:href="@{/area/list?page={tmpPag} (tmpPag=${i-1}, size=${pageSize}) }"
+                                       th:href="@{/user/list?page={tmpPag} (tmpPag=${i-1}, size=${pageSize}) }"
                                        th:text="${i}"
                                        th:title="${'Page '+ i}" data-toggle="tooltip"></a>
                                 </li>
                                 <li class="page-item"
                                     th:classappend="${result.data.number == ((result.data != null ? result.data.totalPages : 0) - 1) ? 'disabled' : ''}">
-                                    <a th:href="@{/area/list(page=${result.data.number + 1}, size=${pageSize})}"
+                                    <a th:href="@{/user/list(page=${result.data.number + 1}, size=${pageSize})}"
                                        class="page-link">Siguiente</a>
                                 </li>
                             </ul>
                         </nav>
-
-
-
-
                     </div>
                 </div>
             </section>
@@ -293,13 +272,23 @@
     <div th:replace="user/updateUser"></div>
     <div th:replace="user/detailsUser"></div>
 </div>
-<script th:if="${result.isError && action eq 'update'}">
+
+<script th:if="${result.isError && action eq 'update'}" th:inline="javascript">
+    /*<![CDATA[*/
     $('#updateUser').modal('show');
+    let authorities = [[${user.authorities}]];
+    console.log(authorities);
+    let authoritiesArray = [];
+    authorities.forEach(function (authority) {
+        authoritiesArray.push(authority.id);
+    });
+    $("#updateUser").find("#authorities").val(authoritiesArray);
+    /*]]>*/
 </script>
 <script>
 
 
-    $('.deleteBtnUser').on('click', function() {
+    $('.deleteBtnUser').on('click', function () {
         Swal.fire({
             title: '¿Seguro que desea cambiar el estado de este usuario?',
             icon: 'warning',
@@ -319,7 +308,6 @@
 
     const getUser = (id) => {
         $.get("/user/" + id, function (data) {
-            console.log("esto trae data",data)
             $("#updateUser").find("#name").val(data.data.name);
             $("#updateUser").find("#surname").val(data.data.surname);
             $("#updateUser").find("#secondSurname").val(data.data.secondSurname);
@@ -330,8 +318,12 @@
             $("#updateUser").find("#password").val(data.data.password);
             $("#updateUser").find("#status").val(data.data.status);
             $("#updateUser").find("#id").val(data.data.id);
-
-
+            let authorities = data.data.authorities;
+            let authoritiesArray = [];
+            authorities.forEach(function (authority) {
+                authoritiesArray.push(authority.id);
+            });
+            $("#updateUser").find("#authorities").val(authoritiesArray);
 
             $("#namediv").css("display", "none");
             $("#surnamediv").css("display", "none");
@@ -340,6 +332,7 @@
             $("#rfcdiv").css("display", "none");
             $("#usernamediv").css("display", "none");
             $("#emaildiv").css("display", "none");
+            $("#authoritiesdiv").css("display", "none");
 
         });
     }

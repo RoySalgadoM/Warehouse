@@ -2,6 +2,7 @@ package mx.edu.utez.warehouse.user.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "user")
 public class UserModel implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -49,16 +51,12 @@ public class UserModel implements Serializable {
     @Size(min = 3, max = 25, message = "El correo debe tener entre  caracteres")
     private String email;
 
-
-
-
     @Column(nullable = false)
     @NotEmpty(message = "El nombre no puede estar vacío")
     @NotNull(message = "El nombre no puede ser nulo")
     @Size(min = 3, max = 10, message = "El nombre debe tener entre 3 y 10 caracteres")
     @Pattern(regexp = "[A-Za-z0-9 ]+", message = "El nombre debe ser alfanumérico")
     private String name;
-
 
     @Column(nullable = false)
     @NotEmpty(message = "El apellido no puede estar vacío")
@@ -78,6 +76,9 @@ public class UserModel implements Serializable {
 
     @Column(nullable = false)
     @NotEmpty(message = "El teléfono no puede estar vacío")
+    @Size(min = 10, max = 13, message = "El teléfono debe tener entre 10 y 14 caracteres")
+    @Pattern(regexp = "[0-9]+", message = "El teléfono debe ser válido")
+
     private String phone;
 
 
@@ -91,9 +92,6 @@ public class UserModel implements Serializable {
 
     @Column
     private Date lastAccess;
-
-
-
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "role_id"))

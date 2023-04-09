@@ -1,7 +1,7 @@
 package mx.edu.utez.warehouse.user.controller;
+
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import mx.edu.utez.warehouse.area.model.AreaModel;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.role.model.AuthorityName;
 import mx.edu.utez.warehouse.role.model.RoleModel;
@@ -15,14 +15,13 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextImpl;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import org.thymeleaf.util.ArrayUtils;
 
 import java.util.List;
 import java.util.Set;
@@ -37,21 +36,16 @@ public class UserController {
     private static final Logger logger = LogManager.getLogger(UserController.class);
     @Autowired
     UserServiceImpl service;
-
+    @Autowired
+    RoleServiceImpl roleService;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
-
-    @Autowired
-    RoleServiceImpl roleService;
-
-
     @GetMapping("/list")
-    public String findAllUsers(Model model, HttpSession httpSession, Pageable pageable, @ModelAttribute("user")UserModel user) {
+    public String findAllUsers(Model model, HttpSession httpSession, Pageable pageable, @ModelAttribute("user") UserModel user) {
         UUID uuid = UUID.randomUUID();
         String username = "";
-        try{
+        try {
             SecurityContextImpl securityContext = (SecurityContextImpl) httpSession.getAttribute(SPRING_SECURITY_CONTEXT);
             SecurityUser user1 = (SecurityUser) securityContext.getAuthentication().getPrincipal();
             username = user1.getUsername();
@@ -59,7 +53,6 @@ public class UserController {
             MessageModel users = service.findAllUsers(pageable, username, uuid.toString());
             logger.info("[USER : {}] || [UUID : {}] ---> USER MODULE ---> findAllUsers() RESPONSE: {}", username, uuid, users.getMessage());
             users.setUuid(uuid.toString());
-            System.out.println(users);
             model.addAttribute("result", users);
             model.addAttribute("listRole", roleService.findRoles());
             if (users.getIsError()) {
@@ -67,7 +60,7 @@ public class UserController {
             }
             model.addAttribute("pageSize", pageable.getPageSize());
             return "user/user";
-        }catch (Exception exception) {
+        } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> USER MODULE ---> findAllUsers() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
@@ -91,13 +84,13 @@ public class UserController {
 
 
             logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING USER MODULE ---> findById()", username, uuid);
-            MessageModel user= service.findById(id, username, uuid.toString());
+            MessageModel user = service.findById(id, username, uuid.toString());
             user.setUuid(uuid.toString());
             logger.info("[USER : {}] || [UUID : {}] ---> USER MODULE ---> findById() RESPONSE: {}", username, uuid, user.getData() == null ? "null" : user.getData().toString());
 
 
             return user;
-        }catch (Exception exception) {
+        } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> USER MODULE ---> findById() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
@@ -107,23 +100,45 @@ public class UserController {
 
 
     @PostMapping("/save")
-    public String saveUser(@Valid @ModelAttribute("user") UserModel user,BindingResult result, Model model, RedirectAttributes redirectAttributes, HttpSession httpSession, Pageable pageable) {
+    public String saveUser(@Valid @ModelAttribute("user") UserModel user, BindingResult result, Model model, RedirectAttributes redirectAttributes, HttpSession httpSession, Pageable pageable) {
         UUID uuid = UUID.randomUUID();
         String username = "";
         try {
             SecurityContextImpl securityContext = (SecurityContextImpl) httpSession.getAttribute(SPRING_SECURITY_CONTEXT);
             SecurityUser user1 = (SecurityUser) securityContext.getAuthentication().getPrincipal();
             username = user1.getUsername();
-            System.out.println(user);
-            System.out.println(user1);
             logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING USER MODULE ---> saveUser()", username, uuid);
             model.addAttribute("action", "save");
             model.addAttribute("pageSize", pageable.getPageSize());
-            if(service.isExistUser(user.getUsername())){
+            if (service.isExistUser(user.getUsername())) {
                 result.rejectValue("username", "user.username", "El usuario ya existe");
             }
 
-            if(result.hasErrors()) {
+            if (user.getAuthorities() == null) {
+                result.rejectValue("authorities", "user.authorities", "Los roles son obligatorios");
+            } else {
+                user.getAuthorities().stream().forEach(roleModel -> {
+                    if (!(roleModel instanceof RoleModel)){
+                        result.rejectValue("authorities", "user.authorities", "Los roles asignados no son válidos");
+                        return;
+                    }
+                    if (!(ArrayUtils.contains(new Long[]{1L, 2L, 3L}, roleModel.getId())))
+                        result.rejectValue("authorities", "user.authorities", "Los roles asignados no son válidos");
+                });
+                if (user.getAuthorities().contains(2) && user.getAuthorities().contains(3)) {
+                    result.rejectValue("authorities", "user.authorities", "El usuario no puede tener los roles de almacenista y facturación");
+                }
+
+                if (user.getAuthorities().contains(2L) && user.getAuthorities().contains(3L)) {
+                    result.rejectValue("authorities", "user.authorities", "El usuario no puede tener los roles de almacenista y facturación");
+                }
+                if (user.getAuthorities().contains(AuthorityName.INVOICER) && user.getAuthorities().contains(AuthorityName.WAREHOUSER)) {
+                    result.rejectValue("roles", "user.roles", "El usuario no puede tener los roles de almacenista y facturación");
+                }
+
+            }
+
+            if (result.hasErrors()) {
                 logger.error("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> saveUser() ERROR: {}", username, uuid, result.getAllErrors());
                 MessageModel users = service.findAllUsers(pageable, username, uuid.toString());
                 users.setUuid(uuid.toString());
@@ -142,16 +157,16 @@ public class UserController {
             String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
 
-            MessageModel users = service.registerUser(user,username, uuid.toString());
+            MessageModel users = service.registerUser(user, username, uuid.toString());
             users.setUuid(uuid.toString());
             logger.info("[USER : {}] || [UUID : {}] ---> USER MODULE ---> saveUser() RESPONSE: {}", username, uuid, users.getMessage());
-            if (users.getIsError()){
+            if (users.getIsError()) {
                 model.addAttribute("result", users);
                 return "errorPages/500";
             }
             redirectAttributes.addFlashAttribute("resultAction", users);
             return "redirect:/user/list";
-        }catch (Exception exception) {
+        } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> USER MODULE ---> saveUser() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
@@ -171,24 +186,35 @@ public class UserController {
             username = user1.getUsername();
             logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING USER MODULE ---> updateUser()", username, uuid);
 
-            if(service.isExistUserAndId(user.getUsername(), user.getId())){
+            if (user.getAuthorities() == null) {
+                result.rejectValue("authorities", "user.authorities", "Los roles son obligatorios");
+            } else {
+                user.getAuthorities().stream().forEach(roleModel -> {
+                    if (!(roleModel instanceof RoleModel)){
+                        result.rejectValue("authorities", "user.authorities", "Los roles asignados no son válidos");
+                        return;
+                    }
+                    if (!(ArrayUtils.contains(new Long[]{1L, 2L, 3L}, roleModel.getId())))
+                        result.rejectValue("authorities", "user.authorities", "Los roles asignados no son válidos");
+                });
+                if (user.getAuthorities().contains(2) && user.getAuthorities().contains(3)) {
+                    result.rejectValue("authorities", "user.authorities", "El usuario no puede tener los roles de almacenista y facturación");
+                }
+
+                if (user.getAuthorities().contains(2L) && user.getAuthorities().contains(3L)) {
+                    result.rejectValue("authorities", "user.authorities", "El usuario no puede tener los roles de almacenista y facturación");
+                }
+                if (user.getAuthorities().contains(AuthorityName.INVOICER) && user.getAuthorities().contains(AuthorityName.WAREHOUSER)) {
+                    result.rejectValue("roles", "user.roles", "El usuario no puede tener los roles de almacenista y facturación");
+                }
+
+            }
+
+            if (service.isExistUserAndId(user.getUsername(), user.getId())) {
                 result.rejectValue("username", "user.username", "El usuario ya existe");
             }
 
-            if (user.getAuthorities().contains(2) && user.getAuthorities().contains(3)) {
-                result.rejectValue("authorities", "user.authorities", "El usuario no puede tener los roles de almacenista y facturación");
-            }
-
-            if (user.getAuthorities().contains(2L) && user.getAuthorities().contains(3L)) {
-                result.rejectValue("authorities", "user.authorities", "El usuario no puede tener los roles de almacenista y facturación");
-            }
-            if (user.getAuthorities().contains(AuthorityName.INVOICER) && user.getAuthorities().contains(AuthorityName.WAREHOUSER)) {
-                result.rejectValue("roles", "user.roles", "El usuario no puede tener los roles de almacenista y facturación");
-            }
-
-
-
-            if(result.hasErrors()) {
+            if (result.hasErrors()) {
                 logger.error("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> updateArea() ERROR: {}", username, uuid, result.getAllErrors());
                 MessageModel users = service.findAllUsers(pageable, username, uuid.toString());
                 users.setUuid(uuid.toString());
@@ -209,7 +235,7 @@ public class UserController {
 
 
             logger.info("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> updateUser() RESPONSE: {}", username, uuid, users.getMessage());
-            if(users.getIsError()) {
+            if (users.getIsError()) {
                 model.addAttribute("result", users);
                 return "errorPages/500";
             }
@@ -217,7 +243,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("resultAction", users);
             redirectAttributes.addFlashAttribute("roles", roles);
             return "redirect:/user/list";
-        }catch (Exception exception) {
+        } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> USER MODULE ---> updateArea() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
@@ -225,20 +251,6 @@ public class UserController {
             return "errorPages/500";
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     @PostMapping("/disable")
