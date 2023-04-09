@@ -17,7 +17,7 @@
                         <div class="col-md-6 mb-3">
                             <label>Nombre</label><span class="text-danger">*</span>
                             <input type="text" id="name" name="name" class="form-control"
-                                   th:value="${data != null ? data.id : ''}">
+                                   th:value="${data != null ? data.name : ''}">
                             <div id="namediv" th:if="${#fields.hasErrors('name') && action eq 'update'}" th:errors="*{name}" class="alert alert-danger"></div>
 
                         </div>
@@ -40,7 +40,7 @@
                                 <option value="Gramos">Gramos</option>
                                 <option value="Litros">Litros</option>
                                 <option value="Metros">Metros</option>
-                                <option value="Centimetros">Centimetros</option>
+                                <option value="Centímetros">Centímetros</option>
                             </select>
                             <div id="unitdiv" th:if="${#fields.hasErrors('unit') && action eq 'update'}" th:errors="*{unit}" class="alert alert-danger"></div>
 

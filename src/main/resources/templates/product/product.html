@@ -2,14 +2,14 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Pedidos</title>
+    <title>Productos</title>
     <link th:insert="fragments/header :: css">
     <link th:insert="fragments/header :: cssAdmin">
     <link th:insert="fragments/header :: fontawesome">
     <link th:insert="fragments/header :: fontawesome2">
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed" onload="onLoad()">
 <div th:insert="fragments/header :: js"></div>
 <div class="wrapper">
     <div th:insert="fragments/navbar :: navbar"></div>
@@ -23,6 +23,12 @@
                     </div>
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
+            <div th:if="${resultAction != null ? (resultAction.message.name eq 'SUCCESS_REGISTER') || (resultAction.message.name eq 'SUCCESS_UPDATE') || (resultAction.message.name eq 'SUCCESS_DISABLE') || (resultAction.message.name eq 'SUCCESS_ENABLE'): false}" class="alert alert-success alert-dismissible fade show" role="alert">
+                [[${resultAction.message.message}]]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
             <section class="content">
                 <div class="card">
@@ -34,50 +40,64 @@
                             </button>
                         </div>
                     </div>
-                    <div class="card-body collapse">
-                        <form>
+                    <div class="card-body"  th:class="${(result.isError && action eq 'save') ? 'card-body': 'card-body collapse'}">
+                        <form th:action="@{/product/save}" method="post" th:object="${product}">
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label>Nombre</label><span class="text-danger">*</span>
-                                    <input type="text" class="form-control"  placeholder="Hojas de color" value="" required="">
+                                    <input type="text" class="form-control" name="name" placeholder="Hojas de color" th:value="${data != null && action eq 'save' ? data.name : ''}">
+                                    <div th:if="${#fields.hasErrors('name') && action eq 'save'}" th:errors="*{name}"
+                                         class="alert alert-danger"></div>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label>Descripcion</label><span class="text-danger">*</span>
-                                    <input type="text" class="form-control" placeholder="Nuevas" value="" required="">
+                                    <input type="text" class="form-control" placeholder="Nuevas" name="description" th:value="${data != null && action eq 'save' ? data.description : ''}">
+                                    <div th:if="${#fields.hasErrors('description') && action eq 'save'}" th:errors="*{description}"
+                                         class="alert alert-danger"></div>
                                 </div>
 
                                 <div class="col-md-4 mb-3">
                                     <label>Unidad de medida<span class="text-danger">*</span></label>
-                                    <select class="custom-select d-block w-100">
-                                        <option value="Piezas">Piezas</option>
-                                        <option value="Cajas">Cajas</option>
-                                        <option value="Unidades">Unidades</option>
-                                        <option value="Toneladas">Toneladas</option>
-                                        <option value="Kilos">Kilos</option>
-                                        <option value="Gramos">Gramos</option>
-                                        <option value="Litros">Litros</option>
-                                        <option value="Metros">Metros</option>
-                                        <option value="Centimetros">Centimetros</option>
+                                    <select class="custom-select d-block w-100" name="unit" th:value="${data != null && action eq 'save' ? data.unit : ''}">
+                                        <option th:value="Piezas">Piezas</option>
+                                        <option th:value="Cajas">Cajas</option>
+                                        <option th:value="Unidades">Unidades</option>
+                                        <option th:value="Toneladas">Toneladas</option>
+                                        <option th:value="Kilos">Kilos</option>
+                                        <option th:value="Gramos">Gramos</option>
+                                        <option th:value="Litros">Litros</option>
+                                        <option th:value="Metros">Metros</option>
+                                        <option th:value="Centímetros">Centímetros</option>
                                     </select>
+                                    <div th:if="${#fields.hasErrors('unit') && action eq 'save'}" th:errors="*{unit}"
+                                         class="alert alert-danger"></div>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label>Precio Unitario</label><span class="text-danger">*</span>
-                                    <input type="number" class="form-control" placeholder="1.50" value="" required="">
+                                    <input type="number" class="form-control" placeholder="1.50" name="unitPrice" th:value="${data != null && action eq 'save' ? data.unitPrice : ''}">
+                                    <div th:if="${#fields.hasErrors('unitPrice') && action eq 'save'}" th:errors="*{unitPrice}"
+                                         class="alert alert-danger"></div>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label>Tipo<span class="text-danger">*</span></label>
-                                    <select class="custom-select d-block w-100" name="type" id="type" onchange="showFields()">
-                                        <option value="1">Perecederos</option>
-                                        <option value="2">No perecederos</option>
+                                    <select class="custom-select d-block w-100" name="type" id="type" onchange="showFields()" th:value="${data != null && action eq 'save' ? data.type : ''}">
+                                        <option th:value="1">Perecederos</option>
+                                        <option th:value="2">No perecederos</option>
                                     </select>
+                                    <div th:if="${#fields.hasErrors('type') && action eq 'save'}" th:errors="*{type}"
+                                         class="alert alert-danger"></div>
                                 </div>
                                 <div class="col-md-4 mb-3" id="divExC">
                                     <label>Fecha de expiración</label><span class="text-danger">*</span>
-                                    <input type="date" id="expC" class="form-control" name="expirationDate">
+                                    <input type="date" id="expC" class="form-control" name="expirationDate" th:value="${data != null && action eq 'save' ? data.expirationDate : ''}">
+                                    <div th:if="${#fields.hasErrors('expirationDate') && action eq 'save'}" th:errors="*{expirationDate}"
+                                         class="alert alert-danger"></div>
                                 </div>
                                 <div class="col-md-4 mb-3" id="divSerialC" style="display: none">
                                     <label>Número de serie</label><span class="text-danger">*</span>
-                                    <input type="text" id="serialC" name="serialNumber" class="form-control">
+                                    <input type="text" id="serialC" name="serialNumber" class="form-control" th:value="${data != null && action eq 'save' ? data.serialNumber : ''}">
+                                    <div th:if="${#fields.hasErrors('serialNumber') && action eq 'save'}" th:errors="*{address}"
+                                         class="alert alert-danger"></div>
                                 </div>
                                 <br>
                                 <button type="button" class="btn btn-primary btn-block btn-lg" data-toggle="modal"
@@ -108,7 +128,7 @@
                                         <th style="width: 20%">Estado</th>
                                         <th style="width: 8%" class="text-center">Modificar</th>
                                         <th style="width: 8%" class="text-center">Detalles</th>
-                                        <th style="width: 8%" class="text-center">Eliminar</th>
+                                        <th style="width: 8%" class="text-center">Estado</th>
                                     </tr>
                                     </thead>
                                     <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}" class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -119,10 +139,10 @@
                                     </div>
                                     <tbody class="text-center">
                                     <tr th:each="product : ${result.data}" th:if="${result.data != null}">
-                                        <th scope="row">1</th>
                                         <td>[[${product.id}]]</td>
                                         <td>[[${product.name}]]</td>
                                         <td>[[${product.description}]]</td>
+                                        <td>[[${product.unit}]]</td>
                                         <td>[[${product.unitPrice}]]</td>
                                         <td><p th:class="${product.status == 1 ? 'text-success' : 'text-danger'}">[[${product.status == 1 ? 'Activo' : 'Inactivo'}]]</p></td>
                                         <td>
@@ -211,6 +231,13 @@
 
             $("#updateProduct").find("#id").val(data.data.id);
 
+
+            $("#namediv").css("display", "none");
+            $("#descriptiondiv").css("display", "none");
+            $("#unitdiv").css("display", "none");
+            $("#unitPricediv").css("display", "none");
+            $("#expirationDatediv").css("display", "none");
+            $("#serialNumberdiv").css("display", "none");
         });
     }
 
@@ -266,7 +293,19 @@
         $("#searchForm").submit();
     }
 
-
+    const onLoad = ()=>{
+        let type = $("#type").val();
+        console.log(type)
+        if (type == 2) {
+            $("#divSerial").css("display", "block");
+            $("#divEx").css("display", "none");
+            $("#exp").val("");
+        } else {
+            $("#divSerial").css("display", "none");
+            $("#divEx").css("display", "inline-table");
+            $("#serial").val("");
+        }
+    }
 </script>
 </body>
 </html>

@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
@@ -20,8 +21,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.util.ArrayUtils;
 
 import java.sql.Date;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,7 +125,26 @@ public class ProductController {
             logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING PRODUCT MODULE ---> saveProduct()", username, uuid);
             model.addAttribute("action", "save");
             model.addAttribute("pageSize", pageable.getPageSize());
+            if(product.getType() == 1){
+                product.setSerialNumber(null);
+            }
+            if(product.getType() == 2){
+                product.setExpirationDate(null);
+                product.getSerialNumber();
+                if(!(Pattern.matches("[A-Za-z0-9 ]+", product.getSerialNumber()))){
+                    result.rejectValue("serialNumber", "product.serialNumber", "El número serial debe ser alfanumérico");
+                }
+            }
+            if (product.getUnitPrice() == null){
+                result.rejectValue("unitPrice", "product.unitPrice", "El precio unitario no puede estar vacío");
+            }
 
+            if (!ArrayUtils.contains(new String[]{"Piezas", "Cajas", "Unidades", "Toneladas", "Kilos", "Gramos", "Litros", "Metros", "Centímetros"}, product.getUnit())){
+                result.rejectValue("unit", "product.unit", "El tipo de unidad no es válido");
+            }
+            if (!ArrayUtils.contains(new Integer[]{1, 2}, product.getType())){
+                result.rejectValue("unit", "product.unit", "El tipo de unidad no es válido");
+            }
             if(result.hasErrors()) {
                 logger.error("[USER : {}] || [UUID : {}] ---> PRODUCT MODULE ---> saveProduct() ERROR: {}", username, uuid, result.getAllErrors());
                 MessageModel products = service.findAllProducts(pageable, username, uuid.toString());
@@ -163,17 +185,23 @@ public class ProductController {
             SecurityUser user = (SecurityUser) securityContext.getAuthentication().getPrincipal();
             username = user.getUsername();
             logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING PRODUCT MODULE ---> updateProduct()", username, uuid);
-            if(product.getType().equals("1")){
+            if(product.getType() == 1){
                 product.setSerialNumber(null);
             }
-            if(product.getType().equals("2")){
+            if(product.getType() == 2){
                 product.setExpirationDate(null);
                 product.getSerialNumber();
                 if(!(Pattern.matches("[A-Za-z0-9 ]+", product.getSerialNumber()))){
                     result.rejectValue("serialNumber", "product.serialNumber", "El número serial debe ser alfanumérico");
                 }
             }
+            if (product.getUnitPrice() == null){
+                result.rejectValue("unitPrice", "product.unitPrice", "El precio unitario no puede estar vacío");
+            }
 
+            if (!ArrayUtils.contains(new String[]{"Piezas", "Cajas", "Unidades", "Toneladas", "Kilos", "Gramos", "Litros", "Metros", "Centímetros"}, product.getUnit())){
+                result.rejectValue("unit", "product.unit", "El tipo de unidad no es válido");
+            }
 
             if(result.hasErrors()) {
                 logger.error("[USER : {}] || [UUID : {}] ---> PRODUCT MODULE ---> updateProduct() ERROR: {}", username, uuid, result.getAllErrors());
@@ -237,10 +265,5 @@ public class ProductController {
             return "errorPages/500";
         }
     }
-    @InitBinder
-    public void initBinder(WebDataBinder webDataBinder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        webDataBinder.registerCustomEditor(Date.class,
-                new CustomDateEditor(dateFormat, false));
-    }
+
 }

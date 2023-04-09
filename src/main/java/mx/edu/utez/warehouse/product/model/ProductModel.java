@@ -46,9 +46,11 @@ public class ProductModel {
 
     @Column(nullable = false)
     @Min(value = 1, message = "El precio debe ser mayor a 0")
+
     private Double unitPrice;
 
     @Column(nullable = true)
+
     private Date expirationDate;
 
     @Column(nullable = true)
