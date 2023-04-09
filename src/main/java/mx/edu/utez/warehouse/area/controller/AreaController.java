@@ -199,8 +199,4 @@ public class AreaController {
             return "errorPages/500";
         }
     }
-
-
-
-
 }

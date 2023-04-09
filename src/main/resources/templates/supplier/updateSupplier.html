@@ -1,46 +1,52 @@
-<!-- Modal de editar proveedor -->
-<div class="modal fade" id="updateSupplier" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="updateSupplier" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Editar proveedor nuevamente</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Modificar proovedor</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label>Nombre</label>
-                        <input type="text" class="form-control"  placeholder="Isaac Suku" value=""
-                               required="">
+                <form th:action="@{/supplier/update}" th:object="${supplier}" method="post">
+                    <div class="row mt-2 mb-3">
+                        <input type="hidden" name="id" id="id" th:value="${data != null ? data.id : ''}">
+
+                        <div class="col-md-12 mb-3">
+                            <label class="font-weight-normal">Nombre<span class="text-danger">*</span></label>
+                            <input name="name"  id="name" th:value="${data != null && action eq 'update' ? data.name : ''}" type="text" min="5" max="10" class="form-control" placeholder="Ingrese nombre" required>
+                            <div id="namediv" th:if="${#fields.hasErrors('name') && action eq 'update'}" th:errors="*{name}" class="alert alert-danger"></div>
+
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="font-weight-normal">RFC<span class="text-danger">*</span></label>
+                            <input name="rfc" id="rfc"  th:value="${data != null && action eq 'update' ? data.rfc : ''}" type="text" class="form-control" placeholder="Ingrese RFC" required>
+                            <div id="rfcdiv" th:if="${#fields.hasErrors('rfc') && action eq 'update'}" th:errors="*{rfc}" class="alert alert-danger"></div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="font-weight-normal">Razon Social<span class="text-danger">*</span></label>
+                            <input name="businessName" id="businessName"  th:value="${data != null && action eq 'update' ? data.businessName : ''}" type="text" class="form-control" placeholder="Ingrese Giro" required>
+                            <div id="businessNamediv" th:if="${#fields.hasErrors('businessName') && action eq 'update'}" th:errors="*{businessName}" class="alert alert-danger"></div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="font-weight-normal">Telefono<span class="text-danger">*</span></label>
+                            <input name="phone" id="phone"  th:value="${data != null && action eq 'update' ? data.phone : ''}" type="text" class="form-control" placeholder="Ingrese Telefono" required>
+                            <div id="phonediv" th:if="${#fields.hasErrors('phone') && action eq 'update'}" th:errors="*{phone}" class="alert alert-danger"></div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="font-weight-normal">EMAIL<span class="text-danger">*</span></label>
+                            <input name="email" id="email"  th:value="${data != null && action eq 'update' ? data.email : ''}" type="text" class="form-control" placeholder="Ingrese email" required>
+                            <div id="emaildiv" th:if="${#fields.hasErrors('email') && action eq 'update'}" th:errors="*{email}" class="alert alert-danger"></div>
+                        </div>
+
+
+                        <input name="id" type="hidden" class="form-control">
                     </div>
-                    <div class="col-md-5 mb-3">
-                        <label>RFC</label>
-                        <input type="text" class="form-control"  placeholder="GABI020310CL2" value=""
-                               required="">
+                    <div style="float: right">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary updateBtnSupplier">Modificar</button>
                     </div>
-                    <div class="col-md-3 mb-3">
-                        <label>Razon social</label>
-                        <input type="text" class="form-control"  placeholder="Agricultura" value=""
-                               required="">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label>Telefono</label>
-                        <input type="tel" class="form-control" placeholder="7774900025" value=""
-                               required="">
-                    </div>
-                    <div class="col-md-5 mb-3">
-                        <label>Correo Electronico</label>
-                        <input type="email" class="form-control" placeholder="suku@gmail.com" value=""
-                               required="">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Actualizar</button>
+                </form>
             </div>
         </div>
     </div>
