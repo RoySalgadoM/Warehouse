@@ -23,7 +23,14 @@
                         </div>
                     </div>
                 </div>
+                <div th:if="${resultAction != null ? (resultAction.message.name eq 'SUCCESS_REGISTER') || (resultAction.message.name eq 'SUCCESS_UPDATE') || (resultAction.message.name eq 'SUCCESS_DISABLE') || (resultAction.message.name eq 'SUCCESS_ENABLE'): false}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    [[${resultAction.message.message}]]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             </section>
+
 
             <section class="content">
                 <div class="card">
@@ -35,54 +42,88 @@
                             </button>
                         </div>
                     </div>
-                    <div class="card-body collapse">
-                        <form>
+                    <div class="card-body"
+                         th:class="${(result.isError && action eq 'save') ? 'card-body': 'card-body collapse'}">
+                        <form th:action="@{/user/save}" method="post" th:object="${user}" >
                             <div class="row mt-2 mb-3">
                                 <div class="col-md-3 mb-3">
                                     <label class="font-weight-normal">Nombre<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Ingrese nombre">
+                                    <input th:value="${data != null && action eq 'save' ? data.name : ''}" type="text"
+                                           name="name" class="form-control" placeholder="Ingrese nombre"
+                                    >
+                                    <div th:if="${#fields.hasErrors('name') && action eq 'save'}" th:errors="*{name}"
+                                         class="alert alert-danger"></div>
                                 </div>
+
+
                                 <div class="col-md-3 mb-3">
                                     <label class="font-weight-normal">Apellido Paterno<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Ingrese apellido paterno">
+                                    <input th:value="${data != null && action eq 'save' ? data.surname : ''}" type="text"
+                                           name="surname" class="form-control" placeholder="Ingrese apellido paterno"
+                                    >
+                                    <div th:if="${#fields.hasErrors('surname') && action eq 'save'}" th:errors="*{surname}"
+                                         class="alert alert-danger"></div>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label class="font-weight-normal">Apellido Materno<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Ingrese apellido materno">
+                                    <input th:value="${data != null && action eq 'save' ? data.secondSurname : ''}" type="text"
+                                           name="secondSurname" class="form-control" placeholder="Ingrese username"
+                                    >
+                                    <div th:if="${#fields.hasErrors('secondSurname') && action eq 'save'}" th:errors="*{secondSurname}"
+                                         class="alert alert-danger"></div>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label class="font-weight-normal">Correo Electrónico<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Ingrese correo electrónico">
+                                    <input th:value="${data != null && action eq 'save' ? data.email : ''}" type="text"
+                                           name="email" class="form-control" placeholder="Ingrese email"
+                                    >
+                                    <div th:if="${#fields.hasErrors('email') && action eq 'save'}" th:errors="*{email}"
+                                         class="alert alert-danger"></div>
                                 </div>
                             </div>
                             <div class="row mt-2 mb-3">
                                 <div class="col-md-3 mb-3">
                                     <label class="font-weight-normal">Teléfono<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Ingrese teléfono">
+                                    <input th:value="${data != null && action eq 'save' ? data.phone: ''}" type="text"
+                                           name="phone" class="form-control" placeholder="Ingrese teléfono"
+                                    >
+                                    <div th:if="${#fields.hasErrors('phone') && action eq 'save'}" th:errors="*{phone}"
+                                         class="alert alert-danger"></div>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label class="font-weight-normal">RFC<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Ingrese RFC">
+                                    <input th:value="${data != null && action eq 'save' ? data.rfc : ''}" type="text"
+                                           name="rfc" class="form-control" placeholder="Ingrese RFC"
+                                    >
+                                    <div th:if="${#fields.hasErrors('rfc') && action eq 'save'}" th:errors="*{rfc}"
+                                         class="alert alert-danger"></div>
                                 </div>
                                 <div class="col-md-3 mb-3">
+                                    <label class="font-weight-normal">Usuario<span class="text-danger">*</span></label>
+                                    <input th:value="${data != null && action eq 'save' ? data.username : ''}" type="text"
+                                           name="username" class="form-control" placeholder="Ingrese username"
+                                    >
+                                    <div th:if="${#fields.hasErrors('username') && action eq 'save'}" th:errors="*{username}"
+                                         class="alert alert-danger"></div>
+                                </div>
+                         
+                                <div class="col-md-3 mb-3">
                                     <label class="font-weight-normal">Roles<span class="text-danger">*</span></label>
-                                    <select class="custom-select">
-                                        <option selected>Designa rol</option>
-                                        <option value="1">Administrador</option>
-                                        <option value="2">Almacenista</option>
-                                        <option value="3">Facturacion</option>
+                                    <select class="custom-select" id="authorities" name="authorities" multiple>
+                                        <option th:each="tmpRoles : ${listRole}" th:value="${tmpRoles.id}" th:text="${tmpRoles.name}" th:selected="${tmpRoles.id == 1}"></option>
                                     </select>
                                 </div>
                             </div>
                             <div class="row mt-2 mb-3" style="justify-content: center">
                                 <button
-                                        type="button"
+                                        type="submit"
                                         class="btn-success button-area"
                                         style="margin-right: 60px"
                                 >
                                     Registrar
                                 </button>
                                 <button
+
 
                                         type="button"
                                         class="btn-danger button-area"
@@ -95,15 +136,28 @@
                     </div>
                 </div>
 
+
                 <div class="card">
                     <div class="card-header back-green" >
                         <h3 class="card-title font-white">Usuarios</h3>
                     </div>
                     <div class="card-body">
                         <div class="row mb-3 mt-2">
-                            <div class="col-md-4 ml-auto">
-                                <input class="form-control" type="search" placeholder="Ingresa una búsqueda" aria-label="Search">
-                            </div>
+                            <p class="mr-2">Mostrar</p>
+                            <form th:action="@{/user/list}">
+                                <select th:value="${pageSize}" name="size" class="custom-select"
+                                        onchange="changePageSize()">
+
+
+                                    <option th:each="s : ${ {5, 10, 20, 50, 100} }" th:value="${s}" th:text="${s}"
+                                            th:selected="${s == pageSize}"></option>
+
+
+                                </select>
+                            </form>
+
+
+                            <p class="ml-2">registros</p>
                         </div>
                         <table class="table table-striped projects">
                             <thead>
@@ -114,90 +168,205 @@
                                 <th style="width: 20%">
                                     Nombre
                                 </th>
-                                <th style="width: 30%">
+                                <th style="width: 20%">
                                     Correo Electrónico
                                 </th>
                                 <th>
                                     Teléfono
                                 </th>
+                                <th>
+                                    Usuario
+                                </th>
+                                <th>
+                                    RFC
+                                </th>
+                                <th>
+                                    Estado
+                                </th>
+
 
                                 <th style="width: 12%" class="text-center">
                                     Acciones
                                 </th>
                             </tr>
                             </thead>
+                            <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                                [[${result.message.message}]]
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
                             <tbody>
-                            <tr>
+                            <tr th:each="user: ${result.data}" th:if="${result.data != null}">
                                 <td>
-                                    1
+                                    [[${user.id}]]
                                 </td>
                                 <td>
-                                    Patricio Robles Rodriguez
+                                    [[${user.name + '  '+ user.surname +'  '+ user.secondSurname} ]]
                                 </td>
                                 <td>
-                                    patricio_robles@gmail.com
+                                    [[${user.email}]]
                                 </td>
                                 <td>
-                                    7771103964
+                                    [[${user.phone}]]
                                 </td>
                                 <td>
-                                    <button
-                                            type="button"
-                                            class="btn btn-primary"
-                                            data-toggle="modal"
-                                            data-target="#detailsUser"
-                                    >
-                                        <i class="nav-icon fas fa-info info-button"></i>
-                                    </button>
+                                    [[${user.username}]]
+                                </td>
+                                <td>
+                                    [[${user.rfc}]]
+                                </td>
+                                <td>
+                                    <p th:class="${user.status == 1 ? 'text-success' : 'text-danger'}">[[${user.status == 1 ? 'Activo' : 'Inactivo'}]]</p>
+                                </td>
+                                <td>
 
-                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateUser">
-                                        <i class="nav-icon fas fa-edit"></i>
-                                    </button>
-                                    <button id="deleteBtnUser" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteUser">
-                                        <i class="nav-icon fa-solid fa-eye-slash"></i>
-                                    </button>
 
+                                    </button>
+                                    <div class="col-lg-6 col-md-12">
+                                        <button th:attr="onclick=|getUser('${user.id}')|" id="updateBtnUser"
+                                                type="button" class="btn btn-warning" data-toggle="modal"
+                                                data-target="#updateUser">
+                                            <i class="nav-icon fas fa-edit"></i>
+                                        </button>
+
+
+                                    </div>
+
+
+                                    <div class="col-lg-6 col-md-12">
+                                        <form th:if="${user.status == 1}" th:action="@{/user/disable}"
+                                              method="post">
+                                            <input th:value="${user.id}" name="id" type="hidden">
+                                            <button type="button" class="btn btn-danger deleteBtnUser"
+                                                    data-toggle="modal" data-target="#deleteUser">
+                                                <i class="nav-icon fa-solid fa-eye-slash"></i>
+                                            </button>
+                                        </form>
+                                        <form th:if="${user.status == 0}" th:action="@{/user/disable}"
+                                              method="post">
+                                            <input th:value="${user.id}" name="id" type="hidden">
+                                            <button type="button" class="btn btn-success deleteBtnUser"
+                                                    data-toggle="modal" data-target="#deleteUser">
+                                                <i class="nav-icon fa-solid fa-eye"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
+                        <nav class="mt-3" th:if="${result.data != null ? result.data.totalPages > 0 : false}"
+                             aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item" th:classappend="${result.data.number == 0 ? 'disabled' : ''}">
+                                    <a th:href="@{/area/list(page=${result.data.number - 1}, size=${pageSize})}"
+                                       class="page-link">Anterior</a>
+                                </li>
+                                <li class="page-item" th:classappend="${i eq result.data.number + 1} ? 'active'"
+                                    th:each="i : ${#numbers.sequence( 1, (result.data != null ? result.data.totalPages : 0) , 1)}">
+                                    <a class="page-link"
+                                       th:href="@{/area/list?page={tmpPag} (tmpPag=${i-1}, size=${pageSize}) }"
+                                       th:text="${i}"
+                                       th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+                                </li>
+                                <li class="page-item"
+                                    th:classappend="${result.data.number == ((result.data != null ? result.data.totalPages : 0) - 1) ? 'disabled' : ''}">
+                                    <a th:href="@{/area/list(page=${result.data.number + 1}, size=${pageSize})}"
+                                       class="page-link">Siguiente</a>
+                                </li>
+                            </ul>
+                        </nav>
+
+
+
+
                     </div>
                 </div>
             </section>
 
+
         </div>
     </div>
+
 
     <div th:replace="user/updateUser"></div>
     <div th:replace="user/detailsUser"></div>
 </div>
+<script th:if="${result.isError && action eq 'update'}">
+    $('#updateUser').modal('show');
+</script>
 <script>
 
-    $('#deleteBtnUser').on('click', function() {
+
+    $('.deleteBtnUser').on('click', function() {
         Swal.fire({
-            title: '¿Seguro que desea desactivar este usuario?',
+            title: '¿Seguro que desea cambiar el estado de este usuario?',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Si, desactivar',
-            cancelButtonText: 'No, cancelar',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'Cancelar',
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire(
-                    'Desactivado',
-                    'Este usuario ha sido desactivado',
-                    'success'
-                )
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                Swal.fire(
-                    'Cancelado',
-                    'Este usuario no fue desactivado',
-                    'error'
-                )
+                $(this).closest('form').submit();
+
+
             }
         });
     });
 
+
+    const getUser = (id) => {
+        $.get("/user/" + id, function (data) {
+            console.log("esto trae data",data)
+            $("#updateUser").find("#name").val(data.data.name);
+            $("#updateUser").find("#surname").val(data.data.surname);
+            $("#updateUser").find("#secondSurname").val(data.data.secondSurname);
+            $("#updateUser").find("#phone").val(data.data.phone);
+            $("#updateUser").find("#rfc").val(data.data.rfc);
+            $("#updateUser").find("#username").val(data.data.username);
+            $("#updateUser").find("#email").val(data.data.email);
+            $("#updateUser").find("#password").val(data.data.password);
+            $("#updateUser").find("#status").val(data.data.status);
+            $("#updateUser").find("#id").val(data.data.id);
+
+
+
+            $("#namediv").css("display", "none");
+            $("#surnamediv").css("display", "none");
+            $("#secondSurnamediv").css("display", "none");
+            $("#phonediv").css("display", "none");
+            $("#rfcdiv").css("display", "none");
+            $("#usernamediv").css("display", "none");
+            $("#emaildiv").css("display", "none");
+
+        });
+    }
+
+
+    $('.updateBtnUser').on('click', function () {
+        Swal.fire({
+            title: '¿Está seguro de modificar los datos?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $(this).closest('form').submit();
+
+
+            }
+        });
+    });
+    const changePageSize = () => {
+        $("#searchForm").submit();
+    }
 </script>
+
+
 </body>
 </html>
+
