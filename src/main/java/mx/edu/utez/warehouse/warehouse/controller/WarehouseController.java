@@ -126,10 +126,10 @@ public class WarehouseController {
             }
             if(warehouse.getWarehouser() == null || warehouse.getInvoicer() == null){
                 if (warehouse.getWarehouser() == null) {
-                    result.rejectValue("warehouse", "warehouse.warehouse", "El almacenista es requerido");
+                    result.rejectValue("warehouser", "warehouse.warehouser", "El almacenista es requerido");
                 }
                 if (warehouse.getInvoicer() == null) {
-                    result.rejectValue("invoice", "warehouse.invoice", "El facturador es requerido");
+                    result.rejectValue("invoicer", "warehouse.invoicer", "El facturador es requerido");
                 }
             }else{
                 RoleModel wareRole = new RoleModel(2L);
@@ -194,10 +194,10 @@ public class WarehouseController {
 
             if(warehouse.getWarehouser() == null || warehouse.getInvoicer() == null){
                 if (warehouse.getWarehouser() == null) {
-                    result.rejectValue("warehouse", "warehouse.warehouse", "El almacenista es requerido");
+                    result.rejectValue("warehouse", "warehouse.warehouser", "El almacenista es requerido");
                 }
                 if (warehouse.getInvoicer() == null) {
-                    result.rejectValue("invoice", "warehouse.invoice", "El facturador es requerido");
+                    result.rejectValue("invoice", "warehouse.invoicer", "El facturador es requerido");
                 }
             }else{
                 RoleModel wareRole = new RoleModel(2L);

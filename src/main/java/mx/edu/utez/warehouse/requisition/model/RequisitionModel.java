@@ -25,23 +25,17 @@ public class RequisitionModel {
     private Long id;
 
     @Column(nullable = false)
-    @NotNull(message = "La fecha no puede ser nula")
-    @NotEmpty(message = "La fecha no puede estar vacía")
     private Date orderDate;
 
     @Column(nullable = false, unique = true)
     private String code;
 
     @Column(nullable = false)
-    @Positive(message = "El de total monerario del pedido debe ser positivo")
-    @NotNull(message = "El total monetario del pedido no puede ser nulo")
-    @NotEmpty(message = "El total monetario del pedido no puede estar vacío")
+    @Positive(message = "El total monetario del pedido debe ser positivo")
     private Double totalAmount;
 
     @Column(nullable = false)
     @Positive(message = "El total de productos debe ser positivo")
-    @NotNull(message = "El total de productos no puede ser nulo")
-    @NotEmpty(message = "El total de productos no puede estar vacío")
     private Integer totalOfProducts;
 
     @ManyToOne
@@ -56,6 +50,7 @@ public class RequisitionModel {
     @OneToMany(mappedBy = "requisition")
     private List<RequisitionProductModel> requisitionProductModels;
 
+    
     @ManyToOne
     @JoinColumn(name = "warehouse_id", nullable = false)
     private WarehouseModel warehouse;

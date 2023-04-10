@@ -1,5 +1,6 @@
 package mx.edu.utez.warehouse.product.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -36,7 +37,6 @@ public class ProductModel {
     @Pattern(regexp = "[A-Za-z0-9 ]+", message = "El nombre debe ser alfanumérica")
     private String name;
 
-
     @Column(nullable = false)
     @NotEmpty(message = "El tipo de unidad no puede estar vacío")
     @NotNull(message = "El tipo de unidad no puede ser nulo")
@@ -66,7 +66,12 @@ public class ProductModel {
     private Integer status;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<RequisitionProductModel> requisitionProductModels;
+
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<WarehouseProductModel> warehouseProductModels;
 
     @Override
     public String toString() {

@@ -6,7 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mx.edu.utez.warehouse.product.model.WarehouseProductModel;
 import mx.edu.utez.warehouse.user.model.UserModel;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -43,9 +46,13 @@ public class WarehouseModel {
     @JoinColumn(name="warehouse_user")
     private UserModel warehouser;
 
+
     @ManyToOne
     @JoinColumn(name="invoice_user")
     private UserModel invoicer;
+
+    @OneToMany(mappedBy = "warehouse")
+    private List<WarehouseProductModel> warehouseProductModels;
 
     @Override
     public String toString() {

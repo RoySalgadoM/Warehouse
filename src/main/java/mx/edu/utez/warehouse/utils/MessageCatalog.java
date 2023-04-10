@@ -5,10 +5,12 @@ public enum MessageCatalog {
     SUCCESS_UPDATE("Se ha actualizado correctamente", "info"),
     SUCCESS_DISABLE("Se ha deshabilitado correctamente", "info"),
     SUCCESS_ENABLE("Se ha habilitado correctamente", "info"),
+    SUCCESS_CANCEL("Se ha cancelado correctamente", "info"),
     RECORDS_FOUND("Registros listados correctamente", "info"),
     NO_RECORDS_FOUND("No hay registros para mostrar", "warning"),
     UNK_ERROR_FOUND("Ha ocurrido un error inesperado, contacte a soporte. Quedate tranquilo ningún dato fue modificado :D. Código de operación: ", "error"),
-    VALIDATION_ERROR("Uno o más valores de los campos es incorrecto", "error");
+    VALIDATION_ERROR("Uno o más valores de los campos es incorrecto", "error"),
+    ERROR_CANCEL("No se puede cancelar la entrada debido a que ya fue recibida", "error");
 
     private final String message;
     private final String typeOfMessage;

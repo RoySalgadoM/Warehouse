@@ -25,7 +25,5 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
 
     UserModel findByIdAndAndAuthorities(Long id, RoleModel role);
 
-
-
 }
 
