@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WarehouseRepository extends JpaRepository<WarehouseModel, Long> {
     boolean existsByIdentifier(String identifier);
-    boolean existsByIdentifierAndIdNotLike(String identifier, long id);
+    boolean existsByIdentifierAndIdNotLike(String identifier, Long id);
 
 }

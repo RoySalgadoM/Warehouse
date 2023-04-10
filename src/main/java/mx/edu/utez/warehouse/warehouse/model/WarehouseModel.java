@@ -20,7 +20,7 @@ public class WarehouseModel {
     @Positive(message = "El id debe ser positivo")
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     @NotEmpty(message = "El nombre no puede estar vacío")
     @NotNull(message = "El nombre no puede ser nulo")
     @Size(min = 3, message = "El nombre debe tener mínimo 3 caracteres")
@@ -41,11 +41,11 @@ public class WarehouseModel {
 
     @ManyToOne
     @JoinColumn(name="warehouse_user")
-    private UserModel warehouse;
+    private UserModel warehouser;
 
     @ManyToOne
     @JoinColumn(name="invoice_user")
-    private UserModel invoice;
+    private UserModel invoicer;
 
     @Override
     public String toString() {

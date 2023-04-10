@@ -1,6 +1,7 @@
 package mx.edu.utez.warehouse.user.service;
 import jakarta.persistence.NoResultException;
 import mx.edu.utez.warehouse.message.model.MessageModel;
+import mx.edu.utez.warehouse.role.model.AuthorityName;
 import mx.edu.utez.warehouse.role.model.RoleModel;
 import mx.edu.utez.warehouse.role.service.RoleRepository;
 import mx.edu.utez.warehouse.role.service.RoleService;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import javax.management.relation.Role;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -142,23 +144,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserModel> listUsers() {
-
-        return repository.findAll(Sort.by("username").ascending());
+    public List<UserModel> listWarehousers() {
+        RoleModel role = new RoleModel(2L);
+        return repository.findAllByAuthoritiesAndStatus(role, 1L);
+    }
+    @Override
+    public List<UserModel> listInvoicers() {
+        RoleModel role = new RoleModel(3L);
+        return repository.findAllByAuthoritiesAndStatus(role, 1L);
     }
 
-    //    @Override
-//    public List<UserModel> findUserByRole (String type){
-//        RoleModel warehouseRole = new RoleModel("WAREHOUSE");
-//        int status = 1;
-//        List<UserModel> users = repository.findByRoleAndStatus(warehouseRole, status);
-//        return users;
-//    }
+
+
 
     public boolean isExistUser(String username) {
         return repository.existsByUsername(username);
     }
     public boolean isExistUserAndId(String username, Long id) {
         return repository.existsByUsernameAndIdNotLike(username, id);
+    }
+
+    public UserModel findByIdAndAuthorities(Long id, RoleModel role) {
+        return repository.findByIdAndAndAuthorities(id, role);
     }
 }

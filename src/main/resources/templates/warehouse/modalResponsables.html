@@ -16,15 +16,12 @@
 
                         <div class="col-md-6 mb-3">
                             <label>Almacenista<span class="text-danger">*</span></label>
-                            <select name="warehouse" id="warehouse"  class="custom-select d-block w-100"  disabled>
-                                <option th:each="tmpWarehouse: ${listUsers}"  th:value="${tmpWarehouse.id}" th:text="${tmpWarehouse.username}" ></option>
-                            </select>
+                            <input type="text" class="form-control" id="warehouse" readonly>
+
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Facturación<span class="text-danger">*</span></label>
-                            <select name="invoice" id="invoice"  class="custom-select d-block w-100" disabled >
-                                <option th:each="tmpWarehouse: ${listUsers}"  th:value="${tmpWarehouse.id}" th:text="${tmpWarehouse.username}" >Selecciona un almacenista</option>
-                            </select>
+                            <input type="text" class="form-control" id="invoice" readonly>
                         </div>
                     </div>
                     <div style="float: right">

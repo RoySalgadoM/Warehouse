@@ -159,7 +159,7 @@ public class AreaController {
                 model.addAttribute("result", areas);
                 return "errorPages/500";
             }
-
+            redirectAttributes.addFlashAttribute("action", "update");
             redirectAttributes.addFlashAttribute("pageSize", pageable.getPageSize());
             redirectAttributes.addFlashAttribute("resultAction", areas);
             return "redirect:/area/list";

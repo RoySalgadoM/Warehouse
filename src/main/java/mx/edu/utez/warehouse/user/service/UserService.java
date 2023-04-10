@@ -13,6 +13,7 @@ public interface UserService {
     MessageModel updateUser(UserModel userModel, String username, String uuid);
     MessageModel disableUser(long id, String username, String uuid);
 
-    List<UserModel> listUsers();
-//    List<UserModel> findUserByRole(String type);
+    List<UserModel> listWarehousers();
+    List<UserModel> listInvoicers();
+
 }

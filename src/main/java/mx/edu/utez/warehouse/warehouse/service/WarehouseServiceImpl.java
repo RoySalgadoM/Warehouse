@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class WarehouseServiceImpl implements WarehouseService {
@@ -37,6 +39,12 @@ public class WarehouseServiceImpl implements WarehouseService {
             return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
         }
     }
+
+    @Override
+    public List<WarehouseModel> findWarehouses() {
+        return repository.findAll();
+    }
+
 
     @Override
     public MessageModel findById(long id, String username, String uuid) {
@@ -79,8 +87,8 @@ public class WarehouseServiceImpl implements WarehouseService {
             warehouse.get().setName(warehouseModel.getName());
             warehouse.get().setIdentifier(warehouseModel.getIdentifier());
             warehouse.get().setAddress(warehouseModel.getAddress());
-            warehouse.get().setWarehouse(warehouseModel.getWarehouse());
-            warehouse.get().setInvoice(warehouseModel.getInvoice());
+            warehouse.get().setWarehouser(warehouseModel.getWarehouser());
+            warehouse.get().setInvoicer(warehouseModel.getInvoicer());
 
             repository.saveAndFlush(warehouse.get());
 

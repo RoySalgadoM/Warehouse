@@ -3,6 +3,8 @@ package mx.edu.utez.warehouse.warehouse.controller;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import mx.edu.utez.warehouse.message.model.MessageModel;
+import mx.edu.utez.warehouse.role.model.RoleModel;
+import mx.edu.utez.warehouse.role.service.RoleServiceImpl;
 import mx.edu.utez.warehouse.security.config.SecurityUser;
 import mx.edu.utez.warehouse.user.model.UserModel;
 import mx.edu.utez.warehouse.user.service.UserServiceImpl;
@@ -35,6 +37,9 @@ public class WarehouseController {
     @Autowired
     UserServiceImpl serviceUser;
 
+    @Autowired
+    RoleServiceImpl serviceRole;
+
     List<UserModel> users = new LinkedList<>();
 
     @GetMapping("/list")
@@ -53,8 +58,8 @@ public class WarehouseController {
             warehouses.setUuid(uuid.toString());
 
             model.addAttribute("result", warehouses);
-            model.addAttribute("listUsers", serviceUser.listUsers());
-//            model.addAttribute("listWarehouse", serviceUser.findUserByRole("WAREHOUSE"));
+            model.addAttribute("listWarehousers", serviceUser.listWarehousers());
+            model.addAttribute("listInvoicers", serviceUser.listInvoicers());
             if (warehouses.getIsError()) {
                 return "errorPages/500";
             }
@@ -108,6 +113,27 @@ public class WarehouseController {
             if(service.isExistWarehouse(warehouse.getIdentifier())){
                 result.rejectValue("identifier", "warehouse.identifier", "El identificador ya existe");
             }
+            if(warehouse.getWarehouser() == null || warehouse.getInvoicer() == null){
+                if (warehouse.getWarehouser() == null) {
+                    result.rejectValue("warehouse", "warehouse.warehouse", "El almacenista es requerido");
+                }
+                if (warehouse.getInvoicer() == null) {
+                    result.rejectValue("invoice", "warehouse.invoice", "El facturador es requerido");
+                }
+            }else{
+                RoleModel wareRole = new RoleModel(2L);
+                RoleModel invoRole = new RoleModel(3L);
+                var ware = serviceUser.findByIdAndAuthorities(warehouse.getWarehouser().getId(), wareRole);
+                var invo = serviceUser.findByIdAndAuthorities(warehouse.getInvoicer().getId(), invoRole);
+
+                if(ware == null){
+                    result.rejectValue("warehouser", "warehouse.warehouser", "El usuario que asignó no es un almacenista o no existe");
+                }
+                if(invo == null){
+                    result.rejectValue("invoicer", "warehouse.invoicer", "El usuario que asignó no es un facturador o no existe");
+                }
+            }
+
             if(result.hasErrors()) {
                 logger.error("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> saveWarehouse() ERROR: {}", username, uuid, result.getAllErrors());
                 MessageModel warehouses = service.findAllWarehouse(pageable, username, uuid.toString());
@@ -116,17 +142,12 @@ public class WarehouseController {
                 warehouses.setIsError(true);
                 model.addAttribute("result", warehouses);
                 model.addAttribute("data", warehouse);
-
+                model.addAttribute("listWarehousers", serviceUser.listWarehousers());
+                model.addAttribute("listInvoicers", serviceUser.listInvoicers());
                 return "warehouse/warehouse";
             }
 
             MessageModel warehouses = service.registerWarehouse(warehouse, username, uuid.toString());
-//            for(UserModel userModel : users){
-//                warehouse.getWarehouse().setId(userModel.getId());
-//            }
-//            for(UserModel userModel : users){
-//                warehouse.getInvoice().setId(userModel.getId());
-//            }
             warehouses.setUuid(uuid.toString());
             logger.info("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> saveWarehouse() RESPONSE: {}", username, uuid, warehouses.getMessage());
 
@@ -158,6 +179,27 @@ public class WarehouseController {
             if(service.isExistWarehouseAndId(warehouse.getIdentifier(), warehouse.getId())){
                 result.rejectValue("identifier", "warehouse.identifier", "El identificador ya existe");
             }
+
+            if(warehouse.getWarehouser() == null || warehouse.getInvoicer() == null){
+                if (warehouse.getWarehouser() == null) {
+                    result.rejectValue("warehouse", "warehouse.warehouse", "El almacenista es requerido");
+                }
+                if (warehouse.getInvoicer() == null) {
+                    result.rejectValue("invoice", "warehouse.invoice", "El facturador es requerido");
+                }
+            }else{
+                RoleModel wareRole = new RoleModel(2L);
+                RoleModel invoRole = new RoleModel(3L);
+                var ware = serviceUser.findByIdAndAuthorities(warehouse.getWarehouser().getId(), wareRole);
+                var invo = serviceUser.findByIdAndAuthorities(warehouse.getInvoicer().getId(), invoRole);
+
+                if(ware == null){
+                    result.rejectValue("warehouser", "warehouse.warehouser", "El usuario que asignó no es un almacenista o no existe");
+                }
+                if(invo == null){
+                    result.rejectValue("invoicer", "warehouse.invoicer", "El usuario que asignó no es un facturador o no existe");
+                }
+            }
             if(result.hasErrors()) {
                 logger.error("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> updateWarehouse() ERROR: {}", username, uuid, result.getAllErrors());
                 MessageModel warehouses = service.findAllWarehouse(pageable, username, uuid.toString());
@@ -168,14 +210,16 @@ public class WarehouseController {
                 model.addAttribute("data", warehouse);
                 model.addAttribute("action", "update");
                 model.addAttribute("pageSize", pageable.getPageSize());
+                model.addAttribute("listWarehousers", serviceUser.listWarehousers());
+                model.addAttribute("listInvoicers", serviceUser.listInvoicers());
 
                 return "warehouse/warehouse";
             }
             for(UserModel userModel : users){
-                warehouse.getWarehouse().setId(userModel.getId());
+                warehouse.getWarehouser().setId(userModel.getId());
             }
             for(UserModel userModel : users){
-                warehouse.getInvoice().setId(userModel.getId());
+                warehouse.getInvoicer().setId(userModel.getId());
             }
 
             MessageModel warehouses = service.updateWarehouse(warehouse, username, uuid.toString());

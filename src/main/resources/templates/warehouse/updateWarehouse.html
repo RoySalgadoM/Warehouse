@@ -30,20 +30,18 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Almacenista<span class="text-danger">*</span></label>
-                            <select name="warehouse" id="warehouse" th:value="${data != null && action eq 'update' ? data.warehouse.id : ''}" class="custom-select d-block w-100"  >
-                                <option th:each="tmpWarehouse: ${listUsers}"  th:value="${tmpWarehouse.id}" th:text="${tmpWarehouse.username}" >Selecciona un almacenista</option>
+                            <select name="warehouser" id="warehouse" th:value="${data != null && action eq 'update' ? data.warehouser.id : ''}" class="custom-select d-block w-100"  >
+                                <option th:each="tmpWarehouse: ${listWarehousers}" th:value="${tmpWarehouse.id}" th:text="${tmpWarehouse.name + ' ' + tmpWarehouse.surname}" >Selecciona un almacenista</option>
                             </select>
-                            <div id="warehousediv" th:if="${#fields.hasErrors('warehouse') && action eq 'update'}" th:errors="*{warehouse}" class="alert alert-danger"></div>
+                            <div id="warehousediv" th:if="${#fields.hasErrors('warehouser') && action eq 'update'}" th:errors="*{warehouser}" class="alert alert-danger"></div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Facturación<span class="text-danger">*</span></label>
-                            <select name="invoice" id="invoice" th:value="${data != null && action eq 'update' ? data.invoice.id : ''}" class="custom-select d-block w-100"  >
-                                <option th:each="tmpWarehouse: ${listUsers}"  th:value="${tmpWarehouse.id}" th:text="${tmpWarehouse.username}" >Selecciona un almacenista</option>
+                            <select name="invoicer" id="invoice" th:value="${data != null && action eq 'update' ? data.invoicer.id : ''}" class="custom-select d-block w-100"  >
+                                <option th:each="tmpWarehouse: ${listInvoicers}"  th:value="${tmpWarehouse.id}" th:text="${tmpWarehouse.name + ' ' + tmpWarehouse.surname}" >Selecciona un almacenista</option>
                             </select>
-                            <div id="invoicediv" th:if="${#fields.hasErrors('warehouse') && action eq 'update'}" th:errors="*{warehouse}" class="alert alert-danger"></div>
+                            <div id="invoicediv" th:if="${#fields.hasErrors('invoicer') && action eq 'update'}" th:errors="*{invoicer}" class="alert alert-danger"></div>
                         </div>
-
-                        <!--                        <input name="id" type="hidden" class="form-control">-->
                     </div>
                     <div style="float: right">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
