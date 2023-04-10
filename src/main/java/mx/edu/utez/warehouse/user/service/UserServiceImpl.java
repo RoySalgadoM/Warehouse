@@ -33,8 +33,7 @@ public class UserServiceImpl implements UserService {
     UserRepository repository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-
+    private static final String USER_NOT_FOUND = "The user could not be found";
 
     @Autowired
     RoleRepository roleRepository;
@@ -58,7 +57,7 @@ public class UserServiceImpl implements UserService {
         try {
             var findUser = repository.findById(id);
             if (findUser.isEmpty()) {
-                throw new NoResultException("The area could not be found");
+                throw new NoResultException(USER_NOT_FOUND);
             }
             return new MessageModel(MessageCatalog.RECORDS_FOUND, findUser.get(), false);
 
@@ -75,7 +74,7 @@ public class UserServiceImpl implements UserService {
         try {
             var user= repository.findById(userModel.getId());
             if (user.isEmpty()) {
-                throw new NoResultException("The area could not be found");
+                throw new NoResultException(USER_NOT_FOUND);
             }
             user.get().setName(userModel.getName());
             user.get().setSurname(userModel.getSurname());
@@ -129,7 +128,7 @@ public class UserServiceImpl implements UserService {
         try {
             var user = repository.findById(id);
             if (user.isEmpty()) {
-                throw new NoResultException("The area could not be found");
+                throw new NoResultException(USER_NOT_FOUND);
             }
             user.get().setStatus(user.get().getStatus() == 1 ? 0 : 1);
             repository.saveAndFlush(user.get());

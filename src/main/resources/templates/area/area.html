@@ -81,7 +81,7 @@
                         <h3 class="card-title font-white">Áreas</h3>
                     </div>
                     <div class="card-body">
-                        <div class="row mb-3 mt-2 form-inline">
+                        <div class="row mb-3 mt-2">
                             <p class="mr-2">Mostrar</p>
                             <form th:action="@{/area/list}" id="searchForm">
                                 <select th:value="${pageSize}" name="size" class="custom-select"
@@ -98,22 +98,20 @@
                                 <table class="table table-responsive projects margin-table-order table-striped projects">
                                     <thead>
                                     <tr class="text-center">
-                                        <th style="width: 5%">
+                                        <th style="width: 1%">
                                             #
                                         </th>
-                                        <th style="width: 30%">
+                                        <th style="width: 20%">
                                             Identificador
                                         </th>
-                                        <th style="width: 30%">
+                                        <th style="width: 20%">
                                             Dirección
                                         </th>
-                                        <th style="width: 8%">
+                                        <th style="width: 20%">
                                             Estado
                                         </th>
-
-                                        <th style="width: 12%">
-                                            Acciones
-                                        </th>
+                                        <th style="width: 8%" class="text-center">Modificar</th>
+                                        <th style="width: 8%" class="text-center">Estado</th>
                                     </tr>
                                     </thead>
                                     <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}" class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -137,33 +135,29 @@
                                             <p th:class="${area.status == 1 ? 'text-success' : 'text-danger'}">[[${area.status == 1 ? 'Activo' : 'Inactivo'}]]</p>
                                         </td>
                                         <td>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <button th:attr="onclick=|getArea('${area.id}')|" id="updateBtnArea"
-                                                            type="button" class="btn btn-warning" data-toggle="modal"
-                                                            data-target="#updateArea">
-                                                        <i class="nav-icon fas fa-edit"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="col-lg-6 ">
-                                                    <form th:if="${area.status == 1}" th:action="@{/area/disable}"
-                                                          method="post">
-                                                        <input th:value="${area.id}" name="id" type="hidden">
-                                                        <button type="button" class="btn btn-danger deleteBtnArea"
-                                                                data-toggle="modal" data-target="#deleteArea">
-                                                            <i class="nav-icon fa-solid fa-eye-slash"></i>
-                                                        </button>
-                                                    </form>
-                                                    <form th:if="${area.status == 0}" th:action="@{/area/disable}"
-                                                          method="post">
-                                                        <input th:value="${area.id}" name="id" type="hidden">
-                                                        <button type="button" class="btn btn-success deleteBtnArea"
-                                                                data-toggle="modal" data-target="#deleteArea">
-                                                            <i class="nav-icon fa-solid fa-eye"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
+                                            <button th:attr="onclick=|getArea('${area.id}')|" id="updateBtnArea"
+                                                    type="button" class="btn btn-warning" data-toggle="modal"
+                                                    data-target="#updateArea">
+                                                <i class="nav-icon fas fa-edit"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <form th:if="${area.status == 1}" th:action="@{/area/disable}"
+                                                  method="post">
+                                                <input th:value="${area.id}" name="id" type="hidden">
+                                                <button type="button" class="btn btn-danger deleteBtnArea"
+                                                        data-toggle="modal" data-target="#deleteArea">
+                                                    <i class="nav-icon fa-solid fa-eye-slash"></i>
+                                                </button>
+                                            </form>
+                                            <form th:if="${area.status == 0}" th:action="@{/area/disable}"
+                                                  method="post">
+                                                <input th:value="${area.id}" name="id" type="hidden">
+                                                <button type="button" class="btn btn-success deleteBtnArea"
+                                                        data-toggle="modal" data-target="#deleteArea">
+                                                    <i class="nav-icon fa-solid fa-eye"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                     </tbody>

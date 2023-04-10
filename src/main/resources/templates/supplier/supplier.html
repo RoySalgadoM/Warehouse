@@ -124,7 +124,7 @@
                         <table class="table table-responsive projects margin-table-order table-striped projects">
                             <thead class="text-center">
                             <tr>
-                                <th style="width: 5%">#</th>
+                                <th style="width: 1%">#</th>
                                 <th style="width: 15%">Nombre</th>
                                 <th style="width: 15%">RFC</th>
                                 <th style="width: 15%">Razón social</th>
@@ -222,10 +222,8 @@
             </section>
         </div>
     </div>
-<!--    <div th:replace="supplier/createSupplier"></div>-->
     <div th:replace="supplier/updateSupplier"></div>
-<!--    <div th:replace="supplier/showSupplier"></div>-->
-<!--    <div th:replace="supplier/deleteSupplier"></div>-->
+
 </div>
 
 <script th:if="${result.isError && action eq 'update'}">
