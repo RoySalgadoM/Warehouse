@@ -26,4 +26,7 @@ public class RoleModel implements Serializable {
         this.id = id;
         this.name = name;
     }
+    public RoleModel(Long id) {
+        this.id = id;
+    }
 }
