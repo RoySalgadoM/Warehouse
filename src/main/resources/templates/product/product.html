@@ -74,7 +74,7 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label>Precio Unitario</label><span class="text-danger">*</span>
-                                    <input type="number" class="form-control" placeholder="1.50" name="unitPrice" th:value="${data != null && action eq 'save' ? data.unitPrice : ''}">
+                                    <input type="decimal" class="form-control" placeholder="1.50" name="unitPrice" th:value="${data != null && action eq 'save' ? data.unitPrice : ''}">
                                     <div th:if="${#fields.hasErrors('unitPrice') && action eq 'save'}" th:errors="*{unitPrice}"
                                          class="alert alert-danger"></div>
                                 </div>
@@ -310,12 +310,10 @@
         });
     });
     const showFields = ()=>{
-        let date = new Date();
         let type = $("#type").val();
         if (type == 2) {
             $("#divSerialC").css("display", "block");
             $("#divExC").css("display", "none");
-            $("#expC").val(date.getDate());
         } else {
             $("#divSerialC").css("display", "none");
             $("#divExC").css("display", "inline-table");
@@ -342,6 +340,7 @@
             $("#divExC").css("display", "inline-table");
             $("#serialC").val("");
             $("#type").val(1);
+            $("#expC").val(date);
         }
 
         if (typeUpdate == 2) {
@@ -354,6 +353,7 @@
             $("#divEx").css("display", "inline-table");
             $("#serial").val("");
             $("#type").val(1);
+            $("#expC").val(date);
         }
 
 
