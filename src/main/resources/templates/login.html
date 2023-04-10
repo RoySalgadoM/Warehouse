@@ -39,25 +39,12 @@
                 <button class="ghost" id="signIn">Inicia Sesión</button>
             </div>
             <div class="overlay-panel overlay-right">
-                <h1>Hola!</h1>
-                <p>¿Aún no tienes tu cuenta?</p>
-                <button class="ghost" id="signUp">Registrate</button>
+                <h1>Bienvenido al Sistema de Almacén</h1>
+
+
             </div>
         </div>
     </div>
 </div>
-<script>
-    const signUpButton = document.getElementById('signUp');
-    const signInButton = document.getElementById('signIn');
-    const container = document.getElementById('containerLogin');
-
-    signUpButton.addEventListener('click', () => {
-        container.classList.add("right-panel-active");
-    });
-
-    signInButton.addEventListener('click', () => {
-        container.classList.remove("right-panel-active");
-    });
-</script>
 </body>
 </html>
