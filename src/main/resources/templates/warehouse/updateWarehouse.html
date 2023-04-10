@@ -9,24 +9,45 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form th:action="@{/warehouse/update}" th:object="${warehouse}" method="post">
+                    <input type="hidden" name="id" id="id" th:value="${data != null ? data.id : ''}">
+
                     <div class="row mt-2 mb-3">
                         <div class="col-md-6 mb-3">
                             <label class="font-weight-normal">Nombre<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Ingrese un nombre">
+                            <input name="name" id="name" th:value="${data != null && action eq 'update' ? data.name : ''}" type="text" min="3" class="form-control" placeholder="Ingrese un nombre" required>
+                            <div id="namediv" th:if="${#fields.hasErrors('name') && action eq 'update'}" th:errors="*{name}" class="alert alert-danger"></div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="font-weight-normal">Identificador<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Ingrese un identificador">
+                            <input name="identifier"  id="identifier" th:value="${data != null && action eq 'update' ? data.identifier : ''}"  type="text" min="3"  class="form-control" placeholder="Ingrese un identificador" required>
+                            <div id="identifierdiv" th:if="${#fields.hasErrors('identifier') && action eq 'update'}" th:errors="*{identifier}" class="alert alert-danger"></div>
                         </div>
                         <div class="col-md-12 mb-3">
                             <label class="font-weight-normal">Dirección<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Ingrese una dirección">
+                            <input name="address" id="address"  th:value="${data != null && action eq 'update' ? data.address : ''}" type="text" class="form-control" placeholder="Ingrese una dirección">
+                            <div id="addressdiv" th:if="${#fields.hasErrors('address') && action eq 'update'}" th:errors="*{address}" class="alert alert-danger"></div>
                         </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Almacenista<span class="text-danger">*</span></label>
+                            <select name="warehouse" id="warehouse" th:value="${data != null && action eq 'update' ? data.warehouse.id : ''}" class="custom-select d-block w-100"  >
+                                <option th:each="tmpWarehouse: ${listUsers}"  th:value="${tmpWarehouse.id}" th:text="${tmpWarehouse.username}" >Selecciona un almacenista</option>
+                            </select>
+                            <div id="warehousediv" th:if="${#fields.hasErrors('warehouse') && action eq 'update'}" th:errors="*{warehouse}" class="alert alert-danger"></div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Facturación<span class="text-danger">*</span></label>
+                            <select name="invoice" id="invoice" th:value="${data != null && action eq 'update' ? data.invoice.id : ''}" class="custom-select d-block w-100"  >
+                                <option th:each="tmpWarehouse: ${listUsers}"  th:value="${tmpWarehouse.id}" th:text="${tmpWarehouse.username}" >Selecciona un almacenista</option>
+                            </select>
+                            <div id="invoicediv" th:if="${#fields.hasErrors('warehouse') && action eq 'update'}" th:errors="*{warehouse}" class="alert alert-danger"></div>
+                        </div>
+
+                        <!--                        <input name="id" type="hidden" class="form-control">-->
                     </div>
                     <div style="float: right">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary">Modificar</button>
+                        <button type="button" class="btn btn-primary updateBtnWarehouse">Modificar</button>
                     </div>
                 </form>
             </div>

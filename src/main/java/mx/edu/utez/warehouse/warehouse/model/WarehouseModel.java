@@ -6,11 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mx.edu.utez.warehouse.requisition.model.RequisitionModel;
 import mx.edu.utez.warehouse.user.model.UserModel;
-
-import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -27,27 +23,37 @@ public class WarehouseModel {
     @Column(nullable = false, unique = true)
     @NotEmpty(message = "El nombre no puede estar vacío")
     @NotNull(message = "El nombre no puede ser nulo")
-    @Size(min = 3, max = 10, message = "El nombre debe tener entre 3 y 10 caracteres")
+    @Size(min = 3, message = "El nombre debe tener mínimo 3 caracteres")
     @Pattern(regexp = "[A-Za-z0-9 ]+", message = "El nombre debe ser alfanumérico")
     private String name;
     @Column(nullable = false, unique = true)
     @NotEmpty(message = "El identificador no puede estar vacío")
     @NotNull(message = "El identificador no puede ser nulo")
-    @Size(min = 3, max = 10, message = "El identificador debe tener entre 3 y 10 caracteres")
+    @Size(min = 3, message = "El identificador debe tener mínimo 3 caracteres")
     @Pattern(regexp = "[A-Za-z0-9 ]+", message = "El identificador debe ser alfanumérico")
     private String identifier;
     @Column(nullable = false)
     @NotEmpty(message = "La dirección no puede estar vacío")
     @NotNull(message = "La dirección no puede ser nulo")
-    @Size(min = 3, max = 45, message = "La dirección debe tener entre 3 y 45 caracteres")
+    @Size(min = 3, max = 100, message = "La dirección debe tener entre 3 y 100 caracteres")
     @Pattern(regexp = "[A-Za-z0-9 ]+", message = "La dirección debe ser alfanumérica")
     private String address;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "warehouse_user", joinColumns = @JoinColumn(name = "warehouse_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<UserModel> users;
+    @ManyToOne
+    @JoinColumn(name="warehouse_user")
+    private UserModel warehouse;
 
-    @OneToMany(mappedBy = "warehouse")
-    private List<RequisitionModel> requisition;
+    @ManyToOne
+    @JoinColumn(name="invoice_user")
+    private UserModel invoice;
+
+    @Override
+    public String toString() {
+        return "WarehouseModel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", identifier='" + identifier + '\'' +
+                ", address=" + address + '\'' +
+                '}';
+    }
 }

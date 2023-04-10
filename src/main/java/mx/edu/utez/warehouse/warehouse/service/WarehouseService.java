@@ -1,10 +1,14 @@
 package mx.edu.utez.warehouse.warehouse.service;
 
-import mx.edu.utez.warehouse.supplier.model.SupplierModel;
+import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.warehouse.model.WarehouseModel;
-
-import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 public interface WarehouseService {
-    List<WarehouseModel> findWarehouses();
+    MessageModel findAllWarehouse(Pageable page, String username, String uuid);
+    MessageModel findById(long id, String username, String uuid);
+    MessageModel registerWarehouse(WarehouseModel warehouseModel, String username, String uuid);
+    MessageModel updateWarehouse(WarehouseModel warehouseModel, String username, String uuid);
+
+
 }

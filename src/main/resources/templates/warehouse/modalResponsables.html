@@ -1,11 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<!-- Modal -->
+<div class="modal fade" id="showBtnResponsables" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Responsables de almacén</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" name="id" id="id">
 
+                    <div class="row mt-2 mb-3">
 
-</body>
-</html>
+                        <div class="col-md-6 mb-3">
+                            <label>Almacenista<span class="text-danger">*</span></label>
+                            <select name="warehouse" id="warehouse"  class="custom-select d-block w-100"  disabled>
+                                <option th:each="tmpWarehouse: ${listUsers}"  th:value="${tmpWarehouse.id}" th:text="${tmpWarehouse.username}" ></option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Facturación<span class="text-danger">*</span></label>
+                            <select name="invoice" id="invoice"  class="custom-select d-block w-100" disabled >
+                                <option th:each="tmpWarehouse: ${listUsers}"  th:value="${tmpWarehouse.id}" th:text="${tmpWarehouse.username}" >Selecciona un almacenista</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="float: right">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -23,6 +23,12 @@
             </div>
           </div>
         </div><!-- /.container-fluid -->
+        <div th:if="${resultAction != null ? (resultAction.message.name eq 'SUCCESS_REGISTER') || (resultAction.message.name eq 'SUCCESS_UPDATE'): false}" class="alert alert-success alert-dismissible fade show" role="alert">
+          [[${resultAction.message.message}]]
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
       </section>
 
       <section class="content">
@@ -35,21 +41,50 @@
               </button>
             </div>
           </div>
-          <div class="card-body collapse">
-            <form>
+          <div class="card-body collapse" th:class="${(result.isError && action eq 'save') ? 'card-body': 'card-body collapse'}">
+            <form th:action="@{/warehouse/save}" method="post" th:object="${warehouse}">
               <div class="row mt-2 mb-3">
-                <div class="col-md-3 mb-3">
-                  <label class="font-weight-normal">Nombre<span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" placeholder="Ingrese un nombre">
+                <div class="col-md-4 mb-3">
+                  <label >Nombre<span class="text-danger">*</span></label>
+                  <input th:value="${data != null && action eq 'save' ? data.name : ''}" name="name" type="text"
+                         class="form-control" placeholder="Ingrese un nombre">
+                  <div th:if="${#fields.hasErrors('name') && action eq 'save'}" th:errors="*{name}"
+                       class="alert alert-danger"></div>
                 </div>
-                <div class="col-md-3 mb-3">
-                  <label class="font-weight-normal">Identificador<span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" placeholder="Ingrese un identificador">
+                <div class="col-md-4 mb-3">
+                  <label >Identificador<span class="text-danger">*</span></label>
+                  <input th:value="${data != null && action eq 'save' ? data.identifier : ''}" type="text"
+                         name="identifier" class="form-control" placeholder="Ingrese un identificador"
+                  >
+                  <div th:if="${#fields.hasErrors('identifier') && action eq 'save'}" th:errors="*{identifier}"
+                       class="alert alert-danger"></div>
                 </div>
-                <div class="col-md-3 mb-3">
-                  <label class="font-weight-normal">Dirección<span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" placeholder="Ingrese una dirección">
+                <div class="col-md-4 mb-3">
+                  <label >Dirección<span class="text-danger">*</span></label>
+                  <input th:value="${data != null && action eq 'save' ? data.address : ''}" type="text" name="address"
+                         class="form-control" placeholder="Ingrese una dirección">
+                  <div th:if="${#fields.hasErrors('address') && action eq 'save'}" th:errors="*{address}"
+                       class="alert alert-danger"></div>
                 </div>
+                <div class="col-md-4 mb-3">
+                  <label>Almacenista<span class="text-danger">*</span></label>
+                  <select th:field="*{warehouse}" class="custom-select d-block w-100"  >
+                    <option th:each="tmpWarehouse: ${listUsers}"   th:value="${tmpWarehouse.id}" th:text="${tmpWarehouse.username}"></option>
+                  </select>
+
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label>Facturación<span class="text-danger">*</span></label>
+                  <select th:field="*{invoice}" class="custom-select d-block w-100"  >
+                    <option th:each="tmpWarehouse: ${listUsers}" th:value="${tmpWarehouse.id}" th:text="${tmpWarehouse.username}"></option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mt-2 mb-3" style="justify-content: center">
+                <button
+                        type="submit"
+                        class="btn btn-primary btn-block btn-lg"
+                >Registrar</button>
               </div>
             </form>
           </div>
@@ -60,7 +95,21 @@
             <h3 class="card-title font-white">Almacenes</h3>
           </div>
           <div class="card-body">
-            <table class="table table-striped projects">
+            <div class="row mb-3 mt-2 form-inline">
+              <p class="mr-2">Mostrar</p>
+              <form th:action="@{/warehouse/list}" id="searchForm">
+                <select th:value="${pageSize}" name="size" class="custom-select"
+                        onchange="changePageSize()">
+
+                  <option th:each="s : ${ {5, 10, 20, 50, 100} }" th:value="${s}" th:text="${s}"
+                          th:selected="${s == pageSize}"></option>
+
+                </select>
+              </form>
+
+              <p class="ml-2">registros</p>
+            </div>
+            <table class="table table-responsive projects margin-table-order table-striped projects">
               <thead>
               <tr>
                 <th style="width: 1%">
@@ -83,40 +132,137 @@
                 </th>
               </tr>
               </thead>
+              <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                [[${result.message.message}]]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
               <tbody>
-              <tr>
+              <tr th:each="warehouse : ${result.data}" th:if="${result.data != null}">
                 <td>
-                  1
+                  [[${warehouse.id}]]
                 </td>
                 <td>
-                  AL1704SS
+                  [[${warehouse.identifier}]]
                 </td>
                 <td>
-                  Almacén 1
+                  [[${warehouse.name}]]
                 </td>
                 <td>
-                  Cuernavaca, Morelos
+                  [[${warehouse.address}]]
                 </td>
                 <td>
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#responsables">
-                    <i class="nav-icon fas fa-users"></i>
-                  </button>
+                  <div class="col-lg-6 col-md-12">
+                    <button th:attr="onclick=|getUsers('${warehouse.id}')|"
+                            type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#showBtnResponsables">
+                      <i class="nav-icon fas fa-users"></i>
+                    </button>
+                  </div>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateWarehouse">
-                    <i class="nav-icon fas fa-edit"></i>
-                  </button>
+                  <div class="col-lg-6 col-md-12">
+                    <button th:attr="onclick=|getWarehouse('${warehouse.id}')|" id="updateBtnWarehouse"
+                            type="button" class="btn btn-warning" data-toggle="modal"
+                            data-target="#updateWarehouse">
+                      <i class="nav-icon fas fa-edit"></i>
+                    </button>
+                  </div>
                 </td>
               </tr>
               </tbody>
             </table>
+            <nav class="mt-3" th:if="${result.data != null ? result.data.totalPages > 0 : false}"
+                 aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${result.data.number == 0 ? 'disabled' : ''}">
+                  <a th:href="@{/warehouse/list(page=${result.data.number - 1}, size=${pageSize})}"
+                     class="page-link">Anterior</a>
+                </li>
+                <li class="page-item" th:classappend="${i eq result.data.number + 1} ? 'active'"
+                    th:each="i : ${#numbers.sequence( 1, (result.data != null ? result.data.totalPages : 0) , 1)}">
+                  <a class="page-link"
+                     th:href="@{/warehouse/list?page={tmpPag} (tmpPag=${i-1}, size=${pageSize}) }"
+                     th:text="${i}"
+                     th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+                </li>
+                <li class="page-item"
+                    th:classappend="${result.data.number == ((result.data != null ? result.data.totalPages : 0) - 1) ? 'disabled' : ''}">
+                  <a th:href="@{/warehouse/list(page=${result.data.number + 1}, size=${pageSize})}"
+                     class="page-link">Siguiente</a>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
       </section>
 
     </div>
   </div>
+
   <div th:replace="warehouse/updateWarehouse"></div>
+  <div th:replace="warehouse/modalResponsables"></div>
+
 </div>
+<script th:if="${result.isError && action eq 'update'}">
+    $('#updateWarehouse').modal('show');
+  </script>
+<script>
+
+
+    const getWarehouse = (id) => {
+        $.get("/warehouse/" + id, function (data) {
+            $("#updateWarehouse").find("#name").val(data.data.name);
+            $("#updateWarehouse").find("#identifier").val(data.data.identifier);
+            $("#updateWarehouse").find("#address").val(data.data.address);
+            $("#updateWarehouse").find("#warehouse").val(data.data.warehouse.id);
+            $("#updateWarehouse").find("#invoice").val(data.data.invoice.id);
+            $("#updateWarehouse").find("#id").val(data.data.id);
+
+            $("#namediv").css("display", "none");
+            $("#identifierdiv").css("display", "none");
+            $("#addressdiv").css("display", "none");
+            $("#warehousediv").css("display", "none");
+            $("#invoicediv").css("display", "none");
+
+            console.log(data);
+        });
+
+    }
+    const getUsers = (id) => {
+        $.get("/warehouse/" + id, function (data) {
+            $("#showBtnResponsables").find("#warehouse").val(data.data.warehouse.id);
+            $("#showBtnResponsables").find("#invoice").val(data.data.invoice.id);
+            $("#showBtnResponsables").find("#id").val(data.data.id);
+
+            $("#warehousediv").css("display", "none");
+            $("#invoicediv").css("display", "none");
+            console.log(data);
+        });
+
+    }
+
+    $('.updateBtnWarehouse').on('click', function () {
+        Swal.fire({
+            title: '¿Está seguro de modificar los datos?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $(this).closest('form').submit();
+
+            }
+        });
+    });
+
+    const changePageSize = () => {
+        $("#searchForm").submit();
+    }
+  </script>
 </body>
 </html>
+

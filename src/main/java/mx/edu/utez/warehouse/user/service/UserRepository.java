@@ -19,6 +19,9 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
 
     boolean existsByUsernameAndIdNotLike(String username,long id);
 
+    //    List<UserModel> findAllByRoleAndStatus(String authorities, Integer status);
+    //    List<UserModel> findByRoleAndStatus(RoleModel roleModel, int status);
+
 
 
 

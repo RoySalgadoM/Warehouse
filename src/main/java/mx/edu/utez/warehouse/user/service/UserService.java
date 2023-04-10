@@ -3,6 +3,8 @@ import mx.edu.utez.warehouse.user.model.UserModel;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 
 public interface UserService {
     MessageModel findAllUsers(Pageable page, String username, String uuid);
@@ -11,5 +13,6 @@ public interface UserService {
     MessageModel updateUser(UserModel userModel, String username, String uuid);
     MessageModel disableUser(long id, String username, String uuid);
 
-
+    List<UserModel> listUsers();
+//    List<UserModel> findUserByRole(String type);
 }
