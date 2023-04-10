@@ -31,6 +31,12 @@ import java.util.UUID;
 public class WarehouseController {
     private static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
     private static final Logger logger = LogManager.getLogger(WarehouseController.class);
+    private static final String RESULT = "result";
+    private static final String WAREHOUSER_LIST = "listWarehousers";
+    private static final String INVOICER_LIST = "listInvoicers";
+    private static final String ERROR_PAGE_500 = "errorPages/500";
+    private static final String PAGE_SIZE = "pageSize";
+    private static final String WAREHOUSE_REDIRECT = "warehouse/warehouse";
     @Autowired
     WarehouseServiceImpl service;
 
@@ -57,20 +63,20 @@ public class WarehouseController {
             logger.info("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> findAllWarehouse() RESPONSE: {}", username, uuid, warehouses.getMessage());
             warehouses.setUuid(uuid.toString());
 
-            model.addAttribute("result", warehouses);
-            model.addAttribute("listWarehousers", serviceUser.listWarehousers());
-            model.addAttribute("listInvoicers", serviceUser.listInvoicers());
+            model.addAttribute(RESULT, warehouses);
+            model.addAttribute(WAREHOUSER_LIST, serviceUser.listWarehousers());
+            model.addAttribute(INVOICER_LIST, serviceUser.listInvoicers());
             if (warehouses.getIsError()) {
-                return "errorPages/500";
+                return ERROR_PAGE_500;
             }
-            model.addAttribute("pageSize", pageable.getPageSize());
-            return "warehouse/warehouse";
+            model.addAttribute(PAGE_SIZE, pageable.getPageSize());
+            return WAREHOUSE_REDIRECT;
         } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> findAllWarehouse() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
-            model.addAttribute("result", message);
-            return "errorPages/500";
+            model.addAttribute(RESULT, message);
+            return ERROR_PAGE_500;
         }
     }
 
@@ -108,7 +114,7 @@ public class WarehouseController {
             username = user.getUsername();
             logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING WAREHOUSE MODULE ---> saveWarehouse()", username, uuid);
             model.addAttribute("action", "save");
-            model.addAttribute("pageSize", pageable.getPageSize());
+            model.addAttribute(PAGE_SIZE, pageable.getPageSize());
 
             if(service.isExistWarehouse(warehouse.getIdentifier())){
                 result.rejectValue("identifier", "warehouse.identifier", "El identificador ya existe");
@@ -140,11 +146,11 @@ public class WarehouseController {
                 warehouses.setUuid(uuid.toString());
                 warehouses.setMessage(MessageCatalog.VALIDATION_ERROR);
                 warehouses.setIsError(true);
-                model.addAttribute("result", warehouses);
+                model.addAttribute(RESULT, warehouses);
                 model.addAttribute("data", warehouse);
-                model.addAttribute("listWarehousers", serviceUser.listWarehousers());
-                model.addAttribute("listInvoicers", serviceUser.listInvoicers());
-                return "warehouse/warehouse";
+                model.addAttribute(WAREHOUSER_LIST, serviceUser.listWarehousers());
+                model.addAttribute(INVOICER_LIST, serviceUser.listInvoicers());
+                return WAREHOUSE_REDIRECT;
             }
 
             MessageModel warehouses = service.registerWarehouse(warehouse, username, uuid.toString());
@@ -152,8 +158,8 @@ public class WarehouseController {
             logger.info("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> saveWarehouse() RESPONSE: {}", username, uuid, warehouses.getMessage());
 
             if (warehouses.getIsError()){
-                model.addAttribute("result", warehouses);
-                return "errorPages/500";
+                model.addAttribute(RESULT, warehouses);
+                return ERROR_PAGE_500;
             }
             redirectAttributes.addFlashAttribute("resultAction", warehouses);
             return "redirect:/warehouse/list";
@@ -161,8 +167,8 @@ public class WarehouseController {
             logger.error("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> saveWarehouse() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
-            model.addAttribute("result", message);
-            return "errorPages/500";
+            model.addAttribute(RESULT, message);
+            return ERROR_PAGE_500;
         }
     }
 
@@ -206,14 +212,14 @@ public class WarehouseController {
                 warehouses.setUuid(uuid.toString());
                 warehouses.setMessage(MessageCatalog.VALIDATION_ERROR);
                 warehouses.setIsError(true);
-                model.addAttribute("result", warehouses);
+                model.addAttribute(RESULT, warehouses);
                 model.addAttribute("data", warehouse);
                 model.addAttribute("action", "update");
-                model.addAttribute("pageSize", pageable.getPageSize());
-                model.addAttribute("listWarehousers", serviceUser.listWarehousers());
-                model.addAttribute("listInvoicers", serviceUser.listInvoicers());
+                model.addAttribute(PAGE_SIZE, pageable.getPageSize());
+                model.addAttribute(WAREHOUSER_LIST, serviceUser.listWarehousers());
+                model.addAttribute(INVOICER_LIST, serviceUser.listInvoicers());
 
-                return "warehouse/warehouse";
+                return WAREHOUSE_REDIRECT;
             }
             for(UserModel userModel : users){
                 warehouse.getWarehouser().setId(userModel.getId());
@@ -228,19 +234,19 @@ public class WarehouseController {
             warehouses.setUuid(uuid.toString());
             logger.info("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> updateWarehouse() RESPONSE: {}", username, uuid, warehouses.getMessage());
             if(warehouses.getIsError()) {
-                model.addAttribute("result", warehouses);
-                return "errorPages/500";
+                model.addAttribute(RESULT, warehouses);
+                return ERROR_PAGE_500;
             }
 
-            redirectAttributes.addFlashAttribute("pageSize", pageable.getPageSize());
+            redirectAttributes.addFlashAttribute(PAGE_SIZE, pageable.getPageSize());
             redirectAttributes.addFlashAttribute("resultAction", warehouses);
             return "redirect:/warehouse/list";
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> updateWarehouse() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
-            model.addAttribute("result", message);
-            return "errorPages/500";
+            model.addAttribute(RESULT, message);
+            return ERROR_PAGE_500;
         }
     }
 }

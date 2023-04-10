@@ -1,31 +1,498 @@
-2023-04-10 06:51:45,680 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 8.0.0.Final
-2023-04-10 06:51:45,704 INFO o.s.b.StartupInfoLogger [restartedMain] Starting WarehouseApplication using Java 19.0.2 with PID 11104 (D:\Escuela\Warehouse\target\classes started by exos0 in D:\Escuela\Warehouse)
-2023-04-10 06:51:45,706 INFO o.s.b.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
-2023-04-10 06:51:45,738 INFO o.s.b.l.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023-04-10 06:51:45,738 INFO o.s.b.l.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023-04-10 06:51:46,227 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-04-10 06:51:46,295 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 63 ms. Found 10 JPA repository interfaces.
-2023-04-10 06:51:46,728 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8080 (http)
-2023-04-10 06:51:46,734 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8080"]
-2023-04-10 06:51:46,735 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
-2023-04-10 06:51:46,735 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/10.1.5]
-2023-04-10 06:51:46,783 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
-2023-04-10 06:51:46,783 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 1043 ms
-2023-04-10 06:51:46,927 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-04-10 06:51:46,962 INFO o.h.Version [restartedMain] HHH000412: Hibernate ORM core version 6.1.7.Final
-2023-04-10 06:51:47,169 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Starting...
-2023-04-10 06:51:47,408 INFO c.z.h.p.HikariPool [restartedMain] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2bcd5709
-2023-04-10 06:51:47,409 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
-2023-04-10 06:51:47,424 INFO o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2023-04-10 06:51:47,425 WARN o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
-2023-04-10 06:51:48,393 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-04-10 06:51:48,401 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-04-10 06:51:48,818 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-04-10 06:51:48,900 INFO o.s.b.a.w.s.WelcomePageHandlerMapping [restartedMain] Adding welcome page template: index
-2023-04-10 06:51:49,020 INFO o.s.s.w.DefaultSecurityFilterChain [restartedMain] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6fa38025, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3538e556, org.springframework.security.web.context.SecurityContextHolderFilter@7cf26d9b, org.springframework.security.web.header.HeaderWriterFilter@759bfeb9, org.springframework.security.web.csrf.CsrfFilter@4a14ab17, org.springframework.security.web.authentication.logout.LogoutFilter@5f291c2a, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@3f1fa398, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3318066a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4c2f8d62, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@77f9830a, org.springframework.security.web.access.ExceptionTranslationFilter@5140737, org.springframework.security.web.access.intercept.AuthorizationFilter@3c0cc9be]
-2023-04-10 06:51:49,276 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
-2023-04-10 06:51:49,292 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8080"]
-2023-04-10 06:51:49,305 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port(s): 8080 (http) with context path ''
-2023-04-10 06:51:49,313 INFO o.s.b.StartupInfoLogger [restartedMain] Started WarehouseApplication in 3.839 seconds (process running for 4.682)
-2023-04-10 06:51:49,314 INFO m.e.u.w.u.Runner [restartedMain] STARTING RUNNER
-2023-04-10 06:51:49,495 INFO m.e.u.w.u.Runner [restartedMain] END RUNNER
+2023-04-10 07:13:05,086 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 8.0.0.Final
+2023-04-10 07:13:05,121 INFO o.s.b.StartupInfoLogger [restartedMain] Starting WarehouseApplication using Java 19.0.2 with PID 16600 (D:\Escuela\Warehouse\target\classes started by exos0 in D:\Escuela\Warehouse)
+2023-04-10 07:13:05,126 INFO o.s.b.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2023-04-10 07:13:05,166 INFO o.s.b.l.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-04-10 07:13:05,166 INFO o.s.b.l.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-04-10 07:13:05,703 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-04-10 07:13:05,777 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 67 ms. Found 10 JPA repository interfaces.
+2023-04-10 07:13:06,245 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8080 (http)
+2023-04-10 07:13:06,253 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:13:06,254 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2023-04-10 07:13:06,254 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/10.1.5]
+2023-04-10 07:13:06,308 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2023-04-10 07:13:06,308 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 1141 ms
+2023-04-10 07:13:06,419 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-04-10 07:13:06,453 INFO o.h.Version [restartedMain] HHH000412: Hibernate ORM core version 6.1.7.Final
+2023-04-10 07:13:06,655 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2023-04-10 07:13:06,876 INFO c.z.h.p.HikariPool [restartedMain] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3f5d88d3
+2023-04-10 07:13:06,877 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2023-04-10 07:13:06,892 INFO o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-04-10 07:13:06,893 WARN o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2023-04-10 07:13:07,717 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-04-10 07:13:07,725 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-04-10 07:13:08,108 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-04-10 07:13:08,185 INFO o.s.b.a.w.s.WelcomePageHandlerMapping [restartedMain] Adding welcome page template: index
+2023-04-10 07:13:08,298 INFO o.s.s.w.DefaultSecurityFilterChain [restartedMain] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6d25d3a1, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4f37ace, org.springframework.security.web.context.SecurityContextHolderFilter@5cbecd01, org.springframework.security.web.header.HeaderWriterFilter@7f7a51f, org.springframework.security.web.csrf.CsrfFilter@32611c13, org.springframework.security.web.authentication.logout.LogoutFilter@5b96da5b, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@6a52e750, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@71390527, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@192ddf70, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@30181793, org.springframework.security.web.access.ExceptionTranslationFilter@2013ae6c, org.springframework.security.web.access.intercept.AuthorizationFilter@5da39bd3]
+2023-04-10 07:13:08,530 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2023-04-10 07:13:08,543 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:13:08,558 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port(s): 8080 (http) with context path ''
+2023-04-10 07:13:08,564 INFO o.s.b.StartupInfoLogger [restartedMain] Started WarehouseApplication in 3.736 seconds (process running for 4.605)
+2023-04-10 07:13:08,566 INFO m.e.u.w.u.Runner [restartedMain] STARTING RUNNER
+2023-04-10 07:13:08,739 INFO m.e.u.w.u.Runner [restartedMain] END RUNNER
+2023-04-10 07:13:15,475 INFO o.a.j.l.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-04-10 07:13:15,475 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2023-04-10 07:13:15,475 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 0 ms
+2023-04-10 07:13:17,115 INFO m.e.u.w.s.s.SecurityUserDetailsService [http-nio-8080-exec-4] [USER : roysalgado] || [UUID : 0e5fdcc4-ea6c-482b-9f0b-91b6114d9132] ---> EXECUTING LOGIN MODULE
+2023-04-10 07:13:17,316 INFO m.e.u.w.s.l.LoginListener [http-nio-8080-exec-4] [USER : roysalgado] ---> LOGIN SUCCESSFULLY
+2023-04-10 07:13:17,344 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-5] [USER : roysalgado] || [UUID : f6518099-2157-4c76-9310-5296f7e94bd1] ---> EXECUTING AREA MODULE ---> findAllAreas()
+2023-04-10 07:13:17,352 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-5] [USER : roysalgado] || [UUID : f6518099-2157-4c76-9310-5296f7e94bd1] ---> AREA MODULE ---> findAllAreas() RESPONSE: NO_RECORDS_FOUND
+2023-04-10 07:13:17,357 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-5] [THYMELEAF][http-nio-8080-exec-5][area/area] Deprecated unwrapped fragment expression "fragments/header :: css" found in template area/area, line 6, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: css}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:17,367 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-5] [THYMELEAF][http-nio-8080-exec-5][area/area] Deprecated unwrapped fragment expression "fragments/header :: cssAdmin" found in template area/area, line 7, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: cssAdmin}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:17,370 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-5] [THYMELEAF][http-nio-8080-exec-5][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome" found in template area/area, line 8, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:17,371 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-5] [THYMELEAF][http-nio-8080-exec-5][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome2" found in template area/area, line 9, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome2}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:17,372 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-5] [THYMELEAF][http-nio-8080-exec-5][area/area] Deprecated unwrapped fragment expression "fragments/header :: js" found in template area/area, line 12, col 6. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: js}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:17,374 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-5] [THYMELEAF][http-nio-8080-exec-5][area/area] Deprecated unwrapped fragment expression "fragments/navbar :: navbar" found in template area/area, line 14, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/navbar :: navbar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:17,375 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-5] [THYMELEAF][http-nio-8080-exec-5][area/area] Deprecated unwrapped fragment expression "fragments/sidebar :: sidebar" found in template area/area, line 15, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/sidebar :: sidebar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:17,408 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-5] [THYMELEAF][http-nio-8080-exec-5][area/area] Deprecated unwrapped fragment expression "area/updateArea" found in template area/area, line 194, col 10. Please use the complete syntax of fragment expressions instead ("~{area/updateArea}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:25,312 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-8] [USER : roysalgado] || [UUID : 6e550022-5992-4520-a541-35a49dadaccc] ---> EXECUTING AREA MODULE ---> saveArea()
+2023-04-10 07:13:25,316 ERROR m.e.u.w.a.c.AreaController [http-nio-8080-exec-8] [USER : roysalgado] || [UUID : 6e550022-5992-4520-a541-35a49dadaccc] ---> AREA MODULE ---> saveArea() ERROR: [Field error in object 'area' on field 'address': rejected value [<input></input>]; codes [Pattern.area.address,Pattern.address,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [area.address,address]; arguments []; default message [address],[Ljakarta.validation.constraints.Pattern$Flag;@392cd3ff,[A-Za-z0-9 ]+]; default message [La dirección debe ser alfanumérica], Field error in object 'area' on field 'identifier': rejected value [<input></input>]; codes [Size.area.identifier,Size.identifier,Size.java.lang.String,Size]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [area.identifier,identifier]; arguments []; default message [identifier],10,3]; default message [El identificador debe tener entre 3 y 10 caracteres], Field error in object 'area' on field 'identifier': rejected value [<input></input>]; codes [Pattern.area.identifier,Pattern.identifier,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [area.identifier,identifier]; arguments []; default message [identifier],[Ljakarta.validation.constraints.Pattern$Flag;@392cd3ff,[A-Za-z0-9 ]+]; default message [El identificador debe ser alfanumérico]]
+2023-04-10 07:13:25,321 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: css" found in template area/area, line 6, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: css}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:25,322 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: cssAdmin" found in template area/area, line 7, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: cssAdmin}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:25,322 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome" found in template area/area, line 8, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:25,323 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome2" found in template area/area, line 9, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome2}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:25,324 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: js" found in template area/area, line 12, col 6. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: js}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:25,324 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/navbar :: navbar" found in template area/area, line 14, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/navbar :: navbar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:25,325 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/sidebar :: sidebar" found in template area/area, line 15, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/sidebar :: sidebar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:25,331 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "area/updateArea" found in template area/area, line 194, col 10. Please use the complete syntax of fragment expressions instead ("~{area/updateArea}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:30,589 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-1] [USER : roysalgado] || [UUID : 6bb033ba-ecea-4e3d-8d97-382664f25dbd] ---> EXECUTING AREA MODULE ---> saveArea()
+2023-04-10 07:13:30,592 ERROR m.e.u.w.a.c.AreaController [http-nio-8080-exec-1] [USER : roysalgado] || [UUID : 6bb033ba-ecea-4e3d-8d97-382664f25dbd] ---> AREA MODULE ---> saveArea() ERROR: [Field error in object 'area' on field 'address': rejected value []; codes [Pattern.area.address,Pattern.address,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [area.address,address]; arguments []; default message [address],[Ljakarta.validation.constraints.Pattern$Flag;@392cd3ff,[A-Za-z0-9 ]+]; default message [La dirección debe ser alfanumérica], Field error in object 'area' on field 'address': rejected value []; codes [Size.area.address,Size.address,Size.java.lang.String,Size]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [area.address,address]; arguments []; default message [address],45,3]; default message [La dirección debe tener entre 3 y 45 caracteres], Field error in object 'area' on field 'identifier': rejected value []; codes [Pattern.area.identifier,Pattern.identifier,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [area.identifier,identifier]; arguments []; default message [identifier],[Ljakarta.validation.constraints.Pattern$Flag;@392cd3ff,[A-Za-z0-9 ]+]; default message [El identificador debe ser alfanumérico], Field error in object 'area' on field 'identifier': rejected value []; codes [Size.area.identifier,Size.identifier,Size.java.lang.String,Size]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [area.identifier,identifier]; arguments []; default message [identifier],10,3]; default message [El identificador debe tener entre 3 y 10 caracteres], Field error in object 'area' on field 'identifier': rejected value []; codes [NotEmpty.area.identifier,NotEmpty.identifier,NotEmpty.java.lang.String,NotEmpty]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [area.identifier,identifier]; arguments []; default message [identifier]]; default message [El identificador no puede estar vacío], Field error in object 'area' on field 'address': rejected value []; codes [NotEmpty.area.address,NotEmpty.address,NotEmpty.java.lang.String,NotEmpty]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [area.address,address]; arguments []; default message [address]]; default message [La dirección no puede estar vacío]]
+2023-04-10 07:13:30,596 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-1] [THYMELEAF][http-nio-8080-exec-1][area/area] Deprecated unwrapped fragment expression "fragments/header :: css" found in template area/area, line 6, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: css}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:30,597 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-1] [THYMELEAF][http-nio-8080-exec-1][area/area] Deprecated unwrapped fragment expression "fragments/header :: cssAdmin" found in template area/area, line 7, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: cssAdmin}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:30,598 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-1] [THYMELEAF][http-nio-8080-exec-1][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome" found in template area/area, line 8, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:30,598 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-1] [THYMELEAF][http-nio-8080-exec-1][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome2" found in template area/area, line 9, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome2}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:30,599 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-1] [THYMELEAF][http-nio-8080-exec-1][area/area] Deprecated unwrapped fragment expression "fragments/header :: js" found in template area/area, line 12, col 6. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: js}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:30,599 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-1] [THYMELEAF][http-nio-8080-exec-1][area/area] Deprecated unwrapped fragment expression "fragments/navbar :: navbar" found in template area/area, line 14, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/navbar :: navbar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:30,600 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-1] [THYMELEAF][http-nio-8080-exec-1][area/area] Deprecated unwrapped fragment expression "fragments/sidebar :: sidebar" found in template area/area, line 15, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/sidebar :: sidebar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:30,605 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-1] [THYMELEAF][http-nio-8080-exec-1][area/area] Deprecated unwrapped fragment expression "area/updateArea" found in template area/area, line 194, col 10. Please use the complete syntax of fragment expressions instead ("~{area/updateArea}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:34,665 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-7] [USER : roysalgado] || [UUID : eb619cc7-747f-4619-b442-7838dac9fd6b] ---> EXECUTING AREA MODULE ---> saveArea()
+2023-04-10 07:13:34,679 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-7] [USER : roysalgado] || [UUID : eb619cc7-747f-4619-b442-7838dac9fd6b] ---> AREA MODULE ---> saveArea() RESPONSE: SUCCESS_REGISTER
+2023-04-10 07:13:34,690 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-9] [USER : roysalgado] || [UUID : 83faac37-437e-48fb-ae81-2ee8c5b22f28] ---> EXECUTING AREA MODULE ---> findAllAreas()
+2023-04-10 07:13:34,693 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-9] [USER : roysalgado] || [UUID : 83faac37-437e-48fb-ae81-2ee8c5b22f28] ---> AREA MODULE ---> findAllAreas() RESPONSE: RECORDS_FOUND
+2023-04-10 07:13:34,694 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-9] [THYMELEAF][http-nio-8080-exec-9][area/area] Deprecated unwrapped fragment expression "fragments/header :: css" found in template area/area, line 6, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: css}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:34,695 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-9] [THYMELEAF][http-nio-8080-exec-9][area/area] Deprecated unwrapped fragment expression "fragments/header :: cssAdmin" found in template area/area, line 7, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: cssAdmin}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:34,695 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-9] [THYMELEAF][http-nio-8080-exec-9][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome" found in template area/area, line 8, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:34,696 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-9] [THYMELEAF][http-nio-8080-exec-9][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome2" found in template area/area, line 9, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome2}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:34,696 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-9] [THYMELEAF][http-nio-8080-exec-9][area/area] Deprecated unwrapped fragment expression "fragments/header :: js" found in template area/area, line 12, col 6. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: js}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:34,698 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-9] [THYMELEAF][http-nio-8080-exec-9][area/area] Deprecated unwrapped fragment expression "fragments/navbar :: navbar" found in template area/area, line 14, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/navbar :: navbar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:34,698 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-9] [THYMELEAF][http-nio-8080-exec-9][area/area] Deprecated unwrapped fragment expression "fragments/sidebar :: sidebar" found in template area/area, line 15, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/sidebar :: sidebar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:34,713 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-9] [THYMELEAF][http-nio-8080-exec-9][area/area] Deprecated unwrapped fragment expression "area/updateArea" found in template area/area, line 194, col 10. Please use the complete syntax of fragment expressions instead ("~{area/updateArea}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:37,728 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-5] [USER : roysalgado] || [UUID : a243a098-da8e-4347-8c27-1b86cda9161e] ---> EXECUTING AREA MODULE ---> disableArea()
+2023-04-10 07:13:37,745 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-5] [USER : roysalgado] || [UUID : a243a098-da8e-4347-8c27-1b86cda9161e] ---> AREA MODULE ---> disableArea() RESPONSE: mx.edu.utez.warehouse.message.model.MessageModel@1f640ffe
+2023-04-10 07:13:37,754 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-6] [USER : roysalgado] || [UUID : 21f7b080-a638-443a-ad55-d267e8c529a4] ---> EXECUTING AREA MODULE ---> findAllAreas()
+2023-04-10 07:13:37,756 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-6] [USER : roysalgado] || [UUID : 21f7b080-a638-443a-ad55-d267e8c529a4] ---> AREA MODULE ---> findAllAreas() RESPONSE: RECORDS_FOUND
+2023-04-10 07:13:37,758 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-6] [THYMELEAF][http-nio-8080-exec-6][area/area] Deprecated unwrapped fragment expression "fragments/header :: css" found in template area/area, line 6, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: css}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:37,758 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-6] [THYMELEAF][http-nio-8080-exec-6][area/area] Deprecated unwrapped fragment expression "fragments/header :: cssAdmin" found in template area/area, line 7, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: cssAdmin}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:37,759 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-6] [THYMELEAF][http-nio-8080-exec-6][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome" found in template area/area, line 8, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:37,759 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-6] [THYMELEAF][http-nio-8080-exec-6][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome2" found in template area/area, line 9, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome2}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:37,760 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-6] [THYMELEAF][http-nio-8080-exec-6][area/area] Deprecated unwrapped fragment expression "fragments/header :: js" found in template area/area, line 12, col 6. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: js}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:37,761 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-6] [THYMELEAF][http-nio-8080-exec-6][area/area] Deprecated unwrapped fragment expression "fragments/navbar :: navbar" found in template area/area, line 14, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/navbar :: navbar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:37,761 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-6] [THYMELEAF][http-nio-8080-exec-6][area/area] Deprecated unwrapped fragment expression "fragments/sidebar :: sidebar" found in template area/area, line 15, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/sidebar :: sidebar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:37,768 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-6] [THYMELEAF][http-nio-8080-exec-6][area/area] Deprecated unwrapped fragment expression "area/updateArea" found in template area/area, line 194, col 10. Please use the complete syntax of fragment expressions instead ("~{area/updateArea}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:40,177 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-3] [USER : roysalgado] || [UUID : 8119e18f-0928-4f56-891e-429959b8d980] ---> EXECUTING AREA MODULE ---> disableArea()
+2023-04-10 07:13:40,185 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-3] [USER : roysalgado] || [UUID : 8119e18f-0928-4f56-891e-429959b8d980] ---> AREA MODULE ---> disableArea() RESPONSE: mx.edu.utez.warehouse.message.model.MessageModel@248b4b8d
+2023-04-10 07:13:40,190 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-8] [USER : roysalgado] || [UUID : 622127a0-d4a2-4fb5-b9c0-884c022c6bd1] ---> EXECUTING AREA MODULE ---> findAllAreas()
+2023-04-10 07:13:40,193 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-8] [USER : roysalgado] || [UUID : 622127a0-d4a2-4fb5-b9c0-884c022c6bd1] ---> AREA MODULE ---> findAllAreas() RESPONSE: RECORDS_FOUND
+2023-04-10 07:13:40,194 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: css" found in template area/area, line 6, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: css}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:40,194 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: cssAdmin" found in template area/area, line 7, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: cssAdmin}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:40,195 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome" found in template area/area, line 8, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:40,195 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome2" found in template area/area, line 9, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome2}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:40,196 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: js" found in template area/area, line 12, col 6. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: js}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:40,196 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/navbar :: navbar" found in template area/area, line 14, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/navbar :: navbar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:40,196 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/sidebar :: sidebar" found in template area/area, line 15, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/sidebar :: sidebar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:40,202 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "area/updateArea" found in template area/area, line 194, col 10. Please use the complete syntax of fragment expressions instead ("~{area/updateArea}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:47,506 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-7] [USER : roysalgado] || [UUID : 783d74fe-ba56-4149-8f8c-d69b0b5124ff] ---> EXECUTING AREA MODULE ---> saveArea()
+2023-04-10 07:13:47,511 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-7] [USER : roysalgado] || [UUID : 783d74fe-ba56-4149-8f8c-d69b0b5124ff] ---> AREA MODULE ---> saveArea() RESPONSE: SUCCESS_REGISTER
+2023-04-10 07:13:47,517 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-4] [USER : roysalgado] || [UUID : e22002fd-ba49-4689-ad26-b5dc06c97f57] ---> EXECUTING AREA MODULE ---> findAllAreas()
+2023-04-10 07:13:47,520 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-4] [USER : roysalgado] || [UUID : e22002fd-ba49-4689-ad26-b5dc06c97f57] ---> AREA MODULE ---> findAllAreas() RESPONSE: RECORDS_FOUND
+2023-04-10 07:13:47,521 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-4] [THYMELEAF][http-nio-8080-exec-4][area/area] Deprecated unwrapped fragment expression "fragments/header :: css" found in template area/area, line 6, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: css}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:47,522 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-4] [THYMELEAF][http-nio-8080-exec-4][area/area] Deprecated unwrapped fragment expression "fragments/header :: cssAdmin" found in template area/area, line 7, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: cssAdmin}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:47,522 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-4] [THYMELEAF][http-nio-8080-exec-4][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome" found in template area/area, line 8, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:47,522 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-4] [THYMELEAF][http-nio-8080-exec-4][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome2" found in template area/area, line 9, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome2}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:47,523 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-4] [THYMELEAF][http-nio-8080-exec-4][area/area] Deprecated unwrapped fragment expression "fragments/header :: js" found in template area/area, line 12, col 6. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: js}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:47,523 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-4] [THYMELEAF][http-nio-8080-exec-4][area/area] Deprecated unwrapped fragment expression "fragments/navbar :: navbar" found in template area/area, line 14, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/navbar :: navbar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:47,524 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-4] [THYMELEAF][http-nio-8080-exec-4][area/area] Deprecated unwrapped fragment expression "fragments/sidebar :: sidebar" found in template area/area, line 15, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/sidebar :: sidebar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:47,527 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-4] [THYMELEAF][http-nio-8080-exec-4][area/area] Deprecated unwrapped fragment expression "area/updateArea" found in template area/area, line 194, col 10. Please use the complete syntax of fragment expressions instead ("~{area/updateArea}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:52,156 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-2] [USER : roysalgado] || [UUID : 34524474-3317-45d6-94ae-e403d25016e2] ---> EXECUTING AREA MODULE ---> disableArea()
+2023-04-10 07:13:52,163 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-2] [USER : roysalgado] || [UUID : 34524474-3317-45d6-94ae-e403d25016e2] ---> AREA MODULE ---> disableArea() RESPONSE: mx.edu.utez.warehouse.message.model.MessageModel@184c7f2c
+2023-04-10 07:13:52,170 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-8] [USER : roysalgado] || [UUID : c808ee45-2f0a-40f5-aef6-89673819ce38] ---> EXECUTING AREA MODULE ---> findAllAreas()
+2023-04-10 07:13:52,173 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-8] [USER : roysalgado] || [UUID : c808ee45-2f0a-40f5-aef6-89673819ce38] ---> AREA MODULE ---> findAllAreas() RESPONSE: RECORDS_FOUND
+2023-04-10 07:13:52,174 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: css" found in template area/area, line 6, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: css}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:52,175 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: cssAdmin" found in template area/area, line 7, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: cssAdmin}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:52,175 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome" found in template area/area, line 8, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:52,176 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome2" found in template area/area, line 9, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome2}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:52,176 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: js" found in template area/area, line 12, col 6. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: js}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:52,176 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/navbar :: navbar" found in template area/area, line 14, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/navbar :: navbar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:52,177 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/sidebar :: sidebar" found in template area/area, line 15, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/sidebar :: sidebar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:52,183 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "area/updateArea" found in template area/area, line 194, col 10. Please use the complete syntax of fragment expressions instead ("~{area/updateArea}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:13:53,936 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-10] [USER : roysalgado] || [UUID : 50efac25-bcee-4952-b369-c286f43aea67] ---> EXECUTING AREA MODULE ---> findById()
+2023-04-10 07:13:53,939 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-10] [USER : roysalgado] || [UUID : 50efac25-bcee-4952-b369-c286f43aea67] ---> AREA MODULE ---> findById() RESPONSE: AreaModel{id=1, identifier='AMG', address='Avenida universidad', status=1}
+2023-04-10 07:14:00,405 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-3] [USER : roysalgado] || [UUID : 4a3d83a5-0a73-490e-ab14-04d462eeedae] ---> EXECUTING AREA MODULE ---> updateArea()
+2023-04-10 07:14:00,412 ERROR m.e.u.w.a.c.AreaController [http-nio-8080-exec-3] [USER : roysalgado] || [UUID : 4a3d83a5-0a73-490e-ab14-04d462eeedae] ---> AREA MODULE ---> updateArea() ERROR: [Field error in object 'area' on field 'identifier': rejected value [AMGa]; codes [area.identifier.area.identifier,area.identifier.identifier,area.identifier.java.lang.String,area.identifier]; arguments []; default message [El identificador ya existe]]
+2023-04-10 07:14:00,418 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-3] [THYMELEAF][http-nio-8080-exec-3][area/area] Deprecated unwrapped fragment expression "fragments/header :: css" found in template area/area, line 6, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: css}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:00,418 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-3] [THYMELEAF][http-nio-8080-exec-3][area/area] Deprecated unwrapped fragment expression "fragments/header :: cssAdmin" found in template area/area, line 7, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: cssAdmin}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:00,419 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-3] [THYMELEAF][http-nio-8080-exec-3][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome" found in template area/area, line 8, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:00,419 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-3] [THYMELEAF][http-nio-8080-exec-3][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome2" found in template area/area, line 9, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome2}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:00,419 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-3] [THYMELEAF][http-nio-8080-exec-3][area/area] Deprecated unwrapped fragment expression "fragments/header :: js" found in template area/area, line 12, col 6. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: js}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:00,421 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-3] [THYMELEAF][http-nio-8080-exec-3][area/area] Deprecated unwrapped fragment expression "fragments/navbar :: navbar" found in template area/area, line 14, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/navbar :: navbar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:00,421 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-3] [THYMELEAF][http-nio-8080-exec-3][area/area] Deprecated unwrapped fragment expression "fragments/sidebar :: sidebar" found in template area/area, line 15, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/sidebar :: sidebar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:00,424 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-3] [THYMELEAF][http-nio-8080-exec-3][area/area] Deprecated unwrapped fragment expression "area/updateArea" found in template area/area, line 194, col 10. Please use the complete syntax of fragment expressions instead ("~{area/updateArea}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:09,176 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-6] [USER : roysalgado] || [UUID : a06c06cf-152d-48f1-9684-b7cf97914a83] ---> EXECUTING AREA MODULE ---> updateArea()
+2023-04-10 07:14:09,183 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-6] [USER : roysalgado] || [UUID : a06c06cf-152d-48f1-9684-b7cf97914a83] ---> AREA MODULE ---> updateArea() RESPONSE: SUCCESS_UPDATE
+2023-04-10 07:14:09,191 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-7] [USER : roysalgado] || [UUID : a08517ea-61ca-4630-a31d-1fabc71c552c] ---> EXECUTING AREA MODULE ---> findAllAreas()
+2023-04-10 07:14:09,193 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-7] [USER : roysalgado] || [UUID : a08517ea-61ca-4630-a31d-1fabc71c552c] ---> AREA MODULE ---> findAllAreas() RESPONSE: RECORDS_FOUND
+2023-04-10 07:14:09,194 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-7] [THYMELEAF][http-nio-8080-exec-7][area/area] Deprecated unwrapped fragment expression "fragments/header :: css" found in template area/area, line 6, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: css}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:09,194 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-7] [THYMELEAF][http-nio-8080-exec-7][area/area] Deprecated unwrapped fragment expression "fragments/header :: cssAdmin" found in template area/area, line 7, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: cssAdmin}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:09,195 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-7] [THYMELEAF][http-nio-8080-exec-7][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome" found in template area/area, line 8, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:09,195 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-7] [THYMELEAF][http-nio-8080-exec-7][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome2" found in template area/area, line 9, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome2}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:09,195 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-7] [THYMELEAF][http-nio-8080-exec-7][area/area] Deprecated unwrapped fragment expression "fragments/header :: js" found in template area/area, line 12, col 6. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: js}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:09,196 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-7] [THYMELEAF][http-nio-8080-exec-7][area/area] Deprecated unwrapped fragment expression "fragments/navbar :: navbar" found in template area/area, line 14, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/navbar :: navbar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:09,197 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-7] [THYMELEAF][http-nio-8080-exec-7][area/area] Deprecated unwrapped fragment expression "fragments/sidebar :: sidebar" found in template area/area, line 15, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/sidebar :: sidebar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:09,202 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-7] [THYMELEAF][http-nio-8080-exec-7][area/area] Deprecated unwrapped fragment expression "area/updateArea" found in template area/area, line 194, col 10. Please use the complete syntax of fragment expressions instead ("~{area/updateArea}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:11,070 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-9] [USER : roysalgado] || [UUID : 1b920142-2c3f-4ade-8b17-f07308d43995] ---> EXECUTING AREA MODULE ---> findById()
+2023-04-10 07:14:11,073 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-9] [USER : roysalgado] || [UUID : 1b920142-2c3f-4ade-8b17-f07308d43995] ---> AREA MODULE ---> findById() RESPONSE: AreaModel{id=1, identifier='AMGAS', address='Avenida universidad', status=1}
+2023-04-10 07:14:18,940 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-10] [USER : roysalgado] || [UUID : cce0f54d-eae1-41e5-b019-90da37f292d6] ---> EXECUTING AREA MODULE ---> updateArea()
+2023-04-10 07:14:18,943 ERROR m.e.u.w.a.c.AreaController [http-nio-8080-exec-10] [USER : roysalgado] || [UUID : cce0f54d-eae1-41e5-b019-90da37f292d6] ---> AREA MODULE ---> updateArea() ERROR: [Field error in object 'area' on field 'address': rejected value [<input></input>]; codes [Pattern.area.address,Pattern.address,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [area.address,address]; arguments []; default message [address],[Ljakarta.validation.constraints.Pattern$Flag;@392cd3ff,[A-Za-z0-9 ]+]; default message [La dirección debe ser alfanumérica]]
+2023-04-10 07:14:18,946 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-10] [THYMELEAF][http-nio-8080-exec-10][area/area] Deprecated unwrapped fragment expression "fragments/header :: css" found in template area/area, line 6, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: css}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:18,947 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-10] [THYMELEAF][http-nio-8080-exec-10][area/area] Deprecated unwrapped fragment expression "fragments/header :: cssAdmin" found in template area/area, line 7, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: cssAdmin}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:18,948 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-10] [THYMELEAF][http-nio-8080-exec-10][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome" found in template area/area, line 8, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:18,948 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-10] [THYMELEAF][http-nio-8080-exec-10][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome2" found in template area/area, line 9, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome2}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:18,949 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-10] [THYMELEAF][http-nio-8080-exec-10][area/area] Deprecated unwrapped fragment expression "fragments/header :: js" found in template area/area, line 12, col 6. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: js}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:18,949 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-10] [THYMELEAF][http-nio-8080-exec-10][area/area] Deprecated unwrapped fragment expression "fragments/navbar :: navbar" found in template area/area, line 14, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/navbar :: navbar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:18,950 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-10] [THYMELEAF][http-nio-8080-exec-10][area/area] Deprecated unwrapped fragment expression "fragments/sidebar :: sidebar" found in template area/area, line 15, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/sidebar :: sidebar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:18,954 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-10] [THYMELEAF][http-nio-8080-exec-10][area/area] Deprecated unwrapped fragment expression "area/updateArea" found in template area/area, line 194, col 10. Please use the complete syntax of fragment expressions instead ("~{area/updateArea}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:36,912 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-8] [USER : roysalgado] || [UUID : eb36ee9a-69ac-4399-8c99-7ae140d06f41] ---> EXECUTING AREA MODULE ---> findAllAreas()
+2023-04-10 07:14:36,918 INFO m.e.u.w.a.c.AreaController [http-nio-8080-exec-8] [USER : roysalgado] || [UUID : eb36ee9a-69ac-4399-8c99-7ae140d06f41] ---> AREA MODULE ---> findAllAreas() RESPONSE: RECORDS_FOUND
+2023-04-10 07:14:36,919 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: css" found in template area/area, line 6, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: css}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:36,919 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: cssAdmin" found in template area/area, line 7, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: cssAdmin}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:36,920 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome" found in template area/area, line 8, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:36,920 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: fontawesome2" found in template area/area, line 9, col 11. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: fontawesome2}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:36,921 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/header :: js" found in template area/area, line 12, col 6. Please use the complete syntax of fragment expressions instead ("~{fragments/header :: js}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:36,921 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/navbar :: navbar" found in template area/area, line 14, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/navbar :: navbar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:36,922 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "fragments/sidebar :: sidebar" found in template area/area, line 15, col 10. Please use the complete syntax of fragment expressions instead ("~{fragments/sidebar :: sidebar}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:14:36,925 WARN o.t.s.p.AbstractStandardFragmentInsertionTagProcessor [http-nio-8080-exec-8] [THYMELEAF][http-nio-8080-exec-8][area/area] Deprecated unwrapped fragment expression "area/updateArea" found in template area/area, line 194, col 10. Please use the complete syntax of fragment expressions instead ("~{area/updateArea}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-04-10 07:17:13,786 INFO o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener [File Watcher] Restarting due to 2 class path changes (0 additions, 1 deletion, 1 modification)
+2023-04-10 07:17:13,796 INFO o.a.j.l.DirectJDKLog [Thread-5] Pausing ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:17:13,796 INFO o.a.j.l.DirectJDKLog [Thread-5] Stopping service [Tomcat]
+2023-04-10 07:17:13,798 INFO o.a.j.l.DirectJDKLog [Thread-5] Destroying Spring FrameworkServlet 'dispatcherServlet'
+2023-04-10 07:17:13,820 INFO o.a.j.l.DirectJDKLog [Thread-5] Stopping ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:17:13,823 INFO o.a.j.l.DirectJDKLog [Thread-5] Destroying ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:17:13,825 INFO o.s.o.j.AbstractEntityManagerFactoryBean [Thread-5] Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-04-10 07:17:13,828 INFO c.z.h.HikariDataSource [Thread-5] HikariPool-1 - Shutdown initiated...
+2023-04-10 07:17:13,837 INFO c.z.h.HikariDataSource [Thread-5] HikariPool-1 - Shutdown completed.
+2023-04-10 07:17:13,969 INFO o.s.b.StartupInfoLogger [restartedMain] Starting WarehouseApplication using Java 19.0.2 with PID 16600 (D:\Escuela\Warehouse\target\classes started by exos0 in D:\Escuela\Warehouse)
+2023-04-10 07:17:13,970 INFO o.s.b.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2023-04-10 07:17:14,198 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-04-10 07:17:14,233 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 34 ms. Found 10 JPA repository interfaces.
+2023-04-10 07:17:14,371 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8080 (http)
+2023-04-10 07:17:14,372 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:17:14,372 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2023-04-10 07:17:14,372 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/10.1.5]
+2023-04-10 07:17:14,388 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2023-04-10 07:17:14,388 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 414 ms
+2023-04-10 07:17:14,459 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-04-10 07:17:14,466 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-2 - Starting...
+2023-04-10 07:17:14,479 INFO c.z.h.p.HikariPool [restartedMain] HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2973d3fa
+2023-04-10 07:17:14,479 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-2 - Start completed.
+2023-04-10 07:17:14,481 INFO o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-04-10 07:17:14,481 WARN o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2023-04-10 07:17:14,738 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-04-10 07:17:14,739 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-04-10 07:17:14,976 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-04-10 07:17:14,990 INFO o.s.b.a.w.s.WelcomePageHandlerMapping [restartedMain] Adding welcome page template: index
+2023-04-10 07:17:15,033 INFO o.s.s.w.DefaultSecurityFilterChain [restartedMain] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1ab66cd5, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4ede9da4, org.springframework.security.web.context.SecurityContextHolderFilter@66e22027, org.springframework.security.web.header.HeaderWriterFilter@66574c2d, org.springframework.security.web.csrf.CsrfFilter@6fcfe448, org.springframework.security.web.authentication.logout.LogoutFilter@218f47e1, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@460df844, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@769f7517, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7cb5a16, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1e08de75, org.springframework.security.web.access.ExceptionTranslationFilter@48073456, org.springframework.security.web.access.intercept.AuthorizationFilter@7764ec56]
+2023-04-10 07:17:15,099 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2023-04-10 07:17:15,107 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:17:15,111 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port(s): 8080 (http) with context path ''
+2023-04-10 07:17:15,113 INFO o.s.b.StartupInfoLogger [restartedMain] Started WarehouseApplication in 1.201 seconds (process running for 251.154)
+2023-04-10 07:17:15,114 INFO m.e.u.w.u.Runner [restartedMain] STARTING RUNNER
+2023-04-10 07:17:15,122 INFO m.e.u.w.u.Runner [restartedMain] END RUNNER
+2023-04-10 07:17:15,124 INFO o.s.b.d.a.ConditionEvaluationDeltaLoggingListener [restartedMain] Condition evaluation unchanged
+2023-04-10 07:17:16,687 INFO o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener [File Watcher] Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2023-04-10 07:17:16,694 INFO o.a.j.l.DirectJDKLog [Thread-7] Pausing ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:17:16,695 INFO o.a.j.l.DirectJDKLog [Thread-7] Stopping service [Tomcat]
+2023-04-10 07:17:16,697 INFO o.a.j.l.DirectJDKLog [Thread-7] Stopping ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:17:16,699 INFO o.a.j.l.DirectJDKLog [Thread-7] Destroying ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:17:16,700 INFO o.s.o.j.AbstractEntityManagerFactoryBean [Thread-7] Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-04-10 07:17:16,700 INFO c.z.h.HikariDataSource [Thread-7] HikariPool-2 - Shutdown initiated...
+2023-04-10 07:17:16,704 INFO c.z.h.HikariDataSource [Thread-7] HikariPool-2 - Shutdown completed.
+2023-04-10 07:17:16,778 INFO o.s.b.StartupInfoLogger [restartedMain] Starting WarehouseApplication using Java 19.0.2 with PID 16600 (D:\Escuela\Warehouse\target\classes started by exos0 in D:\Escuela\Warehouse)
+2023-04-10 07:17:16,778 INFO o.s.b.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2023-04-10 07:17:16,910 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-04-10 07:17:16,937 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 27 ms. Found 10 JPA repository interfaces.
+2023-04-10 07:17:17,017 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8080 (http)
+2023-04-10 07:17:17,018 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:17:17,018 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2023-04-10 07:17:17,018 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/10.1.5]
+2023-04-10 07:17:17,029 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2023-04-10 07:17:17,029 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 250 ms
+2023-04-10 07:17:17,071 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-04-10 07:17:17,075 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-3 - Starting...
+2023-04-10 07:17:17,084 INFO c.z.h.p.HikariPool [restartedMain] HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@43af401f
+2023-04-10 07:17:17,084 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-3 - Start completed.
+2023-04-10 07:17:17,085 INFO o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-04-10 07:17:17,085 WARN o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2023-04-10 07:17:17,251 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-04-10 07:17:17,251 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-04-10 07:17:17,435 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-04-10 07:17:17,445 INFO o.s.b.a.w.s.WelcomePageHandlerMapping [restartedMain] Adding welcome page template: index
+2023-04-10 07:17:17,481 INFO o.s.s.w.DefaultSecurityFilterChain [restartedMain] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@264e0689, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6e19ddf2, org.springframework.security.web.context.SecurityContextHolderFilter@2576b5bf, org.springframework.security.web.header.HeaderWriterFilter@2a17535d, org.springframework.security.web.csrf.CsrfFilter@61d8d888, org.springframework.security.web.authentication.logout.LogoutFilter@611694fc, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@732acd64, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@24d3501, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@614026eb, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7ec7767d, org.springframework.security.web.access.ExceptionTranslationFilter@67008dde, org.springframework.security.web.access.intercept.AuthorizationFilter@6a8f4824]
+2023-04-10 07:17:17,526 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2023-04-10 07:17:17,534 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:17:17,539 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port(s): 8080 (http) with context path ''
+2023-04-10 07:17:17,542 INFO o.s.b.StartupInfoLogger [restartedMain] Started WarehouseApplication in 0.794 seconds (process running for 253.582)
+2023-04-10 07:17:17,542 INFO m.e.u.w.u.Runner [restartedMain] STARTING RUNNER
+2023-04-10 07:17:17,549 INFO m.e.u.w.u.Runner [restartedMain] END RUNNER
+2023-04-10 07:17:17,550 INFO o.s.b.d.a.ConditionEvaluationDeltaLoggingListener [restartedMain] Condition evaluation unchanged
+2023-04-10 07:18:15,103 INFO o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener [File Watcher] Restarting due to 60 class path changes (0 additions, 59 deletions, 1 modification)
+2023-04-10 07:18:15,117 INFO o.a.j.l.DirectJDKLog [Thread-11] Pausing ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:18:15,117 INFO o.a.j.l.DirectJDKLog [Thread-11] Stopping service [Tomcat]
+2023-04-10 07:18:15,122 INFO o.a.j.l.DirectJDKLog [Thread-11] Stopping ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:18:15,123 INFO o.a.j.l.DirectJDKLog [Thread-11] Destroying ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:18:15,124 INFO o.s.o.j.AbstractEntityManagerFactoryBean [Thread-11] Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-04-10 07:18:15,124 INFO c.z.h.HikariDataSource [Thread-11] HikariPool-3 - Shutdown initiated...
+2023-04-10 07:18:15,129 INFO c.z.h.HikariDataSource [Thread-11] HikariPool-3 - Shutdown completed.
+2023-04-10 07:18:15,245 INFO o.s.b.StartupInfoLogger [restartedMain] Starting WarehouseApplication using Java 19.0.2 with PID 16600 (D:\Escuela\Warehouse\target\classes started by exos0 in D:\Escuela\Warehouse)
+2023-04-10 07:18:15,246 INFO o.s.b.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2023-04-10 07:18:15,360 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-04-10 07:18:15,360 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 0 ms. Found 0 JPA repository interfaces.
+2023-04-10 07:18:15,460 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8080 (http)
+2023-04-10 07:18:15,462 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:18:15,462 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2023-04-10 07:18:15,463 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/10.1.5]
+2023-04-10 07:18:15,487 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2023-04-10 07:18:15,487 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 239 ms
+2023-04-10 07:18:15,538 ERROR o.a.j.l.DirectJDKLog [restartedMain] Exception loading sessions from persistent storage
+java.lang.ClassNotFoundException: mx.edu.utez.warehouse.security.config.SecurityAuthority
+	at org.springframework.boot.web.embedded.tomcat.TomcatEmbeddedWebappClassLoader.loadClass(TomcatEmbeddedWebappClassLoader.java:72) ~[spring-boot-3.0.4.jar:3.0.4]
+	at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1245) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at java.lang.Class.forName0(Native Method) ~[?:?]
+	at java.lang.Class.forName(Class.java:495) ~[?:?]
+	at java.lang.Class.forName(Class.java:474) ~[?:?]
+	at org.apache.catalina.util.CustomObjectInputStream.resolveClass(CustomObjectInputStream.java:158) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at java.io.ObjectInputStream.readNonProxyDesc(ObjectInputStream.java:2059) ~[?:?]
+	at java.io.ObjectInputStream.readClassDesc(ObjectInputStream.java:1925) ~[?:?]
+	at java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:2248) ~[?:?]
+	at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1760) ~[?:?]
+	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:538) ~[?:?]
+	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:496) ~[?:?]
+	at java.util.ArrayList.readObject(ArrayList.java:899) ~[?:?]
+	at jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[?:?]
+	at java.lang.reflect.Method.invoke(Method.java:578) ~[?:?]
+	at java.io.ObjectStreamClass.invokeReadObject(ObjectStreamClass.java:1101) ~[?:?]
+	at java.io.ObjectInputStream.readSerialData(ObjectInputStream.java:2442) ~[?:?]
+	at java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:2280) ~[?:?]
+	at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1760) ~[?:?]
+	at java.io.ObjectInputStream$FieldValues.<init>(ObjectInputStream.java:2625) ~[?:?]
+	at java.io.ObjectInputStream.readSerialData(ObjectInputStream.java:2476) ~[?:?]
+	at java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:2280) ~[?:?]
+	at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1760) ~[?:?]
+	at java.io.ObjectInputStream$FieldValues.<init>(ObjectInputStream.java:2625) ~[?:?]
+	at java.io.ObjectInputStream.readSerialData(ObjectInputStream.java:2476) ~[?:?]
+	at java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:2280) ~[?:?]
+	at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1760) ~[?:?]
+	at java.io.ObjectInputStream$FieldValues.<init>(ObjectInputStream.java:2625) ~[?:?]
+	at java.io.ObjectInputStream.readSerialData(ObjectInputStream.java:2476) ~[?:?]
+	at java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:2280) ~[?:?]
+	at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1760) ~[?:?]
+	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:538) ~[?:?]
+	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:496) ~[?:?]
+	at org.apache.catalina.session.StandardSession.doReadObject(StandardSession.java:1505) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.session.StandardSession.readObjectData(StandardSession.java:1033) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.session.StandardManager.doLoad(StandardManager.java:219) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.session.StandardManager.load(StandardManager.java:162) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.session.StandardManager.startInternal(StandardManager.java:356) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5172) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1393) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1383) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:317) ~[?:?]
+	at java.util.concurrent.FutureTask.run(FutureTask.java) ~[?:?]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[?:?]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:916) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:886) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1393) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1383) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:317) ~[?:?]
+	at java.util.concurrent.FutureTask.run(FutureTask.java) ~[?:?]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[?:?]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:916) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:252) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:430) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:926) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:485) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:123) ~[spring-boot-3.0.4.jar:3.0.4]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:104) ~[spring-boot-3.0.4.jar:3.0.4]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:488) ~[spring-boot-3.0.4.jar:3.0.4]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:210) ~[spring-boot-3.0.4.jar:3.0.4]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:183) ~[spring-boot-3.0.4.jar:3.0.4]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:161) ~[spring-boot-3.0.4.jar:3.0.4]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:578) ~[spring-context-6.0.6.jar:6.0.6]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.0.4.jar:3.0.4]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:732) ~[spring-boot-3.0.4.jar:3.0.4]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:434) ~[spring-boot-3.0.4.jar:3.0.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:310) ~[spring-boot-3.0.4.jar:3.0.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1304) ~[spring-boot-3.0.4.jar:3.0.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1293) ~[spring-boot-3.0.4.jar:3.0.4]
+	at mx.edu.utez.warehouse.WarehouseApplication.main(WarehouseApplication.java:11) ~[classes/:?]
+	at jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[?:?]
+	at java.lang.reflect.Method.invoke(Method.java:578) ~[?:?]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) ~[spring-boot-devtools-3.0.4.jar:3.0.4]
+2023-04-10 07:18:15,592 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-04-10 07:18:15,597 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-4 - Starting...
+2023-04-10 07:18:15,612 INFO c.z.h.p.HikariPool [restartedMain] HikariPool-4 - Added connection com.mysql.cj.jdbc.ConnectionImpl@e951be6
+2023-04-10 07:18:15,612 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-4 - Start completed.
+2023-04-10 07:18:15,612 INFO o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-04-10 07:18:15,612 WARN o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2023-04-10 07:18:15,619 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-04-10 07:18:15,619 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-04-10 07:18:15,644 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-04-10 07:18:15,687 INFO o.s.b.a.w.s.WelcomePageHandlerMapping [restartedMain] Adding welcome page template: index
+2023-04-10 07:18:15,813 WARN o.s.b.a.s.s.UserDetailsServiceAutoConfiguration [restartedMain] 
+
+Using generated security password: fb5c17f5-2f10-4b0e-81a7-c744374a1d7d
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2023-04-10 07:18:15,865 INFO o.s.s.w.DefaultSecurityFilterChain [restartedMain] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@17e9cca0, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3c1a1bd0, org.springframework.security.web.context.SecurityContextHolderFilter@392dd36b, org.springframework.security.web.header.HeaderWriterFilter@7e68e773, org.springframework.security.web.csrf.CsrfFilter@48b40523, org.springframework.security.web.authentication.logout.LogoutFilter@6b0d3e37, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@6e16213, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@530338b9, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@4ecddd68, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@66a4d4a3, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@51585470, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6a6909f8, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@e8c09de, org.springframework.security.web.access.ExceptionTranslationFilter@12e53dee, org.springframework.security.web.access.intercept.AuthorizationFilter@6ee23143]
+2023-04-10 07:18:15,890 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2023-04-10 07:18:15,915 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:18:15,926 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port(s): 8080 (http) with context path ''
+2023-04-10 07:18:15,933 INFO o.s.b.StartupInfoLogger [restartedMain] Started WarehouseApplication in 0.744 seconds (process running for 311.974)
+2023-04-10 07:18:15,942 INFO o.s.b.d.a.ConditionEvaluationDeltaLoggingListener [restartedMain] Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+   MessageSourceAutoConfiguration matched:
+      - ResourceBundle found bundle file [D:\Escuela\Warehouse\target\classes\messages.properties] (MessageSourceAutoConfiguration.ResourceBundleCondition)
+      - @ConditionalOnMissingBean (names: messageSource; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   SpringBootWebSecurityConfiguration.SecurityFilterChainConfiguration matched:
+      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   UserDetailsServiceAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
+      - @ConditionalOnBean (types: org.springframework.security.config.annotation.ObjectPostProcessor; SearchStrategy: all) found bean 'objectPostProcessor'; @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.authentication.AuthenticationManagerResolver,org.springframework.security.oauth2.jwt.JwtDecoder,org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector,org.springframework.security.oauth2.client.registration.ClientRegistrationRepository,org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ValidationAutoConfiguration#defaultValidator matched:
+      - @ConditionalOnMissingBean (types: jakarta.validation.Validator; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+
+Negative matches:
+-----------------
+
+    None
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2023-04-10 07:18:18,645 INFO o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener [File Watcher] Restarting due to 59 class path changes (59 additions, 0 deletions, 0 modifications)
+2023-04-10 07:18:18,663 INFO o.a.j.l.DirectJDKLog [Thread-15] Pausing ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:18:18,663 INFO o.a.j.l.DirectJDKLog [Thread-15] Stopping service [Tomcat]
+2023-04-10 07:18:18,668 INFO o.a.j.l.DirectJDKLog [Thread-15] Stopping ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:18:18,670 INFO o.a.j.l.DirectJDKLog [Thread-15] Destroying ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:18:18,671 INFO o.s.o.j.AbstractEntityManagerFactoryBean [Thread-15] Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-04-10 07:18:18,672 INFO c.z.h.HikariDataSource [Thread-15] HikariPool-4 - Shutdown initiated...
+2023-04-10 07:18:18,682 INFO c.z.h.HikariDataSource [Thread-15] HikariPool-4 - Shutdown completed.
+2023-04-10 07:18:18,802 INFO o.s.b.StartupInfoLogger [restartedMain] Starting WarehouseApplication using Java 19.0.2 with PID 16600 (D:\Escuela\Warehouse\target\classes started by exos0 in D:\Escuela\Warehouse)
+2023-04-10 07:18:18,802 INFO o.s.b.SpringApplication [restartedMain] No active profile set, falling back to 1 default profile: "default"
+2023-04-10 07:18:19,047 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-04-10 07:18:19,109 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 61 ms. Found 10 JPA repository interfaces.
+2023-04-10 07:18:19,336 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8080 (http)
+2023-04-10 07:18:19,336 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:18:19,337 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2023-04-10 07:18:19,337 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/10.1.5]
+2023-04-10 07:18:19,361 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2023-04-10 07:18:19,362 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 556 ms
+2023-04-10 07:18:19,419 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-04-10 07:18:19,425 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-5 - Starting...
+2023-04-10 07:18:19,436 INFO c.z.h.p.HikariPool [restartedMain] HikariPool-5 - Added connection com.mysql.cj.jdbc.ConnectionImpl@41ea6850
+2023-04-10 07:18:19,436 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-5 - Start completed.
+2023-04-10 07:18:19,437 INFO o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-04-10 07:18:19,437 WARN o.h.e.j.d.i.DialectFactoryImpl [restartedMain] HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2023-04-10 07:18:19,782 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-04-10 07:18:19,782 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-04-10 07:18:20,155 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-04-10 07:18:20,173 INFO o.s.b.a.w.s.WelcomePageHandlerMapping [restartedMain] Adding welcome page template: index
+2023-04-10 07:18:20,235 INFO o.s.s.w.DefaultSecurityFilterChain [restartedMain] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@44a40a59, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@27e53f84, org.springframework.security.web.context.SecurityContextHolderFilter@23301e72, org.springframework.security.web.header.HeaderWriterFilter@180a914e, org.springframework.security.web.csrf.CsrfFilter@6ce669f7, org.springframework.security.web.authentication.logout.LogoutFilter@49c4933e, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@29942136, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7cc66232, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@26e8a6e4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@45547689, org.springframework.security.web.access.ExceptionTranslationFilter@3cb37f1, org.springframework.security.web.access.intercept.AuthorizationFilter@65e0e66f]
+2023-04-10 07:18:20,335 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2023-04-10 07:18:20,351 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8080"]
+2023-04-10 07:18:20,356 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port(s): 8080 (http) with context path ''
+2023-04-10 07:18:20,362 INFO o.s.b.StartupInfoLogger [restartedMain] Started WarehouseApplication in 1.613 seconds (process running for 316.403)
+2023-04-10 07:18:20,364 INFO m.e.u.w.u.Runner [restartedMain] STARTING RUNNER
+2023-04-10 07:18:20,403 INFO m.e.u.w.u.Runner [restartedMain] END RUNNER
+2023-04-10 07:18:20,405 INFO o.s.b.d.a.ConditionEvaluationDeltaLoggingListener [restartedMain] Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+    None
+
+
+Negative matches:
+-----------------
+
+   MessageSourceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnMissingBean (names: messageSource; SearchStrategy: current) found beans named messageSource (OnBeanCondition)
+      Matched:
+         - ResourceBundle found bundle file [D:\Escuela\Warehouse\target\classes\messages.properties] (MessageSourceAutoConfiguration.ResourceBundleCondition)
+
+   SpringBootWebSecurityConfiguration.SecurityFilterChainConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' filterChain; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   UserDetailsServiceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.authentication.AuthenticationManagerResolver,org.springframework.security.oauth2.jwt.JwtDecoder,org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector,org.springframework.security.oauth2.client.registration.ClientRegistrationRepository,org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository; SearchStrategy: all) found beans of type 'org.springframework.security.core.userdetails.UserDetailsService' securityUserDetailsService (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
+
+   ValidationAutoConfiguration#defaultValidator:
+      Did not match:
+         - @ConditionalOnMissingBean (types: jakarta.validation.Validator; SearchStrategy: all) found beans of type 'jakarta.validation.Validator' getValidator (OnBeanCondition)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+

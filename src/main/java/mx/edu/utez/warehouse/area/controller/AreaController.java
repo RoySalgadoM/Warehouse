@@ -25,6 +25,13 @@ import java.util.UUID;
 public class AreaController {
     private static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
     private static final Logger logger = LogManager.getLogger(AreaController.class);
+    private static final String ACTION = "action";
+    private static final String RESULT = "result";
+    private static final String ERROR_500 = "errorPages/500";
+    private static final String PAGE_SIZE = "pageSize";
+    private static final String AREA_REDIRECT = "area/area";
+    private static final String RESULT_ACTION = "resultAction";
+    private static final String AREA_REDIRECT_LIST = "redirect:/area/list";
     @Autowired
     AreaServiceImpl service;
 
@@ -41,19 +48,19 @@ public class AreaController {
             logger.info("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> findAllAreas() RESPONSE: {}", username, uuid, areas.getMessage());
             areas.setUuid(uuid.toString());
 
-            model.addAttribute("result", areas);
+            model.addAttribute(RESULT, areas);
             if (areas.getIsError()) {
-                return "errorPages/500";
+                return ERROR_500;
             }
 
-            model.addAttribute("pageSize", pageable.getPageSize());
-            return "area/area";
+            model.addAttribute(PAGE_SIZE, pageable.getPageSize());
+            return AREA_REDIRECT;
         } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> findAllAreas() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
-            model.addAttribute("result", message);
-            return "errorPages/500";
+            model.addAttribute(RESULT, message);
+            return ERROR_500;
         }
     }
 
@@ -90,8 +97,8 @@ public class AreaController {
             SecurityUser user = (SecurityUser) securityContext.getAuthentication().getPrincipal();
             username = user.getUsername();
             logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING AREA MODULE ---> saveArea()", username, uuid);
-            model.addAttribute("action", "save");
-            model.addAttribute("pageSize", pageable.getPageSize());
+            model.addAttribute(ACTION, "save");
+            model.addAttribute(PAGE_SIZE, pageable.getPageSize());
 
             if(service.isExistArea(area.getIdentifier())){
                 result.rejectValue("identifier", "area.identifier", "El identificador ya existe");
@@ -102,27 +109,27 @@ public class AreaController {
                 areas.setUuid(uuid.toString());
                 areas.setMessage(MessageCatalog.VALIDATION_ERROR);
                 areas.setIsError(true);
-                model.addAttribute("result", areas);
+                model.addAttribute(RESULT, areas);
                 model.addAttribute("data", area);
 
-                return "area/area";
+                return AREA_REDIRECT;
             }
             MessageModel areas = service.registerArea(area, username, uuid.toString());
             areas.setUuid(uuid.toString());
             logger.info("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> saveArea() RESPONSE: {}", username, uuid, areas.getMessage());
 
             if (areas.getIsError()){
-                model.addAttribute("result", areas);
-                return "errorPages/500";
+                model.addAttribute(RESULT, areas);
+                return ERROR_500;
             }
-            redirectAttributes.addFlashAttribute("resultAction", areas);
-            return "redirect:/area/list";
+            redirectAttributes.addFlashAttribute(RESULT_ACTION, areas);
+            return AREA_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> saveArea() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
-            model.addAttribute("result", message);
-            return "errorPages/500";
+            model.addAttribute(RESULT, message);
+            return ERROR_500;
         }
     }
     @PostMapping("/update")
@@ -144,31 +151,31 @@ public class AreaController {
                 areas.setUuid(uuid.toString());
                 areas.setMessage(MessageCatalog.VALIDATION_ERROR);
                 areas.setIsError(true);
-                model.addAttribute("result", areas);
+                model.addAttribute(RESULT, areas);
                 model.addAttribute("data", area);
-                model.addAttribute("action", "update");
-                model.addAttribute("pageSize", pageable.getPageSize());
+                model.addAttribute(ACTION, "update");
+                model.addAttribute(PAGE_SIZE, pageable.getPageSize());
 
-                return "area/area";
+                return AREA_REDIRECT;
             }
             MessageModel areas = service.updateArea(area, username, uuid.toString());
             areas.setUuid(uuid.toString());
 
             logger.info("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> updateArea() RESPONSE: {}", username, uuid, areas.getMessage());
             if(areas.getIsError()) {
-                model.addAttribute("result", areas);
-                return "errorPages/500";
+                model.addAttribute(RESULT, areas);
+                return ERROR_500;
             }
-            redirectAttributes.addFlashAttribute("action", "update");
-            redirectAttributes.addFlashAttribute("pageSize", pageable.getPageSize());
-            redirectAttributes.addFlashAttribute("resultAction", areas);
-            return "redirect:/area/list";
+            redirectAttributes.addFlashAttribute(ACTION, "update");
+            redirectAttributes.addFlashAttribute(PAGE_SIZE, pageable.getPageSize());
+            redirectAttributes.addFlashAttribute(RESULT_ACTION, areas);
+            return AREA_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> updateArea() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
-            model.addAttribute("result", message);
-            return "errorPages/500";
+            model.addAttribute(RESULT, message);
+            return ERROR_500;
         }
     }
     @PostMapping("/disable")
@@ -185,18 +192,18 @@ public class AreaController {
             areas.setUuid(uuid.toString());
 
             if(areas.getIsError()) {
-                model.addAttribute("result", areas);
-                return "errorPages/500";
+                model.addAttribute(RESULT, areas);
+                return ERROR_500;
             }
 
-            redirectAttributes.addFlashAttribute("resultAction", areas);
-            return "redirect:/area/list";
+            redirectAttributes.addFlashAttribute(RESULT_ACTION, areas);
+            return AREA_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> disableArea() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
-            model.addAttribute("result", message);
-            return "errorPages/500";
+            model.addAttribute(RESULT, message);
+            return ERROR_500;
         }
     }
 }

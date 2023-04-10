@@ -7,7 +7,7 @@ public enum MessageCatalog {
     SUCCESS_ENABLE("Se ha habilitado correctamente", "info"),
     RECORDS_FOUND("Registros listados correctamente", "info"),
     NO_RECORDS_FOUND("No hay registros para mostrar", "warning"),
-    UNK_ERROR_FOUND("¡Ha ocurrido un error inesperado, contacte a soporte! Código de operación: ", "error"),
+    UNK_ERROR_FOUND("Ha ocurrido un error inesperado, contacte a soporte. Quedate tranquilo ningún dato fue modificado :D. Código de operación: ", "error"),
     VALIDATION_ERROR("Uno o más valores de los campos es incorrecto", "error");
 
     private final String message;
