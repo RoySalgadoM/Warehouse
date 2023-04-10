@@ -128,7 +128,7 @@ public class UserController {
             }
 
             if (user.getAuthorities() == null) {
-                result.rejectValue(AUTHORITIES, "user.authorities", "Los roles son obligatorios");
+                result.rejectValue(AUTHORITIES, AUTHORITIES_ERROR_CODE, "Los roles son obligatorios");
             } else {
                 user.getAuthorities().stream().forEach(roleModel -> {
                     if (!(roleModel instanceof RoleModel)){
@@ -138,15 +138,9 @@ public class UserController {
                     if (!(ArrayUtils.contains(new Long[]{1L, 2L, 3L}, roleModel.getId())))
                         result.rejectValue(AUTHORITIES, AUTHORITIES_ERROR_CODE, ERROR_ASIGN_ROLE);
                 });
-                if (user.getAuthorities().contains(2) && user.getAuthorities().contains(3)) {
-                    result.rejectValue(AUTHORITIES, AUTHORITIES_ERROR_CODE, "El usuario no puede tener los roles de almacenista y facturación");
-                }
 
-                if (user.getAuthorities().contains(2L) && user.getAuthorities().contains(3L)) {
-                    result.rejectValue(AUTHORITIES, AUTHORITIES_ERROR_CODE, "El usuario no puede tener los roles de almacenista y facturación");
-                }
-                if (user.getAuthorities().contains(AuthorityName.INVOICER) && user.getAuthorities().contains(AuthorityName.WAREHOUSER)) {
-                    result.rejectValue(ROLES, "user.roles", "El usuario no puede tener los roles de almacenista y facturación");
+                if (!(user.getAuthorities().stream().anyMatch(roleModel -> roleModel.getId().equals(1L))) && user.getAuthorities().size() > 1) {
+                    result.rejectValue(AUTHORITIES, AUTHORITIES_ERROR_CODE, ERROR_ASIGN_ROLE);
                 }
 
             }
@@ -210,15 +204,8 @@ public class UserController {
                     if (!(ArrayUtils.contains(new Long[]{1L, 2L, 3L}, roleModel.getId())))
                         result.rejectValue(AUTHORITIES, AUTHORITIES_ERROR_CODE, ERROR_ASIGN_ROLE);
                 });
-                if (user.getAuthorities().contains(2) && user.getAuthorities().contains(3)) {
-                    result.rejectValue(AUTHORITIES, AUTHORITIES_ERROR_CODE, "El usuario no puede tener los roles de almacenista y facturación");
-                }
-
-                if (user.getAuthorities().contains(2L) && user.getAuthorities().contains(3L)) {
-                    result.rejectValue(AUTHORITIES, AUTHORITIES_ERROR_CODE, "El usuario no puede tener los roles de almacenista y facturación");
-                }
-                if (user.getAuthorities().contains(AuthorityName.INVOICER) && user.getAuthorities().contains(AuthorityName.WAREHOUSER)) {
-                    result.rejectValue(ROLES, "user.roles", "El usuario no puede tener los roles de almacenista y facturación");
+                if (!(user.getAuthorities().stream().anyMatch(roleModel -> roleModel.getId().equals(1L))) && user.getAuthorities().size() > 1) {
+                    result.rejectValue(AUTHORITIES, AUTHORITIES_ERROR_CODE, ERROR_ASIGN_ROLE);
                 }
 
             }
