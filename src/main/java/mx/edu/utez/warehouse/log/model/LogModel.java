@@ -25,7 +25,15 @@ public class LogModel {
     @Column(nullable = false)
     private String action;
     @Column(nullable = false)
-    private Integer idAction;
+    private Long idAction;
     @Column(nullable = false)
     private Date date;
+
+    public LogModel(String username, String uuid, String action, Long idAction, Date date) {
+        this.username = username;
+        this.uuid = uuid;
+        this.action = action;
+        this.idAction = idAction;
+        this.date = date;
+    }
 }

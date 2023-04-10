@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import mx.edu.utez.warehouse.area.model.AreaModel;
 import mx.edu.utez.warehouse.area.service.AreaServiceImpl;
+import mx.edu.utez.warehouse.log.service.LogServiceImpl;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.security.config.SecurityUser;
 import mx.edu.utez.warehouse.utils.MessageCatalog;
@@ -34,6 +35,8 @@ public class AreaController {
     private static final String AREA_REDIRECT_LIST = "redirect:/area/list";
     @Autowired
     AreaServiceImpl service;
+    @Autowired
+    LogServiceImpl logService;
 
     @GetMapping("/list")
     public String findAllAreas(Model model, HttpSession httpSession, Pageable pageable, @ModelAttribute("area") AreaModel area) {
@@ -54,6 +57,7 @@ public class AreaController {
             }
 
             model.addAttribute(PAGE_SIZE, pageable.getPageSize());
+            logService.saveLog("FINDING AREAS", 0L, username, uuid.toString());
             return AREA_REDIRECT;
         } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> findAllAreas() ERROR: {}", username, uuid, exception.getMessage());
@@ -78,7 +82,7 @@ public class AreaController {
             MessageModel area = service.findById(id, username, uuid.toString());
             area.setUuid(uuid.toString());
             logger.info("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> findById() RESPONSE: {}", username, uuid, area.getData() == null ? "null" : area.getData().toString());
-
+            logService.saveLog("FINDING AREA BY ID", id, username, uuid.toString());
             return area;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> findById() ERROR: {}", username, uuid, exception.getMessage());
@@ -123,6 +127,7 @@ public class AreaController {
                 return ERROR_500;
             }
             redirectAttributes.addFlashAttribute(RESULT_ACTION, areas);
+            logService.saveLog("SAVING NEW AREA", 0L, username, uuid.toString());
             return AREA_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> saveArea() ERROR: {}", username, uuid, exception.getMessage());
@@ -169,6 +174,7 @@ public class AreaController {
             redirectAttributes.addFlashAttribute(ACTION, "update");
             redirectAttributes.addFlashAttribute(PAGE_SIZE, pageable.getPageSize());
             redirectAttributes.addFlashAttribute(RESULT_ACTION, areas);
+            logService.saveLog("UPDATING AREA", area.getId(), username, uuid.toString());
             return AREA_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> updateArea() ERROR: {}", username, uuid, exception.getMessage());
@@ -197,6 +203,7 @@ public class AreaController {
             }
 
             redirectAttributes.addFlashAttribute(RESULT_ACTION, areas);
+            logService.saveLog("CHANGING STATUS OF AREA", id, username, uuid.toString());
             return AREA_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> disableArea() ERROR: {}", username, uuid, exception.getMessage());

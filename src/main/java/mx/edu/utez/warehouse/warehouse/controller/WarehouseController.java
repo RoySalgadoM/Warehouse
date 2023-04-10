@@ -2,6 +2,7 @@ package mx.edu.utez.warehouse.warehouse.controller;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import mx.edu.utez.warehouse.log.service.LogServiceImpl;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.role.model.RoleModel;
 import mx.edu.utez.warehouse.role.service.RoleServiceImpl;
@@ -45,6 +46,8 @@ public class WarehouseController {
 
     @Autowired
     RoleServiceImpl serviceRole;
+    @Autowired
+    LogServiceImpl logService;
 
     List<UserModel> users = new LinkedList<>();
 
@@ -70,6 +73,8 @@ public class WarehouseController {
                 return ERROR_PAGE_500;
             }
             model.addAttribute(PAGE_SIZE, pageable.getPageSize());
+            logService.saveLog("FINDING WAREHOUSES", 0L, username, uuid.toString());
+
             return WAREHOUSE_REDIRECT;
         } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> findAllWarehouse() ERROR: {}", username, uuid, exception.getMessage());
@@ -94,7 +99,7 @@ public class WarehouseController {
             MessageModel warehouse = service.findById(id, username, uuid.toString());
             warehouse.setUuid(uuid.toString());
             logger.info("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE CONTROLLER---> findById() RESPONSE: {}", username, uuid, warehouse.getData() == null ? "null" : warehouse.getData().toString());
-
+            logService.saveLog("FINDING WAREHOUSE BY ID", id, username, uuid.toString());
             return warehouse;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> findById() ERROR: {}", username, uuid, exception.getMessage());
@@ -162,6 +167,7 @@ public class WarehouseController {
                 return ERROR_PAGE_500;
             }
             redirectAttributes.addFlashAttribute("resultAction", warehouses);
+            logService.saveLog("SAVING NEW WAREHOUSE", 0L, username, uuid.toString());
             return "redirect:/warehouse/list";
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> saveWarehouse() ERROR: {}", username, uuid, exception.getMessage());
@@ -240,6 +246,7 @@ public class WarehouseController {
 
             redirectAttributes.addFlashAttribute(PAGE_SIZE, pageable.getPageSize());
             redirectAttributes.addFlashAttribute("resultAction", warehouses);
+            logService.saveLog("UPDATING WAREHOUSE", warehouse.getId(), username, uuid.toString());
             return "redirect:/warehouse/list";
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> updateWarehouse() ERROR: {}", username, uuid, exception.getMessage());

@@ -3,6 +3,7 @@ package mx.edu.utez.warehouse.product.controller;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import mx.edu.utez.warehouse.log.service.LogServiceImpl;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.product.model.ProductModel;
 import mx.edu.utez.warehouse.product.service.ProductService;
@@ -38,6 +39,8 @@ public class ProductController {
     private static final Logger logger = LogManager.getLogger(ProductController.class);
 
     @Autowired
+    LogServiceImpl logService;
+    @Autowired
     private ProductService service;
 
     @GetMapping("/list")
@@ -59,6 +62,8 @@ public class ProductController {
             }
 
             model.addAttribute(PAGE_SIZE, pageable.getPageSize());
+            logService.saveLog("FINDING PRODUCTS", 0L, username, uuid.toString());
+
             return PRODUCT_REDIRECT;
         } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> PRODUCT MODULE ---> findAllProducts() ERROR: {}", username, uuid, exception.getMessage());
@@ -83,7 +88,7 @@ public class ProductController {
             MessageModel product = service.findById(id, username, uuid.toString());
             product.setUuid(uuid.toString());
             logger.info("[USER : {}] || [UUID : {}] ---> PRODUCT MODULE ---> findById() RESPONSE: {}", username, uuid, product.getData() == null ? "null" : product.getData().toString());
-
+            logService.saveLog("FINDING PRODUCT BY ID", id, username, uuid.toString());
             return product;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> PRODUCT MODULE ---> findById() ERROR: {}", username, uuid, exception.getMessage());
@@ -144,6 +149,7 @@ public class ProductController {
                 return ERROR_500;
             }
             redirectAttributes.addFlashAttribute(RESULT_ACTION, products);
+            logService.saveLog("SAVING NEW PRODUCT", 0L, username, uuid.toString());
             return PRODUCT_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> PRODUCT MODULE ---> saveProduct() ERROR: {}", username, uuid, exception.getMessage());
@@ -205,6 +211,7 @@ public class ProductController {
 
             redirectAttributes.addFlashAttribute(PAGE_SIZE, pageable.getPageSize());
             redirectAttributes.addFlashAttribute(RESULT_ACTION, products);
+            logService.saveLog("UPDATING PRODUCT", product.getId(), username, uuid.toString());
             return PRODUCT_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> PRODUCT MODULE ---> updateProduct() ERROR: {}", username, uuid, exception.getMessage());
@@ -234,6 +241,7 @@ public class ProductController {
             }
 
             redirectAttributes.addFlashAttribute(RESULT_ACTION, products);
+            logService.saveLog("DISABLE PRODUCT", id, username, uuid.toString());
             return PRODUCT_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> PRODUCT MODULE ---> disableProduct() ERROR: {}", username, uuid, exception.getMessage());

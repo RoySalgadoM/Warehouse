@@ -2,6 +2,7 @@ package mx.edu.utez.warehouse.user.controller;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import mx.edu.utez.warehouse.log.service.LogServiceImpl;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.role.model.AuthorityName;
 import mx.edu.utez.warehouse.role.model.RoleModel;
@@ -53,6 +54,8 @@ public class UserController {
     RoleServiceImpl roleService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    LogServiceImpl logService;
 
     @GetMapping("/list")
     public String findAllUsers(Model model, HttpSession httpSession, Pageable pageable, @ModelAttribute("user") UserModel user) {
@@ -72,6 +75,8 @@ public class UserController {
                 return ERROR_PAGE_500;
             }
             model.addAttribute(PAGE_SIZE, pageable.getPageSize());
+            logService.saveLog("FINDING USERS", 0L, username, uuid.toString());
+
             return REDIRECT_USER;
         } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> USER MODULE ---> findAllUsers() ERROR: {}", username, uuid, exception.getMessage());
@@ -101,7 +106,7 @@ public class UserController {
             user.setUuid(uuid.toString());
             logger.info("[USER : {}] || [UUID : {}] ---> USER MODULE ---> findById() RESPONSE: {}", username, uuid, user.getData() == null ? "null" : user.getData().toString());
 
-
+            logService.saveLog("FINDING USER BY ID", id, username, uuid.toString());
             return user;
         } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> USER MODULE ---> findById() ERROR: {}", username, uuid, exception.getMessage());
@@ -172,6 +177,7 @@ public class UserController {
                 return ERROR_PAGE_500;
             }
             redirectAttributes.addFlashAttribute(RESULT_ACTION, users);
+            logService.saveLog("SAVING NEW USER", 0L, username, uuid.toString());
             return REDIRECT_USER_LIST;
         } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> USER MODULE ---> saveUser() ERROR: {}", username, uuid, exception.getMessage());
@@ -242,6 +248,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute(PAGE_SIZE, pageable.getPageSize());
             redirectAttributes.addFlashAttribute(RESULT_ACTION, users);
             redirectAttributes.addFlashAttribute(ROLES, roles);
+            logService.saveLog("UPDATING USER", user.getId(), username, uuid.toString());
             return REDIRECT_USER_LIST;
         } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> USER MODULE ---> updateArea() ERROR: {}", username, uuid, exception.getMessage());
@@ -272,6 +279,7 @@ public class UserController {
                 return ERROR_PAGE_500;
             }
             redirectAttributes.addFlashAttribute(RESULT_ACTION, users);
+            logService.saveLog("DISABLE USER", id, username, uuid.toString());
             return REDIRECT_USER_LIST;
         } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> USER MODULE ---> disableUser() ERROR: {}", username, uuid, exception.getMessage());

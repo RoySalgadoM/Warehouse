@@ -2,6 +2,7 @@ package mx.edu.utez.warehouse.supplier.controller;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import mx.edu.utez.warehouse.log.service.LogServiceImpl;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.security.config.SecurityUser;
 import mx.edu.utez.warehouse.supplier.model.SupplierModel;
@@ -32,6 +33,8 @@ public class SupplierController {
     private static final String SUPPLIER_REDIRECT = "supplier/supplier";
 
     private static final String SUPPLIER_REDIRECT_LIST = "redirect:/supplier/list";
+    @Autowired
+    LogServiceImpl logService;
 
     @Autowired
     SupplierServiceImpl service;
@@ -55,6 +58,8 @@ public class SupplierController {
             }
 
             model.addAttribute(PAGE_SIZE, pageable.getPageSize());
+            logService.saveLog("FINDING SUPPLIERS", 0L, username, uuid.toString());
+
             return SUPPLIER_REDIRECT;
         } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> SUPPLIER MODULE ---> findAllSupplies() ERROR: {}", username, uuid, exception.getMessage());
@@ -79,7 +84,7 @@ public class SupplierController {
             MessageModel supplier = service.findById(id, username, uuid.toString());
             supplier.setUuid(uuid.toString());
             logger.info("[USER : {}] || [UUID : {}] ---> SUPPLIER MODULE ---> findById() RESPONSE: {}", username, uuid, supplier.getData() == null ? "null" : supplier.getData().toString());
-
+            logService.saveLog("FINDING SUPPLIER BY ID", id, username, uuid.toString());
             return supplier;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> SUPPLIER MODULE ---> findById() ERROR: {}", username, uuid, exception.getMessage());
@@ -128,6 +133,7 @@ public class SupplierController {
                 return ERROR_500;
             }
             redirectAttributes.addFlashAttribute(RESULT_ACTION, supplies);
+            logService.saveLog("SAVING NEW SUPPLIER", 0L, username, uuid.toString());
             return SUPPLIER_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> SUPPLIER MODULE ---> saveSupplier() ERROR: {}", username, uuid, exception.getMessage());
@@ -179,6 +185,7 @@ public class SupplierController {
 
             redirectAttributes.addFlashAttribute(PAGE_SIZE, pageable.getPageSize());
             redirectAttributes.addFlashAttribute(RESULT_ACTION, supplies);
+            logService.saveLog("UPDATING SUPPLIER", supplier.getId(), username, uuid.toString());
             return SUPPLIER_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> SUPPLIER MODULE ---> updateSupplier() ERROR: {}", username, uuid, exception.getMessage());
@@ -208,6 +215,7 @@ public class SupplierController {
             }
 
             redirectAttributes.addFlashAttribute(RESULT_ACTION, supplies);
+            logService.saveLog("DISABLE SUPPLIER", id, username, uuid.toString());
             return SUPPLIER_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> SUPPLIER MODULE ---> disableSupplier() ERROR: {}", username, uuid, exception.getMessage());
