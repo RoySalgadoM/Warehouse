@@ -4,8 +4,6 @@ package mx.edu.utez.warehouse.utils;
 import mx.edu.utez.warehouse.order_status.model.OrderStatusModel;
 import mx.edu.utez.warehouse.order_status.model.OrderStatusName;
 import mx.edu.utez.warehouse.order_status.service.OrderStatusRepository;
-import mx.edu.utez.warehouse.person.model.PersonModel;
-import mx.edu.utez.warehouse.person.service.PersonRepository;
 import mx.edu.utez.warehouse.role.model.AuthorityName;
 import mx.edu.utez.warehouse.role.model.RoleModel;
 import mx.edu.utez.warehouse.role.service.RoleRepository;
@@ -39,8 +37,6 @@ public class Runner implements CommandLineRunner {
     private OrderStatusRepository orderStatusRepository;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    PersonRepository personRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
     @Override

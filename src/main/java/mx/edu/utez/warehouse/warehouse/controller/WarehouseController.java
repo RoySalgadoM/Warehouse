@@ -38,6 +38,10 @@ public class WarehouseController {
     private static final String ERROR_PAGE_500 = "errorPages/500";
     private static final String PAGE_SIZE = "pageSize";
     private static final String WAREHOUSE_REDIRECT = "warehouse/warehouse";
+    private static final String ERROR_WAREHOUSER = "warehouse.warehouser";
+    private static final String WAREHOUSER_FIELD = "warehouser";
+    private static final String INVOICER_FIELD = "invoicer";
+    private static final String ERROR_INVOICER = "warehouse.invoicer";
     @Autowired
     WarehouseServiceImpl service;
 
@@ -126,10 +130,10 @@ public class WarehouseController {
             }
             if(warehouse.getWarehouser() == null || warehouse.getInvoicer() == null){
                 if (warehouse.getWarehouser() == null) {
-                    result.rejectValue("warehouser", "warehouse.warehouser", "El almacenista es requerido");
+                    result.rejectValue(WAREHOUSER_FIELD, ERROR_WAREHOUSER, "El almacenista es requerido");
                 }
                 if (warehouse.getInvoicer() == null) {
-                    result.rejectValue("invoicer", "warehouse.invoicer", "El facturador es requerido");
+                    result.rejectValue(INVOICER_FIELD, ERROR_INVOICER, "El facturador es requerido");
                 }
             }else{
                 RoleModel wareRole = new RoleModel(2L);
@@ -138,10 +142,10 @@ public class WarehouseController {
                 var invo = serviceUser.findByIdAndAuthorities(warehouse.getInvoicer().getId(), invoRole);
 
                 if(ware == null){
-                    result.rejectValue("warehouser", "warehouse.warehouser", "El usuario que asignó no es un almacenista o no existe");
+                    result.rejectValue(WAREHOUSER_FIELD, ERROR_WAREHOUSER, "El usuario que asignó no es un almacenista o no existe");
                 }
                 if(invo == null){
-                    result.rejectValue("invoicer", "warehouse.invoicer", "El usuario que asignó no es un facturador o no existe");
+                    result.rejectValue(INVOICER_FIELD, ERROR_INVOICER, "El usuario que asignó no es un facturador o no existe");
                 }
             }
 
@@ -194,10 +198,10 @@ public class WarehouseController {
 
             if(warehouse.getWarehouser() == null || warehouse.getInvoicer() == null){
                 if (warehouse.getWarehouser() == null) {
-                    result.rejectValue("warehouse", "warehouse.warehouser", "El almacenista es requerido");
+                    result.rejectValue("warehouse", ERROR_WAREHOUSER, "El almacenista es requerido");
                 }
                 if (warehouse.getInvoicer() == null) {
-                    result.rejectValue("invoice", "warehouse.invoicer", "El facturador es requerido");
+                    result.rejectValue("invoice", ERROR_INVOICER, "El facturador es requerido");
                 }
             }else{
                 RoleModel wareRole = new RoleModel(2L);
@@ -206,10 +210,10 @@ public class WarehouseController {
                 var invo = serviceUser.findByIdAndAuthorities(warehouse.getInvoicer().getId(), invoRole);
 
                 if(ware == null){
-                    result.rejectValue("warehouser", "warehouse.warehouser", "El usuario que asignó no es un almacenista o no existe");
+                    result.rejectValue(WAREHOUSER_FIELD, ERROR_WAREHOUSER, "El usuario que asignó no es un almacenista o no existe");
                 }
                 if(invo == null){
-                    result.rejectValue("invoicer", "warehouse.invoicer", "El usuario que asignó no es un facturador o no existe");
+                    result.rejectValue(INVOICER_FIELD, ERROR_INVOICER, "El usuario que asignó no es un facturador o no existe");
                 }
             }
             if(result.hasErrors()) {

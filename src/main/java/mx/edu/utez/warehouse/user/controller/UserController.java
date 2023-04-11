@@ -9,6 +9,7 @@ import mx.edu.utez.warehouse.role.model.RoleModel;
 import mx.edu.utez.warehouse.role.service.RoleServiceImpl;
 import mx.edu.utez.warehouse.security.config.SecurityUser;
 import mx.edu.utez.warehouse.user.model.UserModel;
+import mx.edu.utez.warehouse.user.model.UserPasswordDTO;
 import mx.edu.utez.warehouse.user.service.UserServiceImpl;
 import mx.edu.utez.warehouse.utils.MessageCatalog;
 import org.apache.logging.log4j.LogManager;
@@ -47,9 +48,12 @@ public class UserController {
     private static final String RESULT_ACTION = "resultAction";
     private static final String REDIRECT_USER_LIST = "redirect:/user/list";
 
+    private static final String PASSWORD = "password";
+    private static final String CONFIRM_PASSWORD = "confirmPassword";
 
     @Autowired
     UserServiceImpl service;
+
     @Autowired
     RoleServiceImpl roleService;
     @Autowired
@@ -85,8 +89,6 @@ public class UserController {
             model.addAttribute(RESULT, message);
             return ERROR_PAGE_500;
         }
-
-
     }
 
 
@@ -151,7 +153,7 @@ public class UserController {
             }
 
             if (result.hasErrors()) {
-                logger.error("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> saveUser() ERROR: {}", username, uuid, result.getAllErrors());
+                logger.error("[USER : {}] || [UUID : {}] ---> USER MODULE ---> saveUser() ERROR: {}", username, uuid, result.getAllErrors());
                 MessageModel users = service.findAllUsers(pageable, username, uuid.toString());
                 users.setUuid(uuid.toString());
                 users.setMessage(MessageCatalog.VALIDATION_ERROR);
@@ -221,7 +223,7 @@ public class UserController {
             }
 
             if (result.hasErrors()) {
-                logger.error("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> updateArea() ERROR: {}", username, uuid, result.getAllErrors());
+                logger.error("[USER : {}] || [UUID : {}] ---> USER MODULE ---> updateArea() ERROR: {}", username, uuid, result.getAllErrors());
                 MessageModel users = service.findAllUsers(pageable, username, uuid.toString());
                 users.setUuid(uuid.toString());
                 users.setMessage(MessageCatalog.VALIDATION_ERROR);
@@ -240,7 +242,7 @@ public class UserController {
             users.setUuid(uuid.toString());
 
 
-            logger.info("[USER : {}] || [UUID : {}] ---> AREA MODULE ---> updateUser() RESPONSE: {}", username, uuid, users.getMessage());
+            logger.info("[USER : {}] || [UUID : {}] ---> USER MODULE ---> updateUser() RESPONSE: {}", username, uuid, users.getMessage());
             if (users.getIsError()) {
                 model.addAttribute(RESULT, users);
                 return ERROR_PAGE_500;
@@ -252,6 +254,54 @@ public class UserController {
             return REDIRECT_USER_LIST;
         } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> USER MODULE ---> updateArea() ERROR: {}", username, uuid, exception.getMessage());
+            MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+            message.setUuid(uuid.toString());
+            model.addAttribute(RESULT, message);
+            return ERROR_PAGE_500;
+        }
+    }
+
+    @PostMapping("/updatePassword")
+    public String updatePassword(@Valid @ModelAttribute("user") UserPasswordDTO user, BindingResult result, Model model, RedirectAttributes redirectAttributes, HttpSession httpSession, Pageable pageable) {
+        UUID uuid = UUID.randomUUID();
+        String username = "";
+        try {
+            SecurityContextImpl securityContext = (SecurityContextImpl) httpSession.getAttribute(SPRING_SECURITY_CONTEXT);
+            SecurityUser user1 = (SecurityUser) securityContext.getAuthentication().getPrincipal();
+            username = user1.getUsername();
+            if(!user.getPassword().equals(user.getConfirmPassword())){
+                result.rejectValue(PASSWORD, PASSWORD, "Las contraseñas no son iguales");
+                result.rejectValue(CONFIRM_PASSWORD, CONFIRM_PASSWORD, "Las contraseñas no son iguales");
+            }
+            logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING USER MODULE ---> updatePassword()", username, uuid);
+
+            if(!(user.getPassword().length() >= 4 && user.getPassword().length()<=8)){
+                result.rejectValue(PASSWORD, PASSWORD, "La longitud de la contraseña debe de ser entre 4 y 8 caracteres");
+                result.rejectValue(CONFIRM_PASSWORD, CONFIRM_PASSWORD, "La longitud de la contraseña debe de ser entre 4 y 8 caracteres");
+            }
+
+            if (result.hasErrors()) {
+                logger.error("[USER : {}] || [UUID : {}] ---> USER MODULE ---> updatePassword() ERROR: {}", username, uuid, result.getAllErrors());
+                MessageModel userSave = service.findByUsername(username, uuid.toString());
+                userSave.setUuid(uuid.toString());
+                userSave.setMessage(MessageCatalog.VALIDATION_ERROR);
+                userSave.setIsError(true);
+                model.addAttribute(RESULT, userSave);
+                return "user/profile";
+            }
+            MessageModel userSave = service.updatePassword(username, uuid.toString(), user.getPassword());
+            userSave.setUuid(uuid.toString());
+
+            logger.info("[USER : {}] || [UUID : {}] ---> USER MODULE ---> updatePassword() RESPONSE: {}", username, uuid, userSave.getMessage());
+            if (userSave.getIsError()) {
+                model.addAttribute(RESULT, user);
+                return ERROR_PAGE_500;
+            }
+            redirectAttributes.addFlashAttribute(RESULT_ACTION, userSave);
+            logService.saveLog("UPDATING USER PASSWORD", 0L, username, uuid.toString());
+            return "redirect:/user/profile";
+        } catch (Exception exception) {
+            logger.error("[USER : {}] || [UUID : {}] ---> USER MODULE ---> updatePassword() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
             model.addAttribute(RESULT, message);
@@ -294,9 +344,30 @@ public class UserController {
 
 
     @GetMapping("/profile")
-    public String lista(Model model){
-//        model.addAttribute(user, UserService.listaUser());
-        return "user/profile";
+    public String profile(Model model, HttpSession httpSession,  @ModelAttribute("user") UserPasswordDTO user){
+        UUID uuid = UUID.randomUUID();
+        String username = "";
+        try {
+            SecurityContextImpl securityContext = (SecurityContextImpl) httpSession.getAttribute(SPRING_SECURITY_CONTEXT);
+            SecurityUser user1 = (SecurityUser) securityContext.getAuthentication().getPrincipal();
+            username = user1.getUsername();
+            logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING USER MODULE ---> profile()", username, uuid);
+            MessageModel userFind = service.findByUsername(username, uuid.toString());
+            logger.info("[USER : {}] || [UUID : {}] ---> USER MODULE ---> profile() RESPONSE: {}", username, uuid, userFind.getMessage());
+            userFind.setUuid(uuid.toString());
+            model.addAttribute(RESULT, userFind);
+            if (userFind.getIsError()) {
+                return ERROR_PAGE_500;
+            }
+            logService.saveLog("GET ME USER", 0L, username, uuid.toString());
+            return "user/profile";
+        } catch (Exception exception) {
+            logger.error("[USER : {}] || [UUID : {}] ---> USER MODULE ---> profile() ERROR: {}", username, uuid, exception.getMessage());
+            MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+            message.setUuid(uuid.toString());
+            model.addAttribute(RESULT, message);
+            return ERROR_PAGE_500;
+        }
     }
 }
 

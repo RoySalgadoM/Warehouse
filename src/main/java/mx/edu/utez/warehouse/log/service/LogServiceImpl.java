@@ -1,6 +1,5 @@
 package mx.edu.utez.warehouse.log.service;
 
-import mx.edu.utez.warehouse.area.model.AreaModel;
 import mx.edu.utez.warehouse.log.model.LogModel;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.utils.MessageCatalog;

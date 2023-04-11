@@ -16,4 +16,8 @@ public interface UserService {
     List<UserModel> listWarehousers();
     List<UserModel> listInvoicers();
 
+    MessageModel findByUsername(String username, String uuid);
+
+    MessageModel updatePassword(String username, String uuid, String password);
+
 }

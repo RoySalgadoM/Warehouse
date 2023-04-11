@@ -10,7 +10,7 @@
 
     <link th:fragment="css" rel="stylesheet" th:href="@{/css/stylesProfile.css}">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed" >
+<body class="hold-transition sidebar-mini layout-fixed" onload="getUser()">
 <div th:insert="fragments/header :: js"></div>
 <div class="wrapper">
     <div th:insert="fragments/navbar :: navbar"></div>
@@ -27,7 +27,7 @@
                                      alt="avatar" class="rounded-circle img-fluid" style="width:220px; aling-center">
                             </div>
                             <p style="font-size:18px" class="my-3 text-center"><strong></strong></p>
-                            <p style="font-size:17px" class="text-muted mb-1 text-center"><strong>Administrador</strong></p>
+                            <p style="font-size:17px" class="text-muted mb-1 text-center"><strong th:text="${result != null ? 'Usuario: ' + result.data.username: ''}"></strong></p>
                         </div>
                     </div>
                 </div>
@@ -35,38 +35,26 @@
                     <div class="card mb-4" >
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Nombre Completo</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0" id="name" ></p>
+                                <div class="col-sm-12">
+                                    <p th:text="${result != null ? 'Nombre completo: ' + result.data.name + ' ' + result.data.surname + ' ' + result.data.secondSurname: ''}" class="mb-0"></p>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0" >Correo</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0" id="email" ></p>
+                                <div class="col-sm-12">
+                                    <p class="mb-0" th:text="${result != null ? 'Correo electrónico: ' + result.data.email: ''}"></p>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Teléfono</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0" id="phone" ></p>
+                                <div class="col-sm-12">
+                                    <p class="mb-0" th:text="${result != null ? 'Teléfono: ' + result.data.phone: ''}"></p>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0">RFC</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0"  id="rfc" ></p>
+                                <div class="col-sm-12">
+                                    <p class="mb-0" th:text="${result != null ? 'RFC: ' + result.data.rfc: ''}"></p>
                                 </div>
                             </div>
                         </div>
@@ -75,49 +63,45 @@
                         <div class="col-md-12" style="height:250px">
                             <div class="card mb-4 mb-md-0" style="height:310px">
                                 <div class="card-body">
-                                    <div class="col-sm-8">
-                                        <p class="mb-0" ><strong>Cambiar Contraseña</strong></p>
-                                    </div><br>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <label  id="password" for="password">Contraseña actual</label>
+                                    <form th:action="@{/user/updatePassword}" method="post" th:object="${user}">
+                                        <div class="col-sm-8">
+                                            <p class="mb-0" ><strong>Cambiar Contraseña</strong></p>
+                                        </div><br>
+                                        <div class="row">
+                                            <div th:if="${resultAction != null && (resultAction.message.name eq 'SUCCESS_UPDATE') ? true: false}"
+                                                 class="alert alert-success alert-dismissible fade show col-12" role="alert">
+                                                [[${resultAction.message.message}]]
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label  for="password">Nueva Contraseña</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="password" class="form-control" id="password" name="password" placeholder="">
+                                                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                                                     class="alert alert-danger"></div>
+                                            </div>
                                         </div>
-                                        <div class="col-sm-9">
-                                            <input type="password" class="form-control" id="inputAddress" placeholder="">
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="confirmPassword">Confirmar Contraseña</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="">
+                                                <div th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"
+                                                     class="alert alert-danger"></div>
+                                            </div>
+                                        </div><br>
+                                        <div class="d-flex justify-content-center mb-2">
+                                            <button type="submit" class="btn btn-primary"> Guardar</button>
                                         </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <label  id="passwordNew" for="password">Nueva Contraseña</label>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <input type="password" class="form-control" id="inputAddress" placeholder="">
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <label for="inputAddress">Confirmar Contraseña</label>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <input type="password" class="form-control" id="confirmPassword" placeholder="">
-                                        </div>
-                                    </div><br>
-                                    <div class="d-flex justify-content-center mb-2">
-                                        <button type="button" class="btn btn-primary"> Guardar</button>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-
-                        <!--                        <form action="/change-password" method="post">-->
-                        <!--                            <label for="username">Username:</label>-->
-                        <!--                            <input type="text" id="username" name="username"><br><br>-->
-                        <!--                            <label for="newPassword">New Password:</label>-->
-                        <!--                            <input type="password" id="newPassword" name="newPassword"><br><br>-->
-                        <!--                            <input type="submit" value="Change Password">-->
-                        <!--                        </form>-->
                     </div>
                 </div>
             </div>
@@ -126,6 +110,13 @@
 
     </div>
 </div>
+
+<script>
+    const getUser = () => {
+        $.post("/user/getme/", function (data) {
+            console.log(data)
+        });
+    }</script>
 
 </body>
 </html>
