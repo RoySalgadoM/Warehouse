@@ -2,8 +2,10 @@ package mx.edu.utez.warehouse.warehouse.controller;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import mx.edu.utez.warehouse.entry.model.EntryModel;
 import mx.edu.utez.warehouse.log.service.LogServiceImpl;
 import mx.edu.utez.warehouse.message.model.MessageModel;
+import mx.edu.utez.warehouse.product.service.ProductServiceImpl;
 import mx.edu.utez.warehouse.role.model.RoleModel;
 import mx.edu.utez.warehouse.role.service.RoleServiceImpl;
 import mx.edu.utez.warehouse.security.config.SecurityUser;
@@ -41,6 +43,8 @@ public class WarehouseController {
     private static final String ERROR_WAREHOUSER = "warehouse.warehouser";
     private static final String WAREHOUSER_FIELD = "warehouser";
     private static final String INVOICER_FIELD = "invoicer";
+
+    private static final String DASHBOARD_REDIRECT = "warehouse/dashboard";
     private static final String ERROR_INVOICER = "warehouse.invoicer";
     @Autowired
     WarehouseServiceImpl service;
@@ -48,6 +52,11 @@ public class WarehouseController {
     @Autowired
     UserServiceImpl serviceUser;
 
+    @Autowired
+    WarehouseServiceImpl warehouseService;
+
+    @Autowired
+    ProductServiceImpl productService;
     @Autowired
     RoleServiceImpl serviceRole;
     @Autowired
@@ -88,6 +97,38 @@ public class WarehouseController {
             return ERROR_PAGE_500;
         }
     }
+
+
+
+    @GetMapping("/dashboard")
+    public String findAllCost(Model model, HttpSession httpSession, Pageable pageable, @ModelAttribute("entry") EntryModel entry) {
+        UUID uuid = UUID.randomUUID();
+        String username = "";
+        try {
+            SecurityContextImpl securityContext = (SecurityContextImpl) httpSession.getAttribute(SPRING_SECURITY_CONTEXT);
+            SecurityUser user = (SecurityUser) securityContext.getAuthentication().getPrincipal();
+            username = user.getUsername();
+            logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING ENTRY MODULE ---> findAllEntries()", username, uuid);
+            MessageModel cost = service.findAllCost(pageable, username, uuid.toString());
+            logger.info("[USER : {}] || [UUID : {}] ---> ENTRY MODULE ---> findAllEntries() RESPONSE: {}", username, uuid, cost.getMessage());
+            cost.setUuid(uuid.toString());
+            model.addAttribute("result", cost);
+            model.addAttribute("listWarehouses", warehouseService.findWarehouses());
+            model.addAttribute("listProducts", productService.findAllProducts(pageable, username, uuid.toString()));
+            if (cost.getIsError()) {
+                return ERROR_PAGE_500;
+            }
+            model.addAttribute(PAGE_SIZE, pageable.getPageSize());
+            return DASHBOARD_REDIRECT;
+        } catch (Exception exception) {
+            logger.error("[USER : {}] || [UUID : {}] ---> ENTRY MODULE ---> findAllEntries() ERROR: {}", username, uuid, exception.getMessage());
+            MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+            message.setUuid(uuid.toString());
+            model.addAttribute(RESULT, message);
+            return ERROR_PAGE_500;
+        }
+    }
+
 
     @GetMapping("/{id}")
     @ResponseBody
