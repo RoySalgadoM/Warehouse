@@ -1,5 +1,6 @@
 package mx.edu.utez.warehouse.warehouse.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -52,6 +53,7 @@ public class WarehouseModel {
     private UserModel invoicer;
 
     @OneToMany(mappedBy = "warehouse")
+    @JsonIgnore
     private List<WarehouseProductModel> warehouseProductModels;
 
     @Override

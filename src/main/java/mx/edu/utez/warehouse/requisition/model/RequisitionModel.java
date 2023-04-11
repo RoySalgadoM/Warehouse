@@ -28,6 +28,10 @@ public class RequisitionModel {
     private Date orderDate;
 
     @Column(nullable = false, unique = true)
+    @NotEmpty(message = "La código no puede estar vacía")
+    @NotNull(message = "La código no puede ser nula")
+    @Size(min = 3, max = 50, message = "El código debe tener entre 3 y 50 caracteres")
+    @Pattern(regexp = "[A-Za-z0-9 ]+", message = "El código debe ser alfanumérico")
     private String code;
 
     @Column(nullable = false)
@@ -50,7 +54,6 @@ public class RequisitionModel {
     @OneToMany(mappedBy = "requisition")
     private List<RequisitionProductModel> requisitionProductModels;
 
-    
     @ManyToOne
     @JoinColumn(name = "warehouse_id", nullable = false)
     private WarehouseModel warehouse;

@@ -75,7 +75,7 @@
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label>Proveedor<span class="text-danger">*</span></label>
-                                        <select th:value="${data != null && action eq 'save' ? data.supplier.id : ''}" class="custom-select d-block w-100" name="supplier" th:field="*{supplier.id}">
+                                        <select class="custom-select d-block w-100" name="supplier" th:field="*{supplier}">
                                             <option th:each="tmpSupplier : ${listSupplies}" th:value="${tmpSupplier.id}" th:text="${tmpSupplier.name}" />
                                         </select>
                                         <div th:if="${#fields.hasErrors('supplier') && action eq 'save'}" th:errors="*{supplier}"
@@ -83,7 +83,7 @@
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label>Almacén al que se dirige</label><span class="text-danger">*</span>
-                                        <select th:value="${data != null && action eq 'save' ? data.requisition.warehouse.id : ''}" class="custom-select d-block w-100" th:field="*{requisition.warehouse.id}">
+                                        <select class="custom-select d-block w-100" th:field="*{requisition.warehouse}">
                                             <option th:each="tmpWarehouse : ${listWarehouses}" th:value="${tmpWarehouse.id}" th:text="${tmpWarehouse.name}" />
                                         </select>
                                         <div th:if="${#fields.hasErrors('requisition.warehouse') && action eq 'save'}" th:errors="*{requisition.warehouse}"
@@ -116,7 +116,7 @@
                                         <button type="button" class="btn btn-primary btn-add" onclick="addProduct()">Agregar producto <i class="nav-icon fas fa-cart-plus"></i></button>
                                     </div>
                                     <br><hr>
-                                    <div class="container-fluid d-flex justify-content-center margin-table-order">
+                                    <div class="container-fluid d-flex justify-content-center margin-table-order table-hover">
                                         <table class="table table-responsive projects">
                                             <thead>
                                             <tr class="text-center">
@@ -168,7 +168,7 @@
                         </div>
                         <div class="row mb-3 mt-2">
                             <div class="container-fluid">
-                                <table class="table table-responsive projects margin-table-order table-striped projects">
+                                <table class="table table-responsive projects margin-table-order table-striped projects table-hover">
                                     <thead>
                                     <tr class="text-center">
                                         <th style="width: 1%">#</th>
@@ -209,7 +209,7 @@
                                             </button>
                                         </td>
                                         <td>
-                                            <form th:if="${entry.requisition.status.id == 1}" th:action="@{/entry/change}"
+                                            <form th:if="${entry.requisition.status.id == 1}" th:action="@{/entry/delivered}"
                                                   method="post">
                                                 <input th:value="${entry.requisition.status.id}" name="id" type="hidden">
                                                 <button type="button" class="btn btn-success changeBtnEntry">
@@ -268,6 +268,7 @@
                                     <a th:href="@{/area/list(page=${result.data.number + 1}, size=${pageSize})}"
                                        class="page-link">Siguiente</a>
                                 </li>
+
                             </ul>
                         </nav>
                     </div>

@@ -107,5 +107,8 @@ public class WarehouseServiceImpl implements WarehouseService {
         return repository.existsByIdentifierAndIdNotLike(identifier, id);
     }
 
+    public boolean isExistById(Long id) {
+        return repository.existsById(id);
+    }
 
 }

@@ -15,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class EntryServiceImpl implements EntryService{
     private static final Logger logger = LogManager.getLogger(EntryServiceImpl.class);
@@ -95,11 +97,31 @@ public class EntryServiceImpl implements EntryService{
             requisitionRepository.saveAndFlush(requisition.get());
             return new MessageModel(requisition.get().getStatus().getId() == 4L ? MessageCatalog.SUCCESS_CANCEL : MessageCatalog.ERROR_CANCEL, null, false);
         } catch (Exception exception) {
-            logger.error("[USER : {}] || [UUID : {}] ---> ENTRY MODULE ---> disableEntry() ERROR: {}", username, uuid, exception.getMessage());
+            logger.error("[USER : {}] || [UUID : {}] ---> ENTRY MODULE ---> cancelEntry() ERROR: {}", username, uuid, exception.getMessage());
             return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
         }
     }
 
+    @Override
+    public MessageModel deliveredEntry(long id, String username, String uuid) {
+        try {
+            var entry = repository.findById(id);
+            var requisition = requisitionRepository.findById(entry.get().getRequisition().getId());
+            if (entry.isEmpty()) {
+                throw new NoResultException(ENTRY_NOT_FOUND);
+            }
+            if (requisition.isEmpty()) {
+                throw new NoResultException(ENTRY_NOT_FOUND);
+            }
+            OrderStatusModel status = orderStatusRepository.findById(3L);
+            requisition.get().setStatus(requisition.get().getStatus().getId() == 1L ? status : requisition.get().getStatus());
+            requisitionRepository.saveAndFlush(requisition.get());
+            return new MessageModel(requisition.get().getStatus().getId() == 3L ? MessageCatalog.SUCCESS_DELIVERED : MessageCatalog.ERROR_DELIVERED, null, false);
+        } catch (Exception exception) {
+            logger.error("[USER : {}] || [UUID : {}] ---> ENTRY MODULE ---> deliveredEntry() ERROR: {}", username, uuid, exception.getMessage());
+            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+        }
+    }
 
     public boolean isExistEntry(String code) {
         return requisitionRepository.existsByCode(code);

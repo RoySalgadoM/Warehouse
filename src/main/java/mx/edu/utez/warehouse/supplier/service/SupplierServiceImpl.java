@@ -124,4 +124,7 @@ public class SupplierServiceImpl implements SupplierService{
     public boolean isExistSupplierByEmailAndId(String email, Long id) {
         return repository.existsByEmailAndIdNotLike(email, id);
     }
+    public boolean isExistById(Long id) {
+        return repository.existsById(id);
+    }
 }

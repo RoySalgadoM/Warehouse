@@ -11,5 +11,6 @@ public interface SupplierRepository extends JpaRepository<SupplierModel, Long> {
     boolean existsByRfcAndIdNotLike(String phone, long id);
     boolean existsByEmail(String email);
     boolean existsByEmailAndIdNotLike(String email, long id);
+    boolean existsById(long id);
 
 }

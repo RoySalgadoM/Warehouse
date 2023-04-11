@@ -6,13 +6,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import mx.edu.utez.warehouse.entry.model.EntryModel;
+import mx.edu.utez.warehouse.entry.service.EntryRepository;
 import mx.edu.utez.warehouse.entry.service.EntryServiceImpl;
 import mx.edu.utez.warehouse.log.service.LogServiceImpl;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.product.model.ProductDTO;
 import mx.edu.utez.warehouse.product.model.ProductModel;
+import mx.edu.utez.warehouse.product.model.WarehouseProductModel;
 import mx.edu.utez.warehouse.product.service.ProductRepository;
 import mx.edu.utez.warehouse.product.service.ProductServiceImpl;
+import mx.edu.utez.warehouse.product.service.WarehouseProductRepository;
 import mx.edu.utez.warehouse.requisition.model.RequisitionModel;
 import mx.edu.utez.warehouse.requisition.model.RequisitionProductModel;
 import mx.edu.utez.warehouse.requisition.service.RequisitionProductRepository;
@@ -31,9 +34,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.util.ArrayUtils;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -52,6 +57,8 @@ public class EntryController {
     @Autowired
     EntryServiceImpl service;
     @Autowired
+    EntryRepository repository;
+    @Autowired
     SupplierServiceImpl supplierService;
     @Autowired
     WarehouseServiceImpl warehouseService;
@@ -65,6 +72,9 @@ public class EntryController {
     RequisitionRepository requisitionRepository;
     @Autowired
     LogServiceImpl logService;
+
+    @Autowired
+    WarehouseProductRepository warehouseProductRepository;
 
     @GetMapping("/list")
     public String findAllEntries(Model model, HttpSession httpSession, Pageable pageable, @ModelAttribute("entry") EntryModel entry) {
@@ -145,7 +155,7 @@ public class EntryController {
     }
 
     @PostMapping("/save")
-    public String saveEntry(@Valid @ModelAttribute("entry") EntryModel entry, @RequestParam("products") String products, BindingResult result, Model model, RedirectAttributes redirectAttributes, HttpSession httpSession, Pageable pageable) throws JsonProcessingException {
+    public String saveEntry(@Valid @ModelAttribute("entry") EntryModel entry, BindingResult result, @RequestParam("products") String products, Model model, RedirectAttributes redirectAttributes, HttpSession httpSession, Pageable pageable) throws JsonProcessingException {
         UUID uuid = UUID.randomUUID();
         String username = "";
         try {
@@ -164,6 +174,29 @@ public class EntryController {
                 result.rejectValue("requisition.requisitionProductModels", "entry.requisition.requisitionProductModels", "La entrada debe tener al menos un producto");
             }
 
+            if (!ArrayUtils.contains(new Integer[]{1, 2}, entry.getRequisition().getType())){
+                result.rejectValue("requisition.type", "entry.requisition.type", "El tipo de pedido no es válido");
+            }
+
+            if(entry.getSupplier() == null || entry.getRequisition().getWarehouse() == null){
+                if (entry.getSupplier() == null) {
+                    result.rejectValue("supplier", "entry.supplier", "El proveedor es requerido");
+                }
+                if (entry.getRequisition().getWarehouse() == null) {
+                    result.rejectValue("requisition.warehouse", "entry.requisition.warehouse", "El almacén es requerido");
+                }
+            }else{
+                boolean supplier = supplierService.isExistById(entry.getSupplier().getId());
+                boolean ware = warehouseService.isExistById(entry.getRequisition().getWarehouse().getId());
+
+                if(!ware){
+                    result.rejectValue("supplier", "entry.supplier", "El proveedor es incorrecto");
+                }
+                if(!supplier){
+                    result.rejectValue("requisition.warehouse", "entry.requisition.warehouse", "El almacén es incorrecto");
+                }
+            }
+
             if(result.hasErrors()) {
                 logger.error("[USER : {}] || [UUID : {}] ---> ENTRY MODULE ---> saveEntry() ERROR: {}", username, uuid, result.getAllErrors());
                 MessageModel entries = service.findAllEntries(pageable, username, uuid.toString());
@@ -172,8 +205,13 @@ public class EntryController {
                 entries.setIsError(true);
                 model.addAttribute(RESULT, entries);
                 model.addAttribute("data", entry);
+                model.addAttribute("listSupplies", supplierService.findSupplies());
+                model.addAttribute("listWarehouses", warehouseService.findWarehouses());
+                model.addAttribute("listProducts", productService.findProductsByType(1));
+                model.addAttribute(PAGE_SIZE, pageable.getPageSize());
                 return ENTRY_REDIRECT;
             }
+            
             ObjectMapper mapper = new ObjectMapper();
             List<ProductDTO> listProducts = mapper.readValue(products, new TypeReference<List<ProductDTO>>(){});
             Double total = 0.0;
@@ -238,6 +276,50 @@ public class EntryController {
             return ENTRY_REDIRECT_LIST;
         }catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> ENTRY MODULE ---> cancelEntry() ERROR: {}", username, uuid, exception.getMessage());
+            MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+            message.setUuid(uuid.toString());
+            model.addAttribute(RESULT, message);
+            return ERROR_500;
+        }
+    }
+
+    @PostMapping("/delivered")
+    public String deliveredEntry(Model model, @RequestParam long id, RedirectAttributes redirectAttributes, HttpSession httpSession) {
+        UUID uuid = UUID.randomUUID();
+        String username = "";
+        try {
+            SecurityContextImpl securityContext = (SecurityContextImpl) httpSession.getAttribute(SPRING_SECURITY_CONTEXT);
+            SecurityUser user = (SecurityUser) securityContext.getAuthentication().getPrincipal();
+            username = user.getUsername();
+            logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING ENTRY MODULE ---> deliveredEntry()", username, uuid);
+            MessageModel entries = service.deliveredEntry(id, username, uuid.toString());
+            logger.info("[USER : {}] || [UUID : {}] ---> ENTRY MODULE ---> deliveredEntry() RESPONSE: {}", username, uuid, entries);
+            entries.setUuid(uuid.toString());
+            EntryModel entry = repository.findEntryById(id);
+            List<ProductModel> products = entry.getRequisition().getRequisitionProductModels().stream().map(RequisitionProductModel::getProduct).collect(Collectors.toList());
+            for (ProductModel product : products) {
+                WarehouseProductModel warehouseProduct = warehouseProductRepository.findWarehouseProductByWarehouseAndProduct(entry.getRequisition().getWarehouse(), product);
+                if(warehouseProduct == null) {
+                    warehouseProduct = new WarehouseProductModel();
+                    warehouseProduct.setProduct(product);
+                    warehouseProduct.setWarehouse(entry.getRequisition().getWarehouse());
+                    warehouseProduct.setQuantity(entry.getRequisition().getRequisitionProductModels().stream().filter(requisitionProduct -> requisitionProduct.getProduct().getId() == product.getId()).findFirst().get().getQuantity());
+                    warehouseProductRepository.saveAndFlush(warehouseProduct);
+                }else {
+                    warehouseProduct.setQuantity(warehouseProduct.getQuantity() + entry.getRequisition().getRequisitionProductModels().stream().filter(requisitionProduct -> requisitionProduct.getProduct().getId() == product.getId()).findFirst().get().getQuantity());
+                    warehouseProductRepository.saveAndFlush(warehouseProduct);
+                }
+            }
+            if(entries.getIsError()) {
+                model.addAttribute(RESULT, entries);
+                return ERROR_500;
+            }
+
+            redirectAttributes.addFlashAttribute(RESULT_ACTION, entries);
+            logService.saveLog("CHANGING(DELIVERED) STATUS OF ENTRY", id, username, uuid.toString());
+            return ENTRY_REDIRECT_LIST;
+        }catch (Exception exception) {
+            logger.error("[USER : {}] || [UUID : {}] ---> ENTRY MODULE ---> deliveredEntry() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
             model.addAttribute(RESULT, message);
