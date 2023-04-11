@@ -3,6 +3,7 @@ package mx.edu.utez.warehouse.warehouse.service;
 import jakarta.persistence.NoResultException;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 
+import mx.edu.utez.warehouse.product.model.WarehouseProductModel;
 import mx.edu.utez.warehouse.utils.MessageCatalog;
 import mx.edu.utez.warehouse.warehouse.model.WarehouseModel;
 import org.apache.logging.log4j.LogManager;
@@ -21,6 +22,9 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Autowired
     WarehouseRepository repository;
+
+    @Autowired
+    DashboardRepository repositoryD;
 
 
     @Override
@@ -45,6 +49,21 @@ public class WarehouseServiceImpl implements WarehouseService {
         return repository.findAll();
     }
 
+    @Override
+    public MessageModel findAllCost(Pageable page, String username, String uuid) {
+        try {
+            Page<WarehouseProductModel> cost = repositoryD.findAll(page);
+
+            if (cost.getNumberOfElements() == 0) {
+                return new MessageModel(MessageCatalog.NO_RECORDS_FOUND, null, false);
+            }
+            return new MessageModel(MessageCatalog.RECORDS_FOUND, cost, false);
+
+        } catch (Exception exception) {
+            logger.error("[USER : {}] || [UUID : {}] ---> ENTRY MODULE ---> findAllEntries() ERROR: {}", username, uuid, exception.getMessage());
+            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+        }
+    }
 
     @Override
     public MessageModel findById(long id, String username, String uuid) {
