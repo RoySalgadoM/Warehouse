@@ -28,8 +28,8 @@ public class RequisitionModel {
     private Date orderDate;
 
     @Column(nullable = false, unique = true)
-    @NotEmpty(message = "La código no puede estar vacía")
-    @NotNull(message = "La código no puede ser nula")
+    @NotEmpty(message = "El código no puede estar vacío")
+    @NotNull(message = "El código no puede ser nulo")
     @Size(min = 3, max = 50, message = "El código debe tener entre 3 y 50 caracteres")
     @Pattern(regexp = "[A-Za-z0-9 ]+", message = "El código debe ser alfanumérico")
     private String code;

@@ -1,5 +1,6 @@
 package mx.edu.utez.warehouse.product.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
@@ -28,9 +29,11 @@ public class WarehouseProductModel {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonIgnore
     private ProductModel product;
 
     @ManyToOne
     @JoinColumn(name = "warehouse_id")
+    @JsonIgnore
     private WarehouseModel warehouse;
 }

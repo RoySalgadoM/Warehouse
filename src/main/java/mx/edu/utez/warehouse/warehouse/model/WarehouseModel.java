@@ -53,7 +53,6 @@ public class WarehouseModel {
     private UserModel invoicer;
 
     @OneToMany(mappedBy = "warehouse")
-    @JsonIgnore
     private List<WarehouseProductModel> warehouseProductModels;
 
     @Override
