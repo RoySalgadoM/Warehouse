@@ -3,6 +3,7 @@ package mx.edu.utez.warehouse.warehouse.service;
 import jakarta.persistence.NoResultException;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 
+import mx.edu.utez.warehouse.product.model.ProductModel;
 import mx.edu.utez.warehouse.product.model.WarehouseProductModel;
 import mx.edu.utez.warehouse.utils.MessageCatalog;
 import mx.edu.utez.warehouse.warehouse.model.WarehouseModel;
@@ -19,6 +20,7 @@ import java.util.List;
 @Service
 public class WarehouseServiceImpl implements WarehouseService {
     private static final Logger logger = LogManager.getLogger(WarehouseServiceImpl.class);
+    private static final String WAREHOUSE_NOT_FOUND = "The warehouse could not be found";
 
     @Autowired
     WarehouseRepository repository;
@@ -50,6 +52,18 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
+    public List<ProductModel> findWarehouseProductsByType(Integer type, long idWarehouse) {
+        var warehouse = repository.findById(idWarehouse);
+        if (warehouse.isEmpty()) {
+            throw new NoResultException(WAREHOUSE_NOT_FOUND);
+        }
+        List<WarehouseProductModel> warehouseProducts = warehouse.get().getWarehouseProductModels();
+        List<ProductModel> products = warehouseProducts.stream().map(WarehouseProductModel::getProduct).toList();
+        products = products.stream().filter(product -> product.getType() == type).toList();
+        return products;
+    }
+
+    @Override
     public MessageModel findAllCost(Pageable page, String username, String uuid) {
         try {
             Page<WarehouseProductModel> cost = repositoryD.findAll(page);
@@ -70,7 +84,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         try {
             var findWarehouse = repository.findById(id);
             if (findWarehouse.isEmpty()) {
-                throw new NoResultException("The warehouse could not be found");
+                throw new NoResultException(WAREHOUSE_NOT_FOUND);
             }
             return new MessageModel(MessageCatalog.RECORDS_FOUND, findWarehouse.get(), false);
 
@@ -100,7 +114,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         try {
             var warehouse = repository.findById(warehouseModel.getId());
             if (warehouse.isEmpty()) {
-                throw new NoResultException("The warehouse could not be found");
+                throw new NoResultException(WAREHOUSE_NOT_FOUND);
             }
 
             warehouse.get().setName(warehouseModel.getName());

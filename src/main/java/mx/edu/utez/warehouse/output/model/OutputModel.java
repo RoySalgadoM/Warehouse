@@ -1,6 +1,7 @@
 package mx.edu.utez.warehouse.output.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import mx.edu.utez.warehouse.requisition.model.RequisitionModel;
 public class OutputModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Positive(message = "El id debe ser positivo")
     private Long id;
 
     @OneToOne

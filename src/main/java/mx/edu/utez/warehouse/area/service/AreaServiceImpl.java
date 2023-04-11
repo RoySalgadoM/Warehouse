@@ -11,12 +11,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AreaServiceImpl implements AreaService {
     private static final Logger logger = LogManager.getLogger(AreaServiceImpl.class);
     private static final String AREA_NOT_FOUND = "The area could not be found";
     @Autowired
     AreaRepository repository;
+
+    @Override
+    public List<AreaModel> findAreas() {
+        return repository.findAll();
+    }
 
     @Override
     public MessageModel findAllAreas(Pageable page, String username, String uuid) {
@@ -106,5 +113,8 @@ public class AreaServiceImpl implements AreaService {
     }
     public boolean isExistAreaAndId(String identifier, Long id) {
         return repository.existsByIdentifierAndIdNotLike(identifier, id);
+    }
+    public boolean isExistById(Long id) {
+        return repository.existsById(id);
     }
 }

@@ -1,6 +1,5 @@
 package mx.edu.utez.warehouse.entry.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
@@ -38,7 +37,6 @@ import org.thymeleaf.util.ArrayUtils;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 @Controller
@@ -93,6 +91,7 @@ public class EntryController {
             model.addAttribute("listSupplies", supplierService.findSupplies());
             model.addAttribute("listWarehouses", warehouseService.findWarehouses());
             model.addAttribute("listProducts", productService.findProductsByType(1));
+            model.addAttribute("products", "");
             if (entries.getIsError()) {
                 return ERROR_500;
             }
@@ -155,7 +154,7 @@ public class EntryController {
     }
 
     @PostMapping("/save")
-    public String saveEntry(@Valid @ModelAttribute("entry") EntryModel entry, BindingResult result, @RequestParam("products") String products, Model model, RedirectAttributes redirectAttributes, HttpSession httpSession, Pageable pageable) throws JsonProcessingException {
+    public String saveEntry(@Valid @ModelAttribute("entry") EntryModel entry, BindingResult result, Model model, RedirectAttributes redirectAttributes, HttpSession httpSession, Pageable pageable, @RequestParam("products") String products) {
         UUID uuid = UUID.randomUUID();
         String username = "";
         try {
@@ -170,7 +169,7 @@ public class EntryController {
                 result.rejectValue("requisition.code", "entry.requisition.code", "El código ya existe");
             }
 
-            if(products.isEmpty()){
+            if(products.isEmpty() || products.equals("[]")){
                 result.rejectValue("requisition.requisitionProductModels", "entry.requisition.requisitionProductModels", "La entrada debe tener al menos un producto");
             }
 
@@ -208,6 +207,7 @@ public class EntryController {
                 model.addAttribute("listSupplies", supplierService.findSupplies());
                 model.addAttribute("listWarehouses", warehouseService.findWarehouses());
                 model.addAttribute("listProducts", productService.findProductsByType(1));
+                model.addAttribute("products", "");
                 model.addAttribute(PAGE_SIZE, pageable.getPageSize());
                 return ENTRY_REDIRECT;
             }
@@ -295,21 +295,24 @@ public class EntryController {
             MessageModel entries = service.deliveredEntry(id, username, uuid.toString());
             logger.info("[USER : {}] || [UUID : {}] ---> ENTRY MODULE ---> deliveredEntry() RESPONSE: {}", username, uuid, entries);
             entries.setUuid(uuid.toString());
-            EntryModel entry = repository.findEntryById(id);
-            List<ProductModel> products = entry.getRequisition().getRequisitionProductModels().stream().map(RequisitionProductModel::getProduct).collect(Collectors.toList());
-            for (ProductModel product : products) {
-                WarehouseProductModel warehouseProduct = warehouseProductRepository.findWarehouseProductByWarehouseAndProduct(entry.getRequisition().getWarehouse(), product);
-                if(warehouseProduct == null) {
-                    warehouseProduct = new WarehouseProductModel();
-                    warehouseProduct.setProduct(product);
-                    warehouseProduct.setWarehouse(entry.getRequisition().getWarehouse());
-                    warehouseProduct.setQuantity(entry.getRequisition().getRequisitionProductModels().stream().filter(requisitionProduct -> requisitionProduct.getProduct().getId() == product.getId()).findFirst().get().getQuantity());
-                    warehouseProductRepository.saveAndFlush(warehouseProduct);
-                }else {
-                    warehouseProduct.setQuantity(warehouseProduct.getQuantity() + entry.getRequisition().getRequisitionProductModels().stream().filter(requisitionProduct -> requisitionProduct.getProduct().getId() == product.getId()).findFirst().get().getQuantity());
-                    warehouseProductRepository.saveAndFlush(warehouseProduct);
+            if(entries.getMessage().name().equals("SUCCESS_DELIVERED")) {
+                EntryModel entry = repository.findEntryById(id);
+                List<RequisitionProductModel> products = entry.getRequisition().getRequisitionProductModels();
+                for (RequisitionProductModel product : products) {
+                    WarehouseProductModel warehouseProduct = warehouseProductRepository.findWarehouseProductByWarehouseAndProduct(entry.getRequisition().getWarehouse(), product.getProduct());
+                    if(warehouseProduct == null) {
+                        warehouseProduct = new WarehouseProductModel();
+                        warehouseProduct.setProduct(product.getProduct());
+                        warehouseProduct.setWarehouse(entry.getRequisition().getWarehouse());
+                        warehouseProduct.setQuantity(entry.getRequisition().getRequisitionProductModels().stream().filter(requisitionProduct -> requisitionProduct.getProduct().getId() == product.getProduct().getId()).findFirst().get().getQuantity());
+                        warehouseProductRepository.saveAndFlush(warehouseProduct);
+                    }else {
+                        warehouseProduct.setQuantity(warehouseProduct.getQuantity() + entry.getRequisition().getRequisitionProductModels().stream().filter(requisitionProduct -> requisitionProduct.getProduct().getId() == product.getProduct().getId()).findFirst().get().getQuantity());
+                        warehouseProductRepository.saveAndFlush(warehouseProduct);
+                    }
                 }
             }
+
             if(entries.getIsError()) {
                 model.addAttribute(RESULT, entries);
                 return ERROR_500;

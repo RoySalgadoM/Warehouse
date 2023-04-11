@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WarehouseProductRepository extends JpaRepository<WarehouseProductModel, Long> {
     WarehouseProductModel findWarehouseProductByWarehouseAndProduct(WarehouseModel warehouse, ProductModel product);
+    WarehouseProductModel findByProduct_Id(Long id);
 }

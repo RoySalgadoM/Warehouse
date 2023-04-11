@@ -15,8 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class EntryServiceImpl implements EntryService{
     private static final Logger logger = LogManager.getLogger(EntryServiceImpl.class);
@@ -52,7 +50,7 @@ public class EntryServiceImpl implements EntryService{
         try {
             var findEntry = repository.findById(id);
             if (findEntry.isEmpty()) {
-                throw new NoResultException("The entry could not be found");
+                throw new NoResultException(ENTRY_NOT_FOUND);
             }
             return new MessageModel(MessageCatalog.RECORDS_FOUND, findEntry.get(), false);
 

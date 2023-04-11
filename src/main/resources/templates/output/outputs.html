@@ -8,7 +8,7 @@
     <link th:insert="fragments/header :: fontawesome">
     <link th:insert="fragments/header :: fontawesome2">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed" onload="getProducts(), showDate(), productsSelected()">
 <div th:insert="fragments/header :: js"></div>
 <div class="wrapper">
     <div th:insert="fragments/navbar :: navbar"></div>
@@ -19,160 +19,460 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Gestión de Facturas</h1>
+                            <h1>Gestión de Salidas</h1>
                         </div>
                     </div>
-                </div><!-- /.container-fluid -->
+                </div>
+                <div th:if="${resultAction != null ? (resultAction.message.name eq 'SUCCESS_REGISTER') || (resultAction.message.name eq 'SUCCESS_SENT') || (resultAction.message.name eq 'SUCCESS_CANCEL') : false}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    [[${resultAction.message.message}]]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div th:if="${resultAction != null ? (resultAction.message.name eq 'ERROR_CANCEL') || (resultAction.message.name eq 'ERROR_SENT') : false}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    [[${resultAction.message.message}]]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             </div>
-
             <section class="content">
                 <div class="card">
                     <div class="card-header back-green" type="button" data-card-widget="collapse" title="Collapse" aria-expanded="false">
                         <h3 class="card-title font-white">Registrar salida</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                <i class="fas fa-minus font-white"></i>
+                                <i class="fas fa-plus font-white"></i>
                             </button>
                         </div>
                     </div>
-                    <div class="card-body collapse">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <label>Pedido Asociado</label>
-                                    <input type="number" class="form-control"
-                                           placeholder="123456" value="" required="">
-                                </div>
-                                <div class="col-md-5 mb-3">
-                                    <label>Nombre</label>
-                                    <input type="text" class="form-control"
-                                           placeholder="Veronica Castro" value="" required="">
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label>ID</label>
-                                    <input type="number" class="form-control" placeholder="123456"
-                                           value="" required="">
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label>Fecha</label>
-                                    <input type="date" class="form-control"  placeholder="" value=""
-                                           required="">
-                                </div>
-                                <div class="col-md-5 mb-3">
-                                    <label>Codigo de pedido</label>
-                                    <input type="number" class="form-control" placeholder="456327"
-                                           value="" required="">
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label>Tipo</label>
-                                    <select class="custom-select d-block w-100" id="" required="">
-                                        <option>Perecederos</option>
-                                        <option>No Perecederos</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <h4 class="mb-3">Productos egresados</h4>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label>Descripcion</label>
-                                    <input type="text" class="form-control"
-                                           placeholder="no se este pedido es de solo fruta" value="" required="">
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label>Cantidad</label>
-                                    <input type="number" class="form-control"  placeholder="236"
-                                           value="345" required="">
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label>Unidad de Medida</label>
-                                    <input type="number" class="form-control"  placeholder="789"
-                                           value="" required="">
+                    <div class="card-body" th:class="${(result.isError && action eq 'save') ? 'card-body': 'card-body collapse'}">
+                        <form th:action="@{/output/save}" method="post" th:object="${output}">
+                            <div id="pedido">
+                                <h5>Datos de pedido</h5>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label>Código de pedido</label><span class="text-danger">*</span>
+                                        <input th:value="${data != null && action eq 'save' ? data.requisition.code : ''}" type="text" class="form-control" name="requisition.code" th:field="*{requisition.code}" placeholder="Ingresa un código">
+                                        <div th:if="${#fields.hasErrors('requisition.code') && action eq 'save'}" th:errors="*{requisition.code}"
+                                             class="alert alert-danger"></div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label>Área<span class="text-danger">*</span></label>
+                                        <select class="custom-select d-block w-100" name="area" th:field="*{area}">
+                                            <option th:each="tmpArea : ${listAreas}" th:value="${tmpArea.id}" th:text="${tmpArea.identifier}" />
+                                        </select>
+                                        <div th:if="${#fields.hasErrors('area') && action eq 'save'}" th:errors="*{area}"
+                                             class="alert alert-danger"></div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label>Fecha</label><span class="text-danger">*</span>
+                                        <input id="date" th:value="${data != null && action eq 'save' ? data.requisition.orderDate : ''}" type="date" class="form-control" name="requisition.orderDate" th:field="*{requisition.orderDate}">
+                                        <div th:if="${#fields.hasErrors('requisition.orderDate') && action eq 'save'}" th:errors="*{requisition.orderDate}"
+                                             class="alert alert-danger"></div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label>Almacén de salida</label><span class="text-danger">*</span>
+                                        <select class="custom-select d-block w-100" th:field="*{requisition.warehouse}" id="warehouseOut" onchange="getProducts()">
+                                            <option th:each="tmpWarehouse : ${listWarehouses}" th:value="${tmpWarehouse.id}" th:text="${tmpWarehouse.name}" />
+                                        </select>
+                                        <div th:if="${#fields.hasErrors('requisition.warehouse') && action eq 'save'}" th:errors="*{requisition.warehouse}"
+                                             class="alert alert-danger"></div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label>Tipo de pedido<span class="text-danger">*</span></label>
+                                        <select th:value="${data != null && action eq 'save' ? data.requisition.type : ''}" class="custom-select d-block w-100" th:field="*{requisition.type}" id="typeOrder" name="typeOrder" onchange="getProducts()">
+                                            <option th:value="1" selected>Perecederos</option>
+                                            <option th:value="2">No Perecederos</option>
+                                        </select>
+                                        <div th:if="${#fields.hasErrors('requisition.type') && action eq 'save'}" th:errors="*{requisition.type}"
+                                             class="alert alert-danger"></div>
+                                    </div>
                                 </div>
                             </div>
-                            <h4 class="mb-3">Area de destino</h4>
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <label>Nombre</label>
-                                    <input type="text" class="form-control" placeholder="Almacen 2"
-                                           value="" required="">
+                            <div id="entrada">
+                                <h5>Datos de la entrada</h5>
+                                <hr>
+                                <div class="row mt-2">
+                                    <div style="margin-left:20px;">
+                                        <h5>Productos</h5>
+                                    </div>
+                                    <br>
+                                    <div class="col-md-3 margin-order">
+                                        <label class="font-weight-normal">Producto<span class="text-danger">*</span></label>
+                                        <div id="productForm">
+                                            <input type="hidden" name="products" id="products" th:value="${products}">
+                                            <select class="custom-select d-block w-100" name="product" id="product" onchange="getProductStock()">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 margin-order">
+                                        <label class="font-weight-normal">Disponibles<span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="stock" readonly>
+                                    </div>
+                                    <div class="col-md-2 margin-order">
+                                        <label class="font-weight-normal">Cantidad<span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="quantity" placeholder="Ej: 2">
+                                    </div>
+                                    <div class="col-md-3 margin-order">
+                                        <button type="button" class="btn btn-primary btn-add" onclick="addProduct()">Agregar producto <i class="nav-icon fas fa-cart-plus"></i></button>
+                                    </div>
+                                    <br><hr>
+                                    <div class="container-fluid d-flex justify-content-center margin-table-order table-hover">
+                                        <table class="table table-responsive projects">
+                                            <thead>
+                                            <tr class="text-center">
+                                                <th style="width: 1%">#</th>
+                                                <th style="width: 20%">Producto</th>
+                                                <th style="width: 20%">Descripción</th>
+                                                <th style="width: 20%">Cantidad</th>
+                                                <th style="width: 20%">Unidad de medida</th>
+                                                <th style="width: 20%">Precio unitario</th>
+                                                <th style="width: 8%" class="text-center">Quitar</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="text-center" id="tableProducts">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div style="width: 100%" th:if="${#fields.hasErrors('requisition.requisitionProductModels') && action eq 'save'}" th:errors="*{requisition.requisitionProductModels}"
+                                         class="alert alert-danger"></div>
                                 </div>
-                                <div class="col-md-3 mb-3">
-                                    <label>Identificador</label>
-                                    <input type="number" class="form-control"  placeholder="234"
-                                           value="" required="">
-                                </div>
-                                <div class="col-md-5 mb-3">
-                                    <label>Direccion <span
-                                            class="text-muted"></span></label>
-                                    <input type="text" class="form-control"
-                                           placeholder="Palo escrito">
-                                </div>
-                                <hr class="mb-4">
-                                <button type="button" class="btn btn-primary btn-block btn-lg" data-toggle="modal"
-                                        data-target="#createOutput">
-                                    Generar Factura
-                                </button>
                             </div>
+                            <div class="mb-3 mt-3 div-Total">
+                                <h6><span>Cantidad de productos que ingresan: </span><span id="totalQuantity"></span></h6>
+                                <h6><span>Total de ingreso: $</span><span id="totalEntry"></span></h6>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block btn-lg mt-3">
+                                Registrar entrada
+                            </button>
                         </form>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="card-header back-green" >
-                        <h3 class="card-title font-white">Salidas</h3>
+                        <h3 class="card-title font-white">Entradas</h3>
                     </div>
                     <div class="card-body">
-                        <table class="table table-responsive projects margin-table-order table-striped projects">
-                            <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Pedido Asociado</th>
-                                <th scope="col">Cod. Pedido</th>
-                                <th scope="col">Fecha</th>
-                                <th scope="col">Modificar</th>
-                                <th scope="col">Detalles</th>
-                                <th scope="col">Eliminar</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Isaac</td>
-                                <td>idk</td>
-                                <td>123654</td>
-                                <td>10/03/2002</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning" data-toggle="modal"
-                                            data-target="#updateOutput">
-                                        <i class="nav-icon fas fa-edit"></i>
-                                    </button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#showOutput">
-                                        <i class="nav-icon fas fa-info info-button"></i>
-                                    </button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                                            data-target="#deleteOutput">
-                                        <i class="nav-icon fas fa-trash"></i>
-                                    </button>
-                                </td>
+                        <div class="row mb-3 mt-2 form-inline">
+                            <p class="mr-2">Mostrar</p>
+                            <form th:action="@{/output/list}" id="searchForm">
+                                <select th:value="${pageSize}" name="size" class="custom-select"
+                                        onchange="changePageSize()">
 
-                            </tr>
-                            </tbody>
-                        </table>
+                                    <option th:each="s : ${ {5, 10, 20, 50, 100} }" th:value="${s}" th:text="${s}"
+                                            th:selected="${s == pageSize}"></option>
+                                </select>
+                            </form>
+                            <p class="ml-2">registros</p>
+                        </div>
+                        <div class="row mb-3 mt-2">
+                            <div class="container-fluid">
+                                <table class="table table-responsive projects margin-table-order table-striped projects table-hover">
+                                    <thead>
+                                    <tr class="text-center">
+                                        <th style="width: 1%">#</th>
+                                        <th style="width: 10%">Código de pedido</th>
+                                        <th style="width: 20%">Tipo de pedido</th>
+                                        <th style="width: 20%">Área de destino</th>
+                                        <th style="width: 20%">Almacén</th>
+                                        <th style="width: 20%">Fecha</th>
+                                        <th style="width: 10%">Estado</th>
+                                        <th style="width: 12%" class="text-center">Productos</th>
+                                        <th style="width: 12%" class="text-center">Factura</th>
+                                        <th style="width: 12%" class="text-center">Estado</th>
+                                        <th style="width: 12%" class="text-center">Cancelar</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                    <tr th:each="output : ${result.data}" th:if="${result.data != null}">
+                                        <td>
+                                            [[${output.id}]]
+                                        </td>
+                                        <td>
+                                            [[${output.requisition.code}]]
+                                        </td>
+                                        <td>
+                                            [[${output.requisition.type}]]
+                                        </td>
+                                        <td>
+                                            [[${output.area.identifier}]]
+                                        </td>
+                                        <td>
+                                            [[${output.requisition.warehouse.identifier}]]
+                                        </td>
+                                        <td>
+                                            [[${output.requisition.orderDate}]]
+                                        </td>
+                                        <td>
+                                            <div th:switch="${output.requisition.status.id}">
+                                                <div th:case="1">
+                                                    <p class="text-success">Pendiente</p>
+                                                </div>
+                                                <div th:case="2">
+                                                    <p class="text-warning">Enviado</p>
+                                                </div>
+                                                <div th:case="4">
+                                                    <p class="text-danger">Cancelado</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary" th:attr="onclick=|getOutput('${output.id}')|" data-toggle="modal"
+                                                    data-target="#detailsOutput">
+                                                <i class="nav-icon fas fa-info info-button"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <form th:if="${output.requisition.status.id == 2}" th:action="@{/output/pdf}"
+                                                  method="post">
+                                                <input th:value="${output.id}" name="id" type="hidden">
+                                                <button type="button" class="btn btn-primary cancelBtnOutput">
+                                                    <i class="nav-icon fa-solid fa-eye-slash"></i>
+                                                </button>
+                                            </form>
+                                            <form th:if="${output.requisition.status.id != 2}"
+                                                  method="post">
+                                                <button type="button" class="btn btn-primary" disabled>
+                                                    <i class="nav-icon fa-solid fa-eye-slash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form th:if="${output.requisition.status.id == 1}" th:action="@{/output/sent}"
+                                                  method="post">
+                                                <input th:value="${output.id}" name="id" type="hidden">
+                                                <button type="button" class="btn btn-success changeBtnOutput">
+                                                    <i class="nav-icon fa-solid fa-eye-slash"></i>
+                                                </button>
+                                            </form>
+                                            <form th:if="${output.requisition.status.id != 1}"
+                                                  method="post">
+                                                <button type="button" class="btn btn-primary" disabled>
+                                                    <i class="nav-icon fa-solid fa-eye-slash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form th:if="${output.requisition.status.id == 1}" th:action="@{/output/cancel}"
+                                                  method="post">
+                                                <input th:value="${output.id}" name="id" type="hidden">
+                                                <button type="button" class="btn btn-danger cancelBtnOutput">
+                                                    <i class="nav-icon fa-solid fa-eye-slash"></i>
+                                                </button>
+                                            </form>
+                                            <form th:if="${output.requisition.status.id != 1}"
+                                                  method="post">
+                                                <button type="button" class="btn btn-danger" disabled>
+                                                    <i class="nav-icon fa-solid fa-eye-slash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    [[${result.message.message}]]
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <nav class="mt-3" th:if="${result.data != null ? result.data.totalPages > 0 : false}"
+                             aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item" th:classappend="${result.data.number == 0 ? 'disabled' : ''}">
+                                    <a th:href="@{/output/list(page=${result.data.number - 1}, size=${pageSize})}"
+                                       class="page-link">Anterior</a>
+                                </li>
+                                <li class="page-item" th:classappend="${i eq result.data.number + 1} ? 'active'"
+                                    th:each="i : ${#numbers.sequence( 1, (result.data != null ? result.data.totalPages : 0) , 1)}">
+                                    <a class="page-link"
+                                       th:href="@{/output/list?page={tmpPag} (tmpPag=${i-1}, size=${pageSize}) }"
+                                       th:text="${i}"
+                                       th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+                                </li>
+                                <li class="page-item"
+                                    th:classappend="${result.data.number == ((result.data != null ? result.data.totalPages : 0) - 1) ? 'disabled' : ''}">
+                                    <a th:href="@{/output/list(page=${result.data.number + 1}, size=${pageSize})}"
+                                       class="page-link">Siguiente</a>
+                                </li>
+
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </section>
         </div>
     </div>
-    <div th:replace="output/createOutput"></div>
-    <div th:replace="output/updateOutput"></div>
     <div th:replace="output/showOutput"></div>
-    <div th:replace="output/deleteOutput"></div>
+    <script>
+        let products = [];
+        let productsList = [];
+
+        const showDate = () => {
+            let date = new Date().toJSON().slice(0, 10).replace(/-/g, '-');
+            $("#date").val(date);
+        }
+
+        const getProducts = () => {
+            let type = document.getElementById("typeOrder").value;
+            let warehouse = document.getElementById("warehouseOut").value;
+            $.get("/output/product/" + type +"/"+ warehouse, function (data) {
+                let content = "";
+                productsList = data;
+                data.forEach((product) => {
+                    if(productsList[0].id === product.id){
+                        content += "<option selected value='" + product.id + "'>" + product.name + "</option>";
+                        getProductStock1(product.id);
+                    }else{
+                        content += "<option value='" + product.id + "'>" + product.name + "</option>";
+                    }
+                });
+                $("#product").html(content);
+            });
+            products.pop();
+            document.getElementById('products').value = "";
+            totalEntry();
+            productsSelected();
+        }
+
+        const getProductStock = () => {
+            let current = document.getElementById('product').value;
+            $.get("/output/productWarehouse/" + current, function (data) {
+                document.getElementById('stock').value = data.quantity;
+            });
+        }
+
+        const getProductStock1 = (id) => {
+            $.get("/output/productWarehouse/" + id, function (data) {
+                document.getElementById('stock').value = data.quantity;
+            });
+        }
+
+        const addProduct = () => {
+            let current = document.getElementById('product').value;
+            console.log(current)
+            console.log(products)
+            if(products.find((product) => product.id == current)) return;
+            let product = productsList.find((product) => product.id == current);
+            if (!product) return;
+
+            let quantity = document.getElementById('quantity').value;
+            let stock = document.getElementById('stock').value;
+            console.log(stock)
+            console.log(quantity)
+            if(Number.isNaN(quantity) || quantity == null || quantity <= 0 || quantity > parseInt(stock)){
+                console.log("error")
+                return;
+            }
+
+            currentProd = {
+                id: product.id,
+                name: product.name,
+                description: product.description,
+                unitPrice: product.unitPrice,
+                quantity: parseInt(quantity),
+                unit: product.unit
+            }
+            products.push(currentProd);
+            productsSelected();
+            document.getElementById('products').value = JSON.stringify(products);
+            totalEntry();
+        }
+
+        const removeProduct = (id) => {
+            products = products.filter((product) => product.id != id);
+            productsSelected();
+            document.getElementById('products').value = JSON.stringify(products);
+            totalEntry();
+        }
+
+        const productsSelected = () => {
+            let content = "";
+            products.forEach((product) => {
+                content += "<tr>";
+                content += "<td>" + product.id + "</td>";
+                content += "<td>" + product.name + "</td>";
+                content += "<td>" + product.description + "</td>";
+                content += "<td>" + product.quantity + "</td>";
+                content += "<td>" + product.unit + "</td>";
+                content += "<td>" + product.unitPrice + "</td>";
+                content += "<td><button class='btn btn-danger' onclick='removeProduct(" + product.id + ")'><i class='fas fa-trash'></i></button></td>";
+                content += "</tr>";
+            });
+            $("#tableProducts").html(content);
+        }
+
+        const totalEntry = () => {
+            let total = 0;
+            let quantity = 0;
+            products.forEach((product) => {
+                total += product.quantity * product.unitPrice;
+                quantity += product.quantity;
+            });
+            document.getElementById("totalEntry").innerHTML = total;
+            document.getElementById("totalQuantity").innerHTML = quantity;
+        }
+
+        const getOutput = (id) => {
+            $.get("/output/" + id, function (data) {
+                let content = "";
+                outputProducts = data.data.requisition.requisitionProductModels;
+                outputProducts.forEach((product) => {
+                    content += "<tr>";
+                    content += "<td>" + product.product.id + "</td>";
+                    content += "<td>" + product.product.name + "</td>";
+                    content += "<td>" + product.quantity + "</td>";
+                    content += "<td>" + product.product.unit + "</td>";
+                    content += "<td>" + product.product.unitPrice + "</td>";
+                    content += "</tr>";
+                });
+                document.getElementById("totalAmountM").innerHTML = data.data.requisition.totalAmount;
+                document.getElementById("totalQuantityM").innerHTML = data.data.requisition.totalOfProducts;
+                $("#tableEntryProducts").html(content);
+            });
+        }
+
+        $('.changeBtnOutput').on('click', function () {
+            Swal.fire({
+                title: "¿Está seguro de marcar como 'ENVIADA' la salida?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(this).closest('form').submit();
+                }
+            });
+        });
+
+        $('.cancelBtnOutput').on('click', function () {
+            Swal.fire({
+                title: '¿Está seguro de cancelar la salida?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(this).closest('form').submit();
+                }
+            });
+        });
+
+        const changePageSize = () => {
+            $("#searchForm").submit();
+        }
+    </script>
 </div>
 </body>
 </html>

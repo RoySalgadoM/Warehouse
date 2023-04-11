@@ -10,5 +10,4 @@ public interface WarehouseRepository extends JpaRepository<WarehouseModel, Long>
     boolean existsByIdentifier(String identifier);
     boolean existsByIdentifierAndIdNotLike(String identifier, Long id);
     boolean existsById(Long id);
-
 }

@@ -8,7 +8,7 @@
     <link th:insert="fragments/header :: fontawesome">
     <link th:insert="fragments/header :: fontawesome2">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed" onload="getProducts(), showDate()">
+<body class="hold-transition sidebar-mini layout-fixed" onload="getProducts(), showDate(), productsSelected()">
 <div th:insert="fragments/header :: js"></div>
 <div class="wrapper">
     <div th:insert="fragments/navbar :: navbar"></div>
@@ -23,13 +23,13 @@
                         </div>
                     </div>
                 </div>
-                <div th:if="${resultAction != null ? (resultAction.message.name eq 'SUCCESS_REGISTER') || (resultAction.message.name eq 'SUCCESS_UPDATE') || (resultAction.message.name eq 'SUCCESS_DISABLE') || (resultAction.message.name eq 'SUCCESS_ENABLE'): false}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <div th:if="${resultAction != null ? (resultAction.message.name eq 'SUCCESS_REGISTER') || (resultAction.message.name eq 'SUCCESS_DELIVERED') || (resultAction.message.name eq 'SUCCESS_CANCEL') : false}" class="alert alert-success alert-dismissible fade show" role="alert">
                     [[${resultAction.message.message}]]
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div th:if="${resultAction != null ? (resultAction.message.name eq 'ERROR_CANCEL') : false}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div th:if="${resultAction != null ? (resultAction.message.name eq 'ERROR_CANCEL') || (resultAction.message.name eq 'ERROR_DELIVERED') : false}" class="alert alert-danger alert-dismissible fade show" role="alert">
                     [[${resultAction.message.message}]]
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -102,7 +102,7 @@
                                     <div class="col-md-3 margin-order">
                                         <label class="font-weight-normal">Producto<span class="text-danger">*</span></label>
                                         <div id="productForm">
-                                            <input type="hidden" name="products" id="products">
+                                            <input type="hidden" name="products" id="products" th:value="${products}">
                                             <select class="custom-select d-block w-100" name="product" id="product">
 
                                             </select>
@@ -138,9 +138,9 @@
                                          class="alert alert-danger"></div>
                                 </div>
                             </div>
-                            <div class="mb-3 mt-3">
-                                <h5><span>Cantidad de productos que ingresan: </span><span id="totalQuantity"></span></h5>
-                                <h5><span>Total de ingreso: </span><span id="totalEntry"></span></h5>
+                            <div class="mb-3 mt-3 div-Total">
+                                <h6><span>Cantidad de productos que ingresan: </span><span id="totalQuantity"></span></h6>
+                                <h6><span>Total de ingreso: $</span><span id="totalEntry"></span></h6>
                             </div>
                             <button type="submit" class="btn btn-primary btn-block btn-lg mt-3">
                                 Registrar entrada
@@ -156,7 +156,7 @@
                     <div class="card-body">
                         <div class="row mb-3 mt-2 form-inline">
                             <p class="mr-2">Mostrar</p>
-                            <form th:action="@{/area/list}" id="searchForm">
+                            <form th:action="@{/entry/list}" id="searchForm">
                                 <select th:value="${pageSize}" name="size" class="custom-select"
                                         onchange="changePageSize()">
 
@@ -176,8 +176,10 @@
                                         <th style="width: 20%">Tipo de pedido</th>
                                         <th style="width: 20%">Proveedor</th>
                                         <th style="width: 20%">Almacén</th>
-                                        <th style="width: 10%">Fecha ingreso</th>
+                                        <th style="width: 20%">Fecha</th>
+                                        <th style="width: 10%">Estado</th>
                                         <th style="width: 12%" class="text-center">Productos</th>
+                                        <th style="width: 12%" class="text-center">Factura</th>
                                         <th style="width: 12%" class="text-center">Estado</th>
                                         <th style="width: 12%" class="text-center">Cancelar</th>
                                     </tr>
@@ -203,15 +205,43 @@
                                             [[${entry.requisition.orderDate}]]
                                         </td>
                                         <td>
+                                            <div th:switch="${entry.requisition.status.id}">
+                                                <div th:case="1">
+                                                    <p class="text-success">Pendiente</p>
+                                                </div>
+                                                <div th:case="3">
+                                                    <p class="text-warning">Entregado</p>
+                                                </div>
+                                                <div th:case="4">
+                                                    <p class="text-danger">Cancelado</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
                                             <button type="button" class="btn btn-primary" th:attr="onclick=|getEntry('${entry.id}')|" data-toggle="modal"
                                                     data-target="#detailsEntry">
                                                 <i class="nav-icon fas fa-info info-button"></i>
                                             </button>
                                         </td>
                                         <td>
+                                            <form th:if="${entry.requisition.status.id == 3}" th:action="@{/entry/pdf}"
+                                                  method="post">
+                                                <input th:value="${entry.id}" name="id" type="hidden">
+                                                <button type="button" class="btn btn-primary cancelBtnOutput">
+                                                    <i class="nav-icon fa-solid fa-eye-slash"></i>
+                                                </button>
+                                            </form>
+                                            <form th:if="${entry.requisition.status.id != 3}"
+                                                  method="post">
+                                                <button type="button" class="btn btn-primary" disabled>
+                                                    <i class="nav-icon fa-solid fa-eye-slash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <td>
                                             <form th:if="${entry.requisition.status.id == 1}" th:action="@{/entry/delivered}"
                                                   method="post">
-                                                <input th:value="${entry.requisition.status.id}" name="id" type="hidden">
+                                                <input th:value="${entry.id}" name="id" type="hidden">
                                                 <button type="button" class="btn btn-success changeBtnEntry">
                                                     <i class="nav-icon fa-solid fa-eye-slash"></i>
                                                 </button>
@@ -226,7 +256,7 @@
                                         <td>
                                             <form th:if="${entry.requisition.status.id == 1}" th:action="@{/entry/cancel}"
                                                   method="post">
-                                                <input th:value="${entry.requisition.status.id}" name="id" type="hidden">
+                                                <input th:value="${entry.id}" name="id" type="hidden">
                                                 <button type="button" class="btn btn-danger cancelBtnEntry">
                                                     <i class="nav-icon fa-solid fa-eye-slash"></i>
                                                 </button>
@@ -253,19 +283,19 @@
                              aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item" th:classappend="${result.data.number == 0 ? 'disabled' : ''}">
-                                    <a th:href="@{/area/list(page=${result.data.number - 1}, size=${pageSize})}"
+                                    <a th:href="@{/entry/list(page=${result.data.number - 1}, size=${pageSize})}"
                                        class="page-link">Anterior</a>
                                 </li>
                                 <li class="page-item" th:classappend="${i eq result.data.number + 1} ? 'active'"
                                     th:each="i : ${#numbers.sequence( 1, (result.data != null ? result.data.totalPages : 0) , 1)}">
                                     <a class="page-link"
-                                       th:href="@{/area/list?page={tmpPag} (tmpPag=${i-1}, size=${pageSize}) }"
+                                       th:href="@{/entry/list?page={tmpPag} (tmpPag=${i-1}, size=${pageSize}) }"
                                        th:text="${i}"
                                        th:title="${'Page '+ i}" data-toggle="tooltip"></a>
                                 </li>
                                 <li class="page-item"
                                     th:classappend="${result.data.number == ((result.data != null ? result.data.totalPages : 0) - 1) ? 'disabled' : ''}">
-                                    <a th:href="@{/area/list(page=${result.data.number + 1}, size=${pageSize})}"
+                                    <a th:href="@{/entry/list(page=${result.data.number + 1}, size=${pageSize})}"
                                        class="page-link">Siguiente</a>
                                 </li>
 
@@ -277,12 +307,6 @@
         </div>
     </div>
     <div th:replace="entry/showEntry"></div>
-    <div th:replace="entry/updateEntry"></div>
-    <script th:if="${result.isError && action eq 'update'}">
-
-        $('#updateEntry').modal('show');
-
-    </script>
     <script>
         let products = [];
         let productsList = [];
@@ -382,14 +406,15 @@
                     content += "<td>" + product.product.unitPrice + "</td>";
                     content += "</tr>";
                 });
-                document.getElementById("totalAmount").innerHTML = data.data.requisition.totalAmount;
+                document.getElementById("totalAmountM").innerHTML = data.data.requisition.totalAmount;
+                document.getElementById("totalQuantityM").innerHTML = data.data.requisition.totalOfProducts;
                 $("#tableEntryProducts").html(content);
             });
         }
 
         $('.changeBtnEntry').on('click', function () {
             Swal.fire({
-                title: "¿Está seguro de marcar como 'ENTREGADA' esta entrada?",
+                title: "¿Está seguro de marcar como 'ENTREGADA' la entrada?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Sí',
