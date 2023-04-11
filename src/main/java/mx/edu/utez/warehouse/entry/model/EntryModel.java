@@ -28,4 +28,13 @@ public class EntryModel {
     @OneToOne
     @JoinColumn(name = "requisition_id", nullable = false)
     private RequisitionModel requisition;
+
+    @Override
+    public String toString() {
+        return "EntryModel{" +
+                "id=" + id +
+                ", supplier=" + supplier +
+                ", requisition=" + requisition +
+                '}';
+    }
 }

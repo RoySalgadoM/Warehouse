@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository repository;
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder;
     private static final String USER_NOT_FOUND = "The user could not be found";
 
     @Autowired
@@ -166,5 +166,34 @@ public class UserServiceImpl implements UserService {
 
     public UserModel findByIdAndAuthorities(Long id, RoleModel role) {
         return repository.findByIdAndAndAuthorities(id, role);
+    }
+
+    public MessageModel findByUsername(String username, String uuid){
+        try {
+            var user = repository.findByUsername(username).orElse(null);
+            return new MessageModel(MessageCatalog.RECORDS_FOUND, user, false);
+        } catch (Exception exception) {
+            logger.error("[USER : {}] || [UUID : {}] ---> USER MODULE ---> findByUsername() ERROR: {}", username, uuid, exception.getMessage());
+            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+        }
+    }
+
+    @Override
+    public MessageModel updatePassword(String username, String uuid, String password) {
+        try {
+            var user = repository.findByUsername(username);
+            if (user.isEmpty()) {
+                throw new NoResultException(USER_NOT_FOUND);
+            }
+            user.get().setPassword(passwordEncoder.encode(password));
+            return new MessageModel(MessageCatalog.SUCCESS_UPDATE, null, false);
+        } catch (Exception exception) {
+            logger.error("[USER : {}] || [UUID : {}] ---> USER MODULE ---> updatePassword() ERROR: {}", username, uuid, exception.getMessage());
+            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+        }
+    }
+
+    public UserModel findByPassword(String password){
+        return repository.findByPassword(password);
     }
 }

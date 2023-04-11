@@ -12,6 +12,8 @@ public interface WarehouseService {
     MessageModel findById(long id, String username, String uuid);
     MessageModel registerWarehouse(WarehouseModel warehouseModel, String username, String uuid);
     MessageModel updateWarehouse(WarehouseModel warehouseModel, String username, String uuid);
+    MessageModel findAllCost(Pageable page, String username, String uuid);
+
 
 
 }
