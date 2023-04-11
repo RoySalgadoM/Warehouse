@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil</title>
+    <link th:insert="fragments/header :: css">
+    <link th:insert="fragments/header :: cssAdmin">
+    <link th:insert="fragments/header :: fontawesome">
+    <link th:insert="fragments/header :: fontawesome2">
+
+    <link th:fragment="css" rel="stylesheet" th:href="@{/css/stylesProfile.css}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed" >
+<div th:insert="fragments/header :: js"></div>
+<div class="wrapper">
+    <div th:insert="fragments/navbar :: navbar"></div>
+    <div th:insert="fragments/sidebar :: sidebar"></div>
+    <div class="content-wrapper">
+        <div class="container py-5" style="top:5px">
+            <div class="row">
+                <div class="col-lg-4" >
+                    <div class="card mb-4" style="background:linear-gradient(120deg,  #049474, #05dfaf);height: 500px;">
+                        <div class="card-body">
+                            <h2 style="flex-direction: column;">Perfil</h2>
+                            <div style="text-align: center;">
+                                <img src="https://cdn-icons-png.flaticon.com/512/236/236832.png"
+                                     alt="avatar" class="rounded-circle img-fluid" style="width:220px; aling-center">
+                            </div>
+                            <p style="font-size:18px" class="my-3 text-center"><strong></strong></p>
+                            <p style="font-size:17px" class="text-muted mb-1 text-center"><strong>Administrador</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card mb-4" >
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Nombre Completo</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0" id="name" ></p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0" >Correo</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0" id="email" ></p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Teléfono</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0" id="phone" ></p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">RFC</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0"  id="rfc" ></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" >
+                        <div class="col-md-12" style="height:250px">
+                            <div class="card mb-4 mb-md-0" style="height:310px">
+                                <div class="card-body">
+                                    <div class="col-sm-8">
+                                        <p class="mb-0" ><strong>Cambiar Contraseña</strong></p>
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <label  id="password" for="password">Contraseña actual</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="password" class="form-control" id="inputAddress" placeholder="">
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <label  id="passwordNew" for="password">Nueva Contraseña</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="password" class="form-control" id="inputAddress" placeholder="">
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <label for="inputAddress">Confirmar Contraseña</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="password" class="form-control" id="confirmPassword" placeholder="">
+                                        </div>
+                                    </div><br>
+                                    <div class="d-flex justify-content-center mb-2">
+                                        <button type="button" class="btn btn-primary"> Guardar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--                        <form action="/change-password" method="post">-->
+                        <!--                            <label for="username">Username:</label>-->
+                        <!--                            <input type="text" id="username" name="username"><br><br>-->
+                        <!--                            <label for="newPassword">New Password:</label>-->
+                        <!--                            <input type="password" id="newPassword" name="newPassword"><br><br>-->
+                        <!--                            <input type="submit" value="Change Password">-->
+                        <!--                        </form>-->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

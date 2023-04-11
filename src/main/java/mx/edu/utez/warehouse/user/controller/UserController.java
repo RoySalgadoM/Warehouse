@@ -293,5 +293,10 @@ public class UserController {
     }
 
 
+    @GetMapping("/profile")
+    public String lista(Model model){
+//        model.addAttribute(user, UserService.listaUser());
+        return "user/profile";
+    }
 }
 
