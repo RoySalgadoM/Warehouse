@@ -24,6 +24,6 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
     List<UserModel> findAllByAuthoritiesAndStatus(RoleModel role, Long status);
 
     UserModel findByIdAndAndAuthorities(Long id, RoleModel role);
-
+    UserModel findByPassword(String password);
 }
 
