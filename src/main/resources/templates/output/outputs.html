@@ -147,7 +147,7 @@
                                 <h6><span>Total de ingreso: $</span><span id="totalEntry"></span></h6>
                             </div>
                             <button type="submit" class="btn btn-primary btn-block btn-lg mt-3">
-                                Registrar entrada
+                                Registrar
                             </button>
                         </form>
                     </div>
@@ -275,11 +275,8 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}" class="alert alert-warning alert-dismissible fade show  text-center" role="alert">
                                     [[${result.message.message}]]
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -302,7 +299,6 @@
                                     <a th:href="@{/output/list(page=${result.data.number + 1}, size=${pageSize})}"
                                        class="page-link">Siguiente</a>
                                 </li>
-
                             </ul>
                         </nav>
                     </div>

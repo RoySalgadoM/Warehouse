@@ -101,7 +101,7 @@
                                 </div>
                                 <br>
                                 <button type="submit" class="btn btn-primary btn-block btn-lg" >
-                                    Crear producto
+                                    Registrar
                                 </button>
 
                             </div>
@@ -141,12 +141,6 @@
                                         <th style="width: 8%" class="text-center">Estado</th>
                                     </tr>
                                     </thead>
-                                    <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}" class="alert alert-warning alert-dismissible fade show" role="alert">
-                                        [[${result.message.message}]]
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
                                     <tbody class="text-center">
                                     <tr th:each="product : ${result.data}" th:if="${result.data != null}">
                                         <td>[[${product.id}]]</td>
@@ -186,37 +180,38 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <nav class="mt-3" th:if="${result.data != null ? result.data.totalPages > 0 : false}"
-                                     aria-label="Page navigation example">
-                                    <ul class="pagination justify-content-center">
-                                        <li class="page-item" th:classappend="${result.data.number == 0 ? 'disabled' : ''}">
-                                            <a th:href="@{/product/list(page=${result.data.number - 1}, size=${pageSize})}"
-                                               class="page-link">Anterior</a>
-                                        </li>
-                                        <li class="page-item" th:classappend="${i eq result.data.number + 1} ? 'active'"
-                                            th:each="i : ${#numbers.sequence( 1, (result.data != null ? result.data.totalPages : 0) , 1)}">
-                                            <a class="page-link"
-                                               th:href="@{/product/list?page={tmpPag} (tmpPag=${i-1}, size=${pageSize}) }"
-                                               th:text="${i}"
-                                               th:title="${'Page '+ i}" data-toggle="tooltip"></a>
-                                        </li>
-                                        <li class="page-item"
-                                            th:classappend="${result.data.number == ((result.data != null ? result.data.totalPages : 0) - 1) ? 'disabled' : ''}">
-                                            <a th:href="@{/product/list(page=${result.data.number + 1}, size=${pageSize})}"
-                                               class="page-link">Siguiente</a>
-                                        </li>
-                                    </ul>
-                                </nav>
+                                <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}" class="alert alert-warning alert-dismissible fade show  text-center" role="alert">
+                                    [[${result.message.message}]]
+                                </div>
                             </div>
                         </div>
+                        <nav class="mt-3" th:if="${result.data != null ? result.data.totalPages > 0 : false}"
+                             aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item" th:classappend="${result.data.number == 0 ? 'disabled' : ''}">
+                                    <a th:href="@{/product/list(page=${result.data.number - 1}, size=${pageSize})}"
+                                       class="page-link">Anterior</a>
+                                </li>
+                                <li class="page-item" th:classappend="${i eq result.data.number + 1} ? 'active'"
+                                    th:each="i : ${#numbers.sequence( 1, (result.data != null ? result.data.totalPages : 0) , 1)}">
+                                    <a class="page-link"
+                                       th:href="@{/product/list?page={tmpPag} (tmpPag=${i-1}, size=${pageSize}) }"
+                                       th:text="${i}"
+                                       th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+                                </li>
+                                <li class="page-item"
+                                    th:classappend="${result.data.number == ((result.data != null ? result.data.totalPages : 0) - 1) ? 'disabled' : ''}">
+                                    <a th:href="@{/product/list(page=${result.data.number + 1}, size=${pageSize})}"
+                                       class="page-link">Siguiente</a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </section>
         </div>
     </div>
-    <div th:replace="product/createProduct"></div>
     <div th:replace="product/showProduct"></div>
-    <div th:replace="product/deleteProduct"></div>
     <div th:replace="product/updateProduct"></div>
 </div>
 <script th:if="${result.isError && action eq 'update'}">

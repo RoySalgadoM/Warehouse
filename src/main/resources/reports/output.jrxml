@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="output" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Mysql"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
@@ -61,14 +60,18 @@
 	<parameter name="ID_OUTPUT" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT warehouse.product.id, warehouse.product.name, warehouse.product.serial_number, warehouse.product.expiration_date, warehouse.requisition_product.quantity, warehouse.product.unit, warehouse.product.unit_price,
-warehouse.requisition.code, warehouse.area.identifier, warehouse.warehouse.identifier
+warehouse.requisition.code, warehouse.area.identifier, warehouse.warehouse.identifier,
+(SELECT warehouse.requisition.total_of_products from warehouse.requisition
+where warehouse.requisition.id = $P{ID_OUTPUT}) as total, ((SELECT warehouse.requisition.total_amount from warehouse.requisition
+where warehouse.requisition.id = $P{ID_OUTPUT})) as amount, ((SELECT warehouse.requisition.order_date from warehouse.requisition
+where warehouse.requisition.id = $P{ID_OUTPUT})) as order_date
 from warehouse.product
 inner join warehouse.requisition_product  on warehouse.requisition_product.product_id = warehouse.product.id
 inner join warehouse.requisition on warehouse.requisition.id = warehouse.requisition_product.product_id
 inner join warehouse.output on warehouse.output.requisition_id = warehouse.requisition.id
-inner join warehouse.area on warehouse.area.id = warehouse.output.area_id
 inner join warehouse.warehouse on warehouse.warehouse.id = warehouse.requisition.warehouse_id
-where warehouse.requisition.id = $P{ID_OUTPUT};]]>
+inner join warehouse.area on warehouse.area.id = warehouse.output.area_id
+where warehouse.requisition_product.requisition_id = $P{ID_OUTPUT}]]>
 	</queryString>
 	<field name="idProduct" class="java.lang.Integer">
 		<property name="net.sf.jasperreports.sql.field.column.index" value="1"/>
@@ -100,10 +103,15 @@ where warehouse.requisition.id = $P{ID_OUTPUT};]]>
 	<field name="warehouseIdentifier" class="java.lang.String">
 		<property name="net.sf.jasperreports.sql.field.column.index" value="10"/>
 	</field>
-
-	<variable name="count" class="java.lang.Integer" calculation="Count">
-		<variableExpression><![CDATA[$F{idProduct}]]></variableExpression>
-	</variable>
+	<field name="total" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="11"/>
+	</field>
+	<field name="amount" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="12"/>
+	</field>
+	<field name="orderDate" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="13"/>
+	</field>
 	<title>
 		<band height="180" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -136,7 +144,7 @@ where warehouse.requisition.id = $P{ID_OUTPUT};]]>
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{orderDate}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="125" y="31" width="314" height="25" uuid="e622555d-198b-4ccd-a4a1-c59c53304058">
@@ -252,7 +260,7 @@ where warehouse.requisition.id = $P{ID_OUTPUT};]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="198">
+		<band height="29">
 			<textField>
 				<reportElement x="10" y="-1" width="30" height="30" uuid="4a7ea88c-b820-40fb-944d-b1d8a72b8e6a">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1950564e-5624-4112-be1b-d79f95a5b8de"/>
@@ -297,7 +305,7 @@ where warehouse.requisition.id = $P{ID_OUTPUT};]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{serialNumber} == null ? "N/A" : $F{serialNumber} ]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{serialNumber} == null ? "N/A" : $F{serialNumber}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="280" y="-1" width="70" height="30" uuid="7f4c3043-2867-4088-94db-8966fc64116e">
@@ -331,7 +339,7 @@ where warehouse.requisition.id = $P{ID_OUTPUT};]]>
 			<textField>
 				<reportElement x="448" y="35" width="100" height="20" uuid="b938f925-73be-4a6d-8520-3f142e0d2788"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$V{count}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="360" y="56" width="88" height="20" uuid="93d81da8-ca41-49dc-8b5f-dc25ca8c2696"/>
@@ -340,6 +348,11 @@ where warehouse.requisition.id = $P{ID_OUTPUT};]]>
 				</textElement>
 				<text><![CDATA[Total:]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="448" y="56" width="100" height="20" uuid="b6ed5fbb-b65c-4c76-aa3c-3a01a0d08c9a"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
 		</band>
 	</lastPageFooter>
 </jasperReport>

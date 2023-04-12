@@ -15,62 +15,32 @@
     <div th:insert="fragments/sidebar :: sidebar"></div>
     <div class="content-wrapper">
         <div class="container-fluid">
-            <div class="content-header"> <!--AQUÍ ISAAC METIÓ UN SECTION, EN VEZ DE UN DIV-->
+            <div class="content-header">
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1 class="m-0">Gestión de pedidos</h1>
                     </div>
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
+                </div>
+            </div>
 
             <section class="content">
-                <div class="card">
-                    <div class="card-header back-green" type="button" data-card-widget="collapse" title="Collapse" aria-expanded="false">
-                        <h3 class="card-title font-white">Registrar pedido</h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                <i class="fas fa-plus font-white"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body collapse">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <label>Fecha</label><span class="text-danger">*</span>
-                                    <input type="date" class="form-control" placeholder="" value="" required="">
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label>Código de pedido</label><span class="text-danger">*</span>
-                                    <input type="text" class="form-control" placeholder="0045871" value="" required="">
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label>Tipo de pedido<span class="text-danger">*</span></label>
-                                    <select class="custom-select d-block w-100"  required="">
-                                        <option selected>Selecciona un opción</option>
-                                        <option value="1">Perecederos</option>
-                                        <option value="2">No Perecederos</option>
-                                    </select>
-                                </div><br>
-
-                                <div class="row">
-
-                                    <hr class="mb-4">
-                                    <button type="button" class="btn btn-primary btn-block btn-lg" data-toggle="modal"
-                                            data-target="#createOrder">
-                                        Registrar pedido
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
                 <div class="card">
                     <div class="card-header back-green" >
                         <h3 class="card-title font-white">Pedidos</h3>
                     </div>
                     <div class="card-body">
+                        <div class="row mb-3 mt-2 form-inline">
+                            <p class="mr-2">Mostrar</p>
+                            <form th:action="@{/order/list}" id="searchForm">
+                                <select th:value="${pageSize}" name="size" class="custom-select"
+                                        onchange="changePageSize()">
+
+                                    <option th:each="s : ${ {5, 10, 20, 50, 100} }" th:value="${s}" th:text="${s}"
+                                            th:selected="${s == pageSize}"></option>
+                                </select>
+                            </form>
+                            <p class="ml-2">registros</p>
+                        </div>
                         <div class="row mb-3 mt-2">
                             <div class="container-fluid">
                                 <table class="table table-responsive projects margin-table-order table-striped projects">
@@ -80,139 +50,104 @@
                                         <th style="width: 20%">Fecha</th>
                                         <th style="width: 20%">Código</th>
                                         <th style="width: 20%">Tipo</th>
-                                        <th style="width: 8%" class="text-center">Detalles</th>
-                                        <th style="width: 8%" class="text-center">Modificar</th>
+                                        <th style="width: 20%">Estado</th>
+                                        <th style="width: 8%" class="text-center">Productos</th>
                                     </tr>
                                     </thead>
                                     <tbody class="text-center">
-                                    <tr>
-                                        <td>1</td>
-                                        <td>
-                                            <a> 17/02/2022 </a>
-                                            <br />
-                                        </td>
-                                        <td>
-                                            <a>0000000</a>
-                                        </td>
-                                        <td>
-                                            <a>Perecederos</a>
-                                        </td>
-                                        <td>
-                                            <button  class="btn btn-primary" data-toggle="modal" data-target="#detailsOrder1">
-                                                <i class="nav-icon fas fa-info info-button"></i>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-warning" data-toggle="modal" data-target="#updateOrder">
-                                                <i class="nav-icon fas fa-edit"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>
-                                            <a>20/02/2022</a>
-                                            <br />
-                                        </td>
-                                        <td>
-                                            <a>0000000</a>
-                                        </td>
-                                        <td>
-                                            <a>No Perecederos</a>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-primary" data-toggle="modal" data-target="#detailsOrder1">
-                                                <i class="nav-icon fas fa-info info-button"></i>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <btn class="btn btn-warning" data-toggle="modal" data-target="#updateClient">
-                                                <i class="nav-icon fas fa-edit"></i>
-                                            </btn>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>
-                                            <a> 31/03/2022 </a>
-                                            <br />
-                                        </td>
-                                        <td>
-                                            <a>0000000</a>
-                                        </td>
-                                        <td>
-                                            <a>Perecederos</a>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-primary" data-toggle="modal" data-target="#detailsOrder1">
-                                                <i class="nav-icon fas fa-info info-button"></i>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <btn class="btn btn-warning" data-toggle="modal" data-target="#updateOrder">
-                                                <i class="nav-icon fas fa-edit"></i>
-                                            </btn>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>
-                                            <a> 04/04/2022 </a>
-                                            <br />
-                                        </td>
-                                        <td>
-                                            <a>0000000</a>
-                                        </td>
-                                        <td>
-                                            <a>No Perecederos</a>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-primary" data-toggle="modal" data-target="#detailsOrder1">
-                                                <i class="nav-icon fas fa-info info-button"></i>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <btn class="btn btn-warning" data-toggle="modal" data-target="#updateOrder">
-                                                <i class="nav-icon fas fa-edit"></i>
-                                            </btn>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>
-                                            <a>17/05/2022 </a>
-                                            <br />
-                                        </td>
-                                        <td>
-                                            <a>0000000</a>
-                                        </td>
-                                        <td>
-                                            <a>Perecederos</a>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-primary" data-toggle="modal" data-target="#detailsOrder1">
-                                                <i class="nav-icon fas fa-info info-button"></i>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <btn class="btn btn-warning" data-toggle="modal" data-target="#updateOrder">
-                                                <i class="nav-icon fas fa-edit"></i>
-                                            </btn>
-                                        </td>
-                                    </tr>
+                                        <tr th:each="order : ${result.data}" th:if="${result.data != null}">
+                                            <td>
+                                                [[${order.id}]]
+                                            </td>
+                                            <td>
+                                                [[${order.orderDate}]]
+                                            </td>
+                                            <td>
+                                                [[${order.code}]]
+                                            </td>
+                                            <td>
+                                                [[${order.type}]]
+                                            </td>
+                                            <td>
+                                                <div th:switch="${order.status.id}">
+                                                    <div th:case="1">
+                                                        <p class="text-success">Pendiente</p>
+                                                    </div>
+                                                    <div th:case="2">
+                                                        <p class="text-warning">Enviado</p>
+                                                    </div>
+                                                    <div th:case="3">
+                                                        <p class="text-warning">Entregado</p>
+                                                    </div>
+                                                    <div th:case="4">
+                                                        <p class="text-danger">Cancelado</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary" th:attr="onclick=|getOrder('${order.id}')|" data-toggle="modal"
+                                                        data-target="#detailsOrder">
+                                                    <i class="nav-icon fas fa-info info-button"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
+                                <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}" class="alert alert-warning alert-dismissible fade show  text-center" role="alert">
+                                    [[${result.message.message}]]
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
+                        <nav class="mt-3" th:if="${result.data != null ? result.data.totalPages > 0 : false}"
+                             aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item" th:classappend="${result.data.number == 0 ? 'disabled' : ''}">
+                                    <a th:href="@{/order/list(page=${result.data.number - 1}, size=${pageSize})}"
+                                       class="page-link">Anterior</a>
+                                </li>
+                                <li class="page-item" th:classappend="${i eq result.data.number + 1} ? 'active'"
+                                    th:each="i : ${#numbers.sequence( 1, (result.data != null ? result.data.totalPages : 0) , 1)}">
+                                    <a class="page-link"
+                                       th:href="@{/order/list?page={tmpPag} (tmpPag=${i-1}, size=${pageSize}) }"
+                                       th:text="${i}"
+                                       th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+                                </li>
+                                <li class="page-item"
+                                    th:classappend="${result.data.number == ((result.data != null ? result.data.totalPages : 0) - 1) ? 'disabled' : ''}">
+                                    <a th:href="@{/order/list(page=${result.data.number + 1}, size=${pageSize})}"
+                                       class="page-link">Siguiente</a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </section>
         </div>
     </div>
-    <div th:replace="requisition/createOrder"></div>
     <div th:replace="requisition/showOrder"></div>
-    <div th:replace="requisition/deleteProductOrder"></div>
-    <div th:replace="requisition/updateOrder"></div>
+    <script>
+        const getOrder = (id) => {
+            $.get("/order/" + id, function (data) {
+                let content = "";
+                orderProducts = data.data.requisitionProductModels;
+                orderProducts.forEach((product) => {
+                    content += "<tr>";
+                    content += "<td>" + product.product.id + "</td>";
+                    content += "<td>" + product.product.name + "</td>";
+                    content += "<td>" + product.quantity + "</td>";
+                    content += "<td>" + product.product.unit + "</td>";
+                    content += "<td>" + product.product.unitPrice + "</td>";
+                    content += "</tr>";
+                });
+                document.getElementById("totalAmountM").innerHTML = data.data.totalAmount;
+                document.getElementById("totalQuantityM").innerHTML = data.data.totalOfProducts;
+                $("#tableOrderProducts").html(content);
+            });
+        }
+    </script>
 </div>
 </body>
 </html>
