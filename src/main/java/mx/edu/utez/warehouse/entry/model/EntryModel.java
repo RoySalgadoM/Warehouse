@@ -1,6 +1,7 @@
 package mx.edu.utez.warehouse.entry.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,10 +23,12 @@ public class EntryModel {
     private Long id;
 
     @ManyToOne
+    @Valid
     @JoinColumn(name = "supplier_id", nullable = false)
     private SupplierModel supplier;
 
     @OneToOne
+    @Valid
     @JoinColumn(name = "requisition_id", nullable = false)
     private RequisitionModel requisition;
 
