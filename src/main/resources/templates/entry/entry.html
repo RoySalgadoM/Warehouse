@@ -75,18 +75,24 @@
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label>Proveedor<span class="text-danger">*</span></label>
-                                        <select class="custom-select d-block w-100" name="supplier" th:field="*{supplier}">
+                                        <select class="custom-select d-block w-100" name="supplier" th:field="*{supplier}" th:if="${listSupplies.size() != 0}">
                                             <option th:each="tmpSupplier : ${listSupplies}" th:value="${tmpSupplier.id}" th:text="${tmpSupplier.name}" />
                                         </select>
-                                        <div th:if="${#fields.hasErrors('supplier') && action eq 'save'}" th:errors="*{supplier}"
+                                        <div th:if="${listSupplies.size() == 0}" class="alert alert-warning">
+                                            Aún no hay proveedores registrados
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('supplier') && action eq 'save' && listSupplies.size() != 0}" th:errors="*{supplier}"
                                              class="alert alert-danger"></div>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label>Almacén al que se dirige</label><span class="text-danger">*</span>
-                                        <select class="custom-select d-block w-100" th:field="*{requisition.warehouse}">
+                                        <select class="custom-select d-block w-100" th:field="*{requisition.warehouse}" th:if="${listWarehouses.size() != 0}">
                                             <option th:each="tmpWarehouse : ${listWarehouses}" th:value="${tmpWarehouse.id}" th:text="${tmpWarehouse.name}" />
                                         </select>
-                                        <div th:if="${#fields.hasErrors('requisition.warehouse') && action eq 'save'}" th:errors="*{requisition.warehouse}"
+                                        <div th:if="${listWarehouses.size() == 0}" class="alert alert-warning">
+                                            Aún no estás asignado en ningún almacén
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('requisition.warehouse') && action eq 'save' && listWarehouses.size() != 0}" th:errors="*{requisition.warehouse}"
                                              class="alert alert-danger"></div>
                                     </div>
                                 </div>
@@ -192,7 +198,7 @@
                                             [[${entry.requisition.code}]]
                                         </td>
                                         <td>
-                                            [[${entry.requisition.type}]]
+                                            [[${entry.requisition.type == 1 ? 'Perecedero' : 'No perecedero'}]]
                                         </td>
                                         <td>
                                             [[${entry.supplier.name}]]

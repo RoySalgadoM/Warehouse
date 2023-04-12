@@ -126,4 +126,8 @@ public class EntryServiceImpl implements EntryService{
     public boolean isExistEntry(String code) {
         return requisitionRepository.existsByCode(code);
     }
+
+    public boolean isExistEntryById(Long id) {
+        return repository.existsById(id);
+    }
 }

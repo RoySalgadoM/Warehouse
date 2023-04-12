@@ -1,7 +1,6 @@
 package mx.edu.utez.warehouse.product.service;
 
 import jakarta.persistence.NoResultException;
-import mx.edu.utez.warehouse.area.model.AreaModel;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.product.model.ProductModel;
 import mx.edu.utez.warehouse.utils.MessageCatalog;

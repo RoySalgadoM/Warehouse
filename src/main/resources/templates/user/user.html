@@ -56,8 +56,6 @@
                                     <div th:if="${#fields.hasErrors('name') && action eq 'save'}" th:errors="*{name}"
                                          class="alert alert-danger"></div>
                                 </div>
-
-
                                 <div class="col-md-3 mb-3">
                                     <label class="font-weight-normal">Apellido Paterno<span class="text-danger">*</span></label>
                                     <input th:value="${data != null && action eq 'save' ? data.surname : ''}"
@@ -178,13 +176,6 @@
                                 <th style="width: 8%" class="text-center">Estado</th>
                             </tr>
                             </thead>
-                            <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}"
-                                 class="alert alert-warning alert-dismissible fade show" role="alert">
-                                [[${result.message.message}]]
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
                             <tbody class="text-center">
                             <tr th:each="user: ${result.data}" th:if="${result.data != null}">
                                 <td>
@@ -237,7 +228,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}" class="alert alert-warning alert-dismissible fade show  text-center" role="alert">
+                        <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}" class="alert alert-warning alert-dismissible mt-1 fade show text-center" role="alert">
                             [[${result.message.message}]]
                         </div>
                         <nav class="mt-3" th:if="${result.data != null ? result.data.totalPages > 0 : false}"

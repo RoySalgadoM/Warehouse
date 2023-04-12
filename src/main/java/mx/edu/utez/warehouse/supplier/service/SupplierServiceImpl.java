@@ -1,6 +1,5 @@
 package mx.edu.utez.warehouse.supplier.service;
 
-import jakarta.validation.constraints.Positive;
 import jakarta.persistence.NoResultException;
 import mx.edu.utez.warehouse.supplier.model.SupplierModel;
 import mx.edu.utez.warehouse.message.model.MessageModel;

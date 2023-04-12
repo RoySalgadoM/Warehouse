@@ -2,7 +2,9 @@ package mx.edu.utez.warehouse.report;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import mx.edu.utez.warehouse.entry.service.EntryServiceImpl;
 import mx.edu.utez.warehouse.log.service.LogServiceImpl;
+import mx.edu.utez.warehouse.output.service.OutputServiceImpl;
 import mx.edu.utez.warehouse.security.config.SecurityUser;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.util.JRSaver;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,13 +33,19 @@ public class ReportController {
     private static final String ATTACHMENT = "attachment; filename=entry.pdf";
     private static final Logger logger = LogManager.getLogger(ReportController.class);
     private static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
+    private static final String RESULT = "result";
+    private static final String ERROR_500 = "errorPages/500";
     @Autowired
     LogServiceImpl logService;
     @Autowired
     private Environment environment;
+    @Autowired
+    private EntryServiceImpl entryService;
+    @Autowired
+    private OutputServiceImpl outputService;
 
     @GetMapping("/entry/{id}")
-    public JasperPrint entryReport(HttpServletResponse response, @PathVariable("id") int idEntry, HttpSession httpSession){
+    public JasperPrint entryReport(HttpServletResponse response, @PathVariable("id") int idEntry, HttpSession httpSession, Model model) {
         UUID uuid = UUID.randomUUID();
         String username = "";
         try{

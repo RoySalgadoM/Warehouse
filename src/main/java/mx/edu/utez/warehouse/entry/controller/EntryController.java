@@ -92,7 +92,7 @@ public class EntryController {
             model.addAttribute("listSupplies", supplierService.findSupplies());
             model.addAttribute("listWarehouses", warehouseService.findWarehousesByWarehouser(username));
             model.addAttribute("listProducts", productService.findProductsByType(1));
-            model.addAttribute("products", "");
+            model.addAttribute("products", null);
             if (entries.getIsError()) {
                 return ERROR_500;
             }
@@ -208,11 +208,9 @@ public class EntryController {
                 model.addAttribute("listSupplies", supplierService.findSupplies());
                 model.addAttribute("listWarehouses", warehouseService.findWarehousesByWarehouser(username));
                 model.addAttribute("listProducts", productService.findProductsByType(1));
-                model.addAttribute("products", products);
                 model.addAttribute(PAGE_SIZE, pageable.getPageSize());
                 return ENTRY_REDIRECT;
             }
-            
             ObjectMapper mapper = new ObjectMapper();
             List<ProductDTO> listProducts = mapper.readValue(products, new TypeReference<List<ProductDTO>>(){});
             Double total = 0.0;

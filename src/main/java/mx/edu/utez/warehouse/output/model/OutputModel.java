@@ -23,7 +23,6 @@ public class OutputModel {
     private Long id;
 
     @OneToOne
-    @Valid
     @JoinColumn(name = "area_id", nullable = false)
     private AreaModel area;
 

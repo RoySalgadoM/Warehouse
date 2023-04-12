@@ -2,7 +2,6 @@ package mx.edu.utez.warehouse.output.service;
 
 import jakarta.persistence.NoResultException;
 import jakarta.transaction.Transactional;
-import mx.edu.utez.warehouse.entry.model.EntryModel;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.order_status.model.OrderStatusModel;
 import mx.edu.utez.warehouse.order_status.service.OrderStatusRepository;
@@ -127,5 +126,9 @@ public class OutputServiceImpl implements OutputService{
 
     public boolean isExistOutput(String code) {
         return requisitionRepository.existsByCode(code);
+    }
+
+    public boolean isExistOutputById(Long id) {
+        return repository.existsById(id);
     }
 }

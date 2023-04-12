@@ -1,14 +1,10 @@
 package mx.edu.utez.warehouse.warehouse.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import mx.edu.utez.warehouse.entry.model.EntryModel;
 import mx.edu.utez.warehouse.log.service.LogServiceImpl;
 import mx.edu.utez.warehouse.message.model.MessageModel;
-import mx.edu.utez.warehouse.product.model.WarehouseProductModel;
 import mx.edu.utez.warehouse.product.service.ProductServiceImpl;
-import mx.edu.utez.warehouse.role.model.AuthorityName;
 import mx.edu.utez.warehouse.role.model.RoleModel;
 import mx.edu.utez.warehouse.role.service.RoleServiceImpl;
 import mx.edu.utez.warehouse.security.config.SecurityUser;
@@ -29,7 +25,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -105,6 +100,7 @@ public class WarehouseController {
 
             model.addAttribute(RESULT, warehouses);
             model.addAttribute(WAREHOUSER_LIST, serviceUser.listWarehousers());
+            List<UserModel> users = serviceUser.listInvoicers();
             model.addAttribute(INVOICER_LIST, serviceUser.listInvoicers());
             if (warehouses.getIsError()) {
                 return ERROR_PAGE_500;
@@ -136,9 +132,15 @@ public class WarehouseController {
             MessageModel cost = service.findWarehousesTotal(pageable, username, uuid.toString());
             logger.info("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> findAllCost() RESPONSE: {}", username, uuid, cost.getMessage());
             cost.setUuid(uuid.toString());
-            List<WarehouseDTO> warehouses = (List<WarehouseDTO>) cost.getData();
             Integer quantity = 0;
             Double amount = 0.0;
+            if(cost.getData() == null){
+                model.addAttribute("result", cost);
+                model.addAttribute("quantity", 0);
+                model.addAttribute("amount", 0);
+                return DASHBOARD_REDIRECT;
+            }
+            List<WarehouseDTO> warehouses = (List<WarehouseDTO>) cost.getData();
             for(WarehouseDTO warehouse : warehouses){
                 quantity += warehouse.getProducts();
                 amount += warehouse.getAmount();

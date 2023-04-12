@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mx.edu.utez.warehouse.warehouse.model.WarehouseModel;
 
-
 @Getter
 @Setter
 @NoArgsConstructor

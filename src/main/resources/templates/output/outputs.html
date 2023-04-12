@@ -60,9 +60,12 @@
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label>Área<span class="text-danger">*</span></label>
-                                        <select class="custom-select d-block w-100" name="area" th:field="*{area}">
+                                        <select class="custom-select d-block w-100" name="area" th:if="${listAreas.size() != 0}" th:field="*{area}">
                                             <option th:each="tmpArea : ${listAreas}" th:value="${tmpArea.id}" th:text="${tmpArea.identifier}" />
                                         </select>
+                                        <div th:if="${listAreas.size() == 0}" class="alert alert-warning">
+                                            Aún no hay áreas registradas
+                                        </div>
                                         <div th:if="${#fields.hasErrors('area') && action eq 'save'}" th:errors="*{area}"
                                              class="alert alert-danger"></div>
                                     </div>
@@ -74,9 +77,12 @@
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label>Almacén de salida</label><span class="text-danger">*</span>
-                                        <select class="custom-select d-block w-100" th:field="*{requisition.warehouse}" id="warehouseOut" onchange="getProducts()">
+                                        <select class="custom-select d-block w-100" th:field="*{requisition.warehouse}" th:if="${listWarehouses.size() != 0}" id="warehouseOut" onchange="getProducts()">
                                             <option th:each="tmpWarehouse : ${listWarehouses}" th:value="${tmpWarehouse.id}" th:text="${tmpWarehouse.name}" />
                                         </select>
+                                        <div th:if="${listWarehouses.size() == 0}" class="alert alert-warning">
+                                            Aún no estás asignado en ningún almacén
+                                        </div>
                                         <div th:if="${#fields.hasErrors('requisition.warehouse') && action eq 'save'}" th:errors="*{requisition.warehouse}"
                                              class="alert alert-danger"></div>
                                     </div>
@@ -197,7 +203,7 @@
                                             [[${output.requisition.code}]]
                                         </td>
                                         <td>
-                                            [[${output.requisition.type}]]
+                                            [[${output.requisition.type == 1 ? 'Perecedero' : 'No perecedero'}]]
                                         </td>
                                         <td>
                                             [[${output.area.identifier}]]

@@ -23,7 +23,6 @@ public class EntryModel {
     private Long id;
 
     @ManyToOne
-    @Valid
     @JoinColumn(name = "supplier_id", nullable = false)
     private SupplierModel supplier;
 

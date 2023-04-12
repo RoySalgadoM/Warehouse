@@ -76,22 +76,27 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label>Almacenista<span class="text-danger">*</span></label>
-                                    <select th:field="*{warehouser}" class="custom-select d-block w-100">
+                                    <select th:field="*{warehouser}" class="custom-select d-block w-100" th:if="${listWarehousers.size() != 0}">
                                         <option th:each="tmpWarehouse: ${listWarehousers}" th:value="${tmpWarehouse.id}"
                                                 th:text="${tmpWarehouse.name + ' ' + tmpWarehouse.surname}"></option>
                                     </select>
-                                    <div th:if="${#fields.hasErrors('warehouser') && action eq 'save'}"
+                                    <div th:if="${listWarehousers.size() == 0}" class="alert alert-warning">
+                                        Aún no hay almacenistas registrados
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('warehouser') && action eq 'save' && listWarehousers.size() != 0}"
                                          th:errors="*{warehouser}"
                                          class="alert alert-danger"></div>
-
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label>Facturación<span class="text-danger">*</span></label>
-                                    <select th:field="*{invoicer}" class="custom-select d-block w-100">
+                                    <select th:field="*{invoicer}" class="custom-select d-block w-100" th:if="${listInvoicers.size() != 0}">
                                         <option th:each="tmpWarehouse: ${listInvoicers}" th:value="${tmpWarehouse.id}"
                                                 th:text="${tmpWarehouse.name + ' ' + tmpWarehouse.surname}"></option>
                                     </select>
-                                    <div th:if="${#fields.hasErrors('invoicer') && action eq 'save'}"
+                                    <div th:if="${listInvoicers.size() == 0}" class="alert alert-warning">
+                                        Aún no hay facturadores registrados
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('invoicer') && action eq 'save' && listInvoicers.size() != 0}"
                                          th:errors="*{invoicer}"
                                          class="alert alert-danger"></div>
                                 </div>
@@ -149,13 +154,6 @@
                                 </th>
                             </tr>
                             </thead>
-                            <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}"
-                                 class="alert alert-warning alert-dismissible fade show" role="alert">
-                                [[${result.message.message}]]
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
                             <tbody class="text-center">
                             <tr th:each="warehouse : ${result.data}" th:if="${result.data != null}">
                                 <td>
@@ -187,6 +185,10 @@
                             </tr>
                             </tbody>
                         </table>
+                        <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}"
+                             class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                            [[${result.message.message}]]
+                        </div>
                         <nav class="mt-3" th:if="${result.data != null ? result.data.totalPages > 0 : false}"
                              aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">

@@ -5,10 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import mx.edu.utez.warehouse.area.service.AreaServiceImpl;
-import mx.edu.utez.warehouse.entry.controller.EntryController;
-import mx.edu.utez.warehouse.entry.model.EntryModel;
-import mx.edu.utez.warehouse.entry.service.EntryRepository;
-import mx.edu.utez.warehouse.entry.service.EntryServiceImpl;
 import mx.edu.utez.warehouse.log.service.LogServiceImpl;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.output.model.OutputModel;
@@ -25,7 +21,6 @@ import mx.edu.utez.warehouse.requisition.model.RequisitionProductModel;
 import mx.edu.utez.warehouse.requisition.service.RequisitionProductRepository;
 import mx.edu.utez.warehouse.requisition.service.RequisitionRepository;
 import mx.edu.utez.warehouse.security.config.SecurityUser;
-import mx.edu.utez.warehouse.supplier.service.SupplierServiceImpl;
 import mx.edu.utez.warehouse.utils.MessageCatalog;
 import mx.edu.utez.warehouse.warehouse.service.WarehouseServiceImpl;
 import org.apache.logging.log4j.LogManager;
@@ -43,7 +38,6 @@ import org.thymeleaf.util.ArrayUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/output")

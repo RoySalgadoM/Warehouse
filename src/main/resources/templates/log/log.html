@@ -22,7 +22,7 @@
                             <h1>Bitácora de base de datos</h1>
                         </div>
                     </div>
-                </div><!-- /.container-fluid -->
+                </div>
             </section>
 
             <section class="content">
@@ -65,13 +65,6 @@
                                 </th>
                             </tr>
                             </thead>
-                            <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}"
-                                 class="alert alert-warning alert-dismissible fade show" role="alert">
-                                [[${result.message.message}]]
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
                             <tbody class="text-center">
                             <tr th:each="log : ${result.data}" th:if="${result.data != null}">
                                 <td>
@@ -93,6 +86,10 @@
                             </tr>
                             </tbody>
                         </table>
+                        <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}"
+                             class="alert alert-warning alert-dismissible fade show mt-1 text-center" role="alert">
+                            [[${result.message.message}]]
+                        </div>
                         <nav class="mt-3" th:if="${result.data != null ? result.data.totalPages > 0 : false}"
                              aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">

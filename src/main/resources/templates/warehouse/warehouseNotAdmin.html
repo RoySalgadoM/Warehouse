@@ -22,7 +22,7 @@
               <h1>Gestión de almacenes</h1>
             </div>
           </div>
-        </div><!-- /.container-fluid -->
+        </div>
 
       </section>
 
@@ -41,10 +41,8 @@
 
                   <option th:each="s : ${ {5, 10, 20, 50, 100} }" th:value="${s}" th:text="${s}"
                           th:selected="${s == pageSize}"></option>
-
                 </select>
               </form>
-
               <p class="ml-2">registros</p>
             </div>
             <table class="table table-responsive projects margin-table-order table-striped projects">
@@ -67,13 +65,6 @@
                 </th>
               </tr>
               </thead>
-              <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}"
-                   class="alert alert-warning alert-dismissible fade show" role="alert">
-                [[${result.message.message}]]
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
               <tbody class="text-center">
               <tr th:each="warehouse : ${result.data}" th:if="${result.data != null}">
                 <td>
@@ -98,6 +89,10 @@
               </tr>
               </tbody>
             </table>
+            <div th:if="${result.message.name eq 'NO_RECORDS_FOUND'}"
+                 class="alert alert-warning alert-dismissible fade show mt-1 text-center" role="alert">
+              [[${result.message.message}]]
+            </div>
             <nav class="mt-3" th:if="${result.data != null ? result.data.totalPages > 0 : false}"
                  aria-label="Page navigation example">
               <ul class="pagination justify-content-center">
