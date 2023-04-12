@@ -93,8 +93,8 @@ public class OutputController {
 
             model.addAttribute("result", outputs);
             model.addAttribute("listAreas", areaService.findAreas());
-            model.addAttribute("listWarehouses", warehouseService.findWarehouses());
-            model.addAttribute("listProducts", warehouseService.findWarehouseProductsByType(1, warehouseService.findWarehouses().get(0).getId()));
+            model.addAttribute("listWarehouses", warehouseService.findWarehousesByInvoicer(username));
+            model.addAttribute("listProducts", warehouseService.findWarehouseProductsByType(1, warehouseService.findWarehousesByInvoicer(username).get(0).getId()));
             model.addAttribute("products", "");
             if (outputs.getIsError()) {
                 return ERROR_500;
@@ -259,7 +259,7 @@ public class OutputController {
                 model.addAttribute(RESULT, outputs);
                 model.addAttribute("data", output);
                 model.addAttribute("listAreas", areaService.findAreas());
-                model.addAttribute("listWarehouses", warehouseService.findWarehouses());
+                model.addAttribute("listWarehouses", warehouseService.findWarehousesByInvoicer(username));
                 model.addAttribute("listProducts", productService.findProductsByType(1));
                 model.addAttribute("products", products);
                 model.addAttribute(PAGE_SIZE, pageable.getPageSize());

@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface WarehouseService {
     MessageModel findAllWarehouse(Pageable page, String username, String uuid);
+    List<WarehouseModel> findWarehousesByWarehouser(String username);
+    List<WarehouseModel> findWarehousesByInvoicer(String username);
     List<WarehouseModel> findWarehouses();
     List<ProductModel> findWarehouseProductsByType(Integer type, long idWarehouse);
     MessageModel findById(long id, String username, String uuid);

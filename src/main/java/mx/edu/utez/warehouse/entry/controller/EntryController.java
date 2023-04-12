@@ -89,7 +89,7 @@ public class EntryController {
 
             model.addAttribute("result", entries);
             model.addAttribute("listSupplies", supplierService.findSupplies());
-            model.addAttribute("listWarehouses", warehouseService.findWarehouses());
+            model.addAttribute("listWarehouses", warehouseService.findWarehousesByWarehouser(username));
             model.addAttribute("listProducts", productService.findProductsByType(1));
             model.addAttribute("products", "");
             if (entries.getIsError()) {
@@ -205,7 +205,7 @@ public class EntryController {
                 model.addAttribute(RESULT, entries);
                 model.addAttribute("data", entry);
                 model.addAttribute("listSupplies", supplierService.findSupplies());
-                model.addAttribute("listWarehouses", warehouseService.findWarehouses());
+                model.addAttribute("listWarehouses", warehouseService.findWarehousesByWarehouser(username));
                 model.addAttribute("listProducts", productService.findProductsByType(1));
                 model.addAttribute("products", "");
                 model.addAttribute(PAGE_SIZE, pageable.getPageSize());

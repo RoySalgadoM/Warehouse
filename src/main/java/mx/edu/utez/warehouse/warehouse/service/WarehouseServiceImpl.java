@@ -47,6 +47,20 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
+    public List<WarehouseModel> findWarehousesByWarehouser(String username) {
+        List<WarehouseModel> warehouses = repository.findAll();
+        warehouses = warehouses.stream().filter(warehouse -> warehouse.getWarehouser().getUsername().equals(username) && warehouse.getWarehouser().getAuthorities().contains("WAREHOUSER")).toList();
+        return warehouses;
+    }
+
+    @Override
+    public List<WarehouseModel> findWarehousesByInvoicer(String username) {
+        List<WarehouseModel> warehouses = repository.findAll();
+        warehouses = warehouses.stream().filter(warehouse -> warehouse.getWarehouser().getUsername().equals(username) && warehouse.getWarehouser().getAuthorities().contains("INVOICER")).toList();
+        return warehouses;
+    }
+
+    @Override
     public List<WarehouseModel> findWarehouses() {
         return repository.findAll();
     }

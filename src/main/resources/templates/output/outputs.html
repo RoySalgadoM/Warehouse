@@ -222,8 +222,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-primary" th:attr="onclick=|getOutput('${output.id}')|" data-toggle="modal"
-                                                    data-target="#detailsOutput">
+                                            <button type="button" class="btn btn-primary" th:attr="onclick=|getOutput('${output.id}')|">
                                                 <i class="nav-icon fas fa-info info-button"></i>
                                             </button>
                                         </td>
@@ -247,7 +246,7 @@
                                                   method="post">
                                                 <input th:value="${output.id}" name="id" type="hidden">
                                                 <button type="button" class="btn btn-warning changeBtnOutput">
-                                                    <i class="nav-icon fa-solid fa-hourglass-clock"></i>
+                                                    <i class="nav-icon fa-solid fa-clock"></i>
                                                 </button>
                                             </form>
                                             <form th:if="${output.requisition.status.id != 1}"

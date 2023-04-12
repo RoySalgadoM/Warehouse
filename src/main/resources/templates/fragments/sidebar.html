@@ -1,19 +1,15 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4" th:fragment="sidebar">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link"><span class="brand-text font-weight-light">SIGA</span>
-    </a>
-    <!-- Sidebar -->
+    <a href="#" class="brand-link"><span class="brand-text font-weight-light">SIGA</span></a>
     <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="info">
-                <a href="#" class="d-block">Usuario: <span th:text ="${#authentication.getPrincipal().getUsername()}"></span>
-                </a>
+                <a class="d-block text-center"><span th:text ="${#authentication.getPrincipal().getUsername()}"></span></a>
             </div>
         </div>
-        <!-- Sidebar Menu -->
-        <nav class="mt-2">
+        <nav class="mt-2 ml-auto">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item">
+                <li th:if="${#authentication.getPrincipal().getAuthorities().contains('ADMIN')}" class="nav-item">
                     <a th:href="@{/warehouse/dashboard}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
@@ -21,7 +17,7 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li th:if="${#authentication.getAuthorities().contains('ADMIN') || #authentication.getAuthorities().contains('WAREHOUSER')}" class="nav-item">
                     <a th:href="@{/product/list}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
@@ -29,7 +25,7 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li th:if="${#authentication.getAuthorities().contains('ADMIN')}" class="nav-item">
                     <a th:href="@{/order/list}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
@@ -38,7 +34,7 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
+                <li th:if="${#authentication.getAuthorities().contains('WAREHOUSER')}" class="nav-item">
                     <a th:href="@{/entry/list}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
@@ -46,8 +42,7 @@
                         </p>
                     </a>
                 </li>
-
-                <li class="nav-item">
+                <li th:if="${#authentication.getAuthorities().contains('INVOICER')}" class="nav-item">
                     <a th:href="@{/output/list}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
@@ -55,8 +50,7 @@
                         </p>
                     </a>
                 </li>
-
-                <li class="nav-item">
+                <li th:if="${#authentication.getPrincipal().getAuthorities().contains('ADMIN')}" class="nav-item">
                     <a th:href="@{/area/list}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
@@ -64,7 +58,6 @@
                         </p>
                     </a>
                 </li>
-
                 <li class="nav-item">
                     <a th:href="@{/warehouse/list}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
@@ -73,7 +66,7 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li th:if="${#authentication.getPrincipal().getAuthorities().contains('ADMIN')}" class="nav-item">
                     <a th:href="@{/user/list}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
@@ -81,7 +74,7 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li th:if="${#authentication.getAuthorities().contains('ADMIN')}" class="nav-item">
                     <a th:href="@{/supplier/list}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
@@ -89,7 +82,7 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li th:if="${#authentication.getAuthorities().contains('ADMIN')}" class="nav-item">
                     <a th:href="@{/log/list}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
@@ -107,7 +100,5 @@
                 </li>
             </ul>
         </nav>
-        <!-- /.sidebar-menu -->
     </div>
-    <!-- /.sidebar -->
 </aside>
