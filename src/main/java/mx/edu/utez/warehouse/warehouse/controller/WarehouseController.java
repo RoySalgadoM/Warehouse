@@ -100,7 +100,6 @@ public class WarehouseController {
 
             model.addAttribute(RESULT, warehouses);
             model.addAttribute(WAREHOUSER_LIST, serviceUser.listWarehousers());
-            List<UserModel> users = serviceUser.listInvoicers();
             model.addAttribute(INVOICER_LIST, serviceUser.listInvoicers());
             if (warehouses.getIsError()) {
                 return ERROR_PAGE_500;
@@ -145,7 +144,7 @@ public class WarehouseController {
                 quantity += warehouse.getProducts();
                 amount += warehouse.getAmount();
             }
-            model.addAttribute("result", cost);
+            model.addAttribute(RESULT, cost);
             model.addAttribute("quantity", quantity);
             model.addAttribute("amount", amount);
             if (cost.getIsError()) {

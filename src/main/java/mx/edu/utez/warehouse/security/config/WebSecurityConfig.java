@@ -31,8 +31,9 @@ public class WebSecurityConfig{
                     .requestMatchers("/errors/**").permitAll()
                     .requestMatchers("/user/profile", "/user/getme", "/user/updatePassword").hasAnyAuthority(ADMIN, WAREHOUSER, INVOICER)
                     .requestMatchers("/product/**").hasAnyAuthority(WAREHOUSER, ADMIN)
+                    .requestMatchers("/warehouse/list").hasAnyAuthority(WAREHOUSER, INVOICER, ADMIN)
+
                     .requestMatchers( "/user/**", "/log/**", "/warehouse/**", "/supplier/**", "/area/**", "/order/**").hasAuthority(ADMIN)
-                    .requestMatchers("/warehouse/list").hasAnyAuthority(WAREHOUSER, INVOICER)
                     .requestMatchers("/entry/**", "/report/entry/**").hasAuthority(WAREHOUSER)
                     .requestMatchers("/output/**", "/report/output/**").hasAnyAuthority(INVOICER)
                     .anyRequest().authenticated()

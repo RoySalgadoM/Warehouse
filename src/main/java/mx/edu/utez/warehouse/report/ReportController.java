@@ -33,8 +33,6 @@ public class ReportController {
     private static final String ATTACHMENT = "attachment; filename=entry.pdf";
     private static final Logger logger = LogManager.getLogger(ReportController.class);
     private static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
-    private static final String RESULT = "result";
-    private static final String ERROR_500 = "errorPages/500";
     @Autowired
     LogServiceImpl logService;
     @Autowired
