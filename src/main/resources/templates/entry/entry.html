@@ -223,17 +223,17 @@
                                             </button>
                                         </td>
                                         <td>
-                                            <form th:if="${entry.requisition.status.id == 3}" th:action="@{/entry/pdf}"
+                                            <form th:if="${entry.requisition.status.id == 3}" th:action="@{/report/entry/{id} (id=${entry.id})}"
                                                   method="post">
                                                 <input th:value="${entry.id}" name="id" type="hidden">
                                                 <button type="button" class="btn btn-primary cancelBtnOutput">
-                                                    <i class="nav-icon fa-solid fa-eye-slash"></i>
+                                                    <i class="nav-icon fa-solid fa-file"></i>
                                                 </button>
                                             </form>
                                             <form th:if="${entry.requisition.status.id != 3}"
                                                   method="post">
                                                 <button type="button" class="btn btn-primary" disabled>
-                                                    <i class="nav-icon fa-solid fa-eye-slash"></i>
+                                                    <i class="nav-icon fa-solid fa-file"></i>
                                                 </button>
                                             </form>
                                         </td>
@@ -241,14 +241,14 @@
                                             <form th:if="${entry.requisition.status.id == 1}" th:action="@{/entry/delivered}"
                                                   method="post">
                                                 <input th:value="${entry.id}" name="id" type="hidden">
-                                                <button type="button" class="btn btn-success changeBtnEntry">
-                                                    <i class="nav-icon fa-solid fa-eye-slash"></i>
+                                                <button type="button" class="btn btn-warning changeBtnEntry">
+                                                    <i class="nav-icon fa-solid fa-hourglass-clock"></i>
                                                 </button>
                                             </form>
                                             <form th:if="${entry.requisition.status.id != 1}"
                                                   method="post">
-                                                <button type="button" class="btn btn-primary" disabled>
-                                                    <i class="nav-icon fa-solid fa-eye-slash"></i>
+                                                <button type="button" class="btn btn-success" disabled>
+                                                    <i class="nav-icon fa-solid fa-check"></i>
                                                 </button>
                                             </form>
                                         </td>
@@ -257,13 +257,13 @@
                                                   method="post">
                                                 <input th:value="${entry.id}" name="id" type="hidden">
                                                 <button type="button" class="btn btn-danger cancelBtnEntry">
-                                                    <i class="nav-icon fa-solid fa-eye-slash"></i>
+                                                    <i class="nav-icon fa-solid fa-ban"></i>
                                                 </button>
                                             </form>
                                             <form th:if="${entry.requisition.status.id != 1}"
                                                   method="post">
                                                 <button type="button" class="btn btn-danger" disabled>
-                                                    <i class="nav-icon fa-solid fa-eye-slash"></i>
+                                                    <i class="nav-icon fa-solid fa-ban"></i>
                                                 </button>
                                             </form>
                                         </td>
