@@ -230,7 +230,7 @@
                                             <form th:if="${output.requisition.status.id == 2}" th:action="@{/report/output/{id} (id=${output.id})}"
                                                   method="post">
                                                 <input th:value="${output.id}" name="id" type="hidden">
-                                                <button type="button" class="btn btn-primary cancelBtnOutput">
+                                                <button type="submit" class="btn btn-primary">
                                                     <i class="nav-icon fa-solid fa-file"></i>
                                                 </button>
                                             </form>
