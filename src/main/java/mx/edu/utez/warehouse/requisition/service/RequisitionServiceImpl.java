@@ -1,7 +1,6 @@
 package mx.edu.utez.warehouse.requisition.service;
 
 import jakarta.persistence.NoResultException;
-import mx.edu.utez.warehouse.entry.model.EntryModel;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.requisition.model.RequisitionModel;
 import mx.edu.utez.warehouse.utils.MessageCatalog;

@@ -50,7 +50,7 @@ public class RequisitionController {
             logger.info("[USER : {}] || [UUID : {}] ---> REQUISITION MODULE ---> findAllOrders() RESPONSE: {}", username, uuid, entries.getMessage());
             entries.setUuid(uuid.toString());
 
-            model.addAttribute("result", entries);
+            model.addAttribute(RESULT, entries);
             if (entries.getIsError()) {
                 return ERROR_500;
             }

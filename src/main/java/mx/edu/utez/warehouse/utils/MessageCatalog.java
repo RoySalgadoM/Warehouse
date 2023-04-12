@@ -1,6 +1,7 @@
 package mx.edu.utez.warehouse.utils;
 
 public enum MessageCatalog {
+
     SUCCESS_REGISTER("Se ha registrado correctamente", "info"),
     SUCCESS_UPDATE("Se ha actualizado correctamente", "info"),
     SUCCESS_DISABLE("Se ha deshabilitado correctamente", "info"),

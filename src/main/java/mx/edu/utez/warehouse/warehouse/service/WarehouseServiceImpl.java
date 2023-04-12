@@ -130,7 +130,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         }
         List<WarehouseProductModel> warehouseProducts = warehouse.get().getWarehouseProductModels();
         List<ProductModel> products = warehouseProducts.stream().map(WarehouseProductModel::getProduct).toList();
-        products = products.stream().filter(product -> product.getType() == type).toList();
+        products = products.stream().filter(product -> product.getType().equals(type)).toList();
         return products;
     }
 

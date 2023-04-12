@@ -83,10 +83,11 @@ public class EntryServiceImpl implements EntryService{
     public MessageModel cancelEntry(long id, String username, String uuid) {
         try {
             var entry = repository.findById(id);
-            var requisition = requisitionRepository.findById(entry.get().getRequisition().getId());
             if (entry.isEmpty()) {
                 throw new NoResultException(ENTRY_NOT_FOUND);
             }
+            var requisition = requisitionRepository.findById(entry.get().getRequisition().getId());
+
             if (requisition.isEmpty()) {
                 throw new NoResultException(ENTRY_NOT_FOUND);
             }
@@ -104,10 +105,11 @@ public class EntryServiceImpl implements EntryService{
     public MessageModel deliveredEntry(long id, String username, String uuid) {
         try {
             var entry = repository.findById(id);
-            var requisition = requisitionRepository.findById(entry.get().getRequisition().getId());
             if (entry.isEmpty()) {
                 throw new NoResultException(ENTRY_NOT_FOUND);
             }
+            var requisition = requisitionRepository.findById(entry.get().getRequisition().getId());
+
             if (requisition.isEmpty()) {
                 throw new NoResultException(ENTRY_NOT_FOUND);
             }

@@ -84,10 +84,11 @@ public class OutputServiceImpl implements OutputService{
     public MessageModel cancelOutput(long id, String username, String uuid) {
         try {
             var output = repository.findById(id);
-            var requisition = requisitionRepository.findById(output.get().getRequisition().getId());
             if (output.isEmpty()) {
                 throw new NoResultException(OUTPUT_NOT_FOUND);
             }
+            var requisition = requisitionRepository.findById(output.get().getRequisition().getId());
+
             if (requisition.isEmpty()) {
                 throw new NoResultException(OUTPUT_NOT_FOUND);
             }
@@ -106,10 +107,11 @@ public class OutputServiceImpl implements OutputService{
     public MessageModel sentOutput(long id, String username, String uuid) {
         try {
             var output = repository.findById(id);
-            var requisition = requisitionRepository.findById(output.get().getRequisition().getId());
             if (output.isEmpty()) {
                 throw new NoResultException(OUTPUT_NOT_FOUND);
             }
+            var requisition = requisitionRepository.findById(output.get().getRequisition().getId());
+
             if (requisition.isEmpty()) {
                 throw new NoResultException(OUTPUT_NOT_FOUND);
             }
