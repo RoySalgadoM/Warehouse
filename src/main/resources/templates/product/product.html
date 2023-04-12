@@ -50,7 +50,7 @@
                                          class="alert alert-danger"></div>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label>Descripcion</label><span class="text-danger">*</span>
+                                    <label>Descripción</label><span class="text-danger">*</span>
                                     <input type="text" class="form-control" placeholder="Nuevas" name="description" th:value="${data != null && action eq 'save' ? data.description : ''}">
                                     <div th:if="${#fields.hasErrors('description') && action eq 'save'}" th:errors="*{description}"
                                          class="alert alert-danger"></div>

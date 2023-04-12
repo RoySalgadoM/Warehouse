@@ -212,10 +212,10 @@
                                         <td>
                                             <div th:switch="${entry.requisition.status.id}">
                                                 <div th:case="1">
-                                                    <p class="text-success">Pendiente</p>
+                                                    <p class="text-warning">Pendiente</p>
                                                 </div>
                                                 <div th:case="3">
-                                                    <p class="text-warning">Entregado</p>
+                                                    <p class="text-success">Entregado</p>
                                                 </div>
                                                 <div th:case="4">
                                                     <p class="text-danger">Cancelado</p>

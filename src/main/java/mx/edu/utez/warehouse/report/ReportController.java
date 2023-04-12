@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("report")
+@RequestMapping("/report")
 public class ReportController {
     private static final String TYPE_APP = "application/x-pdf";
     private static final String ATTACHMENT = "attachment; filename=entry.pdf";
