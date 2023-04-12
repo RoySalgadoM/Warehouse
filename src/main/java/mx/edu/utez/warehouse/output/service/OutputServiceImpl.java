@@ -1,6 +1,7 @@
 package mx.edu.utez.warehouse.output.service;
 
 import jakarta.persistence.NoResultException;
+import jakarta.transaction.Transactional;
 import mx.edu.utez.warehouse.entry.model.EntryModel;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.order_status.model.OrderStatusModel;
@@ -101,6 +102,7 @@ public class OutputServiceImpl implements OutputService{
     }
 
     @Override
+    @Transactional
     public MessageModel sentOutput(long id, String username, String uuid) {
         try {
             var output = repository.findById(id);

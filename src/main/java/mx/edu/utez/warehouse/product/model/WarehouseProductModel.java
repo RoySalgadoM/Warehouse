@@ -24,7 +24,7 @@ public class WarehouseProductModel {
     private Long id;
 
     @Column(nullable = false)
-    @Min(value = 1, message = "La cantidad de productos debe ser mayor a 0")
+    @Min(value = 0, message = "La cantidad de productos debe ser mayor o igual a 0")
     private Integer quantity;
 
     @ManyToOne

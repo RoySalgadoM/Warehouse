@@ -1,6 +1,7 @@
 package mx.edu.utez.warehouse.output.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,10 +23,12 @@ public class OutputModel {
     private Long id;
 
     @OneToOne
+    @Valid
     @JoinColumn(name = "area_id", nullable = false)
     private AreaModel area;
 
     @OneToOne
+    @Valid
     @JoinColumn(name = "requisition_id", nullable = false)
     private RequisitionModel requisition;
 }

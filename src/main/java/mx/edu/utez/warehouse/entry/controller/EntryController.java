@@ -154,10 +154,11 @@ public class EntryController {
     }
 
     @PostMapping("/save")
-    public String saveEntry(@Valid @ModelAttribute("entry") EntryModel entry, BindingResult result, Model model, RedirectAttributes redirectAttributes, HttpSession httpSession, Pageable pageable, @RequestParam("products") String products) {
+    public String saveEntry( @ModelAttribute("entry") @Valid EntryModel entry, BindingResult result, Model model, RedirectAttributes redirectAttributes, HttpSession httpSession, Pageable pageable, @RequestParam("products") String products) {
         UUID uuid = UUID.randomUUID();
         String username = "";
         try {
+            RequisitionModel temp = entry.getRequisition();
             SecurityContextImpl securityContext = (SecurityContextImpl) httpSession.getAttribute(SPRING_SECURITY_CONTEXT);
             SecurityUser user = (SecurityUser) securityContext.getAuthentication().getPrincipal();
             username = user.getUsername();
