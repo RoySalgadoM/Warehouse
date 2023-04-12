@@ -8,7 +8,7 @@
     <link th:insert="fragments/header :: fontawesome">
     <link th:insert="fragments/header :: fontawesome2">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed" onload="getProducts(), showDate(), productsLoad()">
+<body class="hold-transition sidebar-mini layout-fixed" onload="getProducts(), showDate()">
 <div th:insert="fragments/header :: js"></div>
 <div class="wrapper">
     <div th:insert="fragments/navbar :: navbar"></div>
@@ -362,23 +362,6 @@
         }
 
         const productsSelected = () => {
-            let content = "";
-            products.forEach((product) => {
-                content += "<tr>";
-                content += "<td>" + product.id + "</td>";
-                content += "<td>" + product.name + "</td>";
-                content += "<td>" + product.description + "</td>";
-                content += "<td>" + product.quantity + "</td>";
-                content += "<td>" + product.unit + "</td>";
-                content += "<td>" + product.unitPrice + "</td>";
-                content += "<td><button class='btn btn-danger' onclick='removeProduct(" + product.id + ")'><i class='fas fa-trash'></i></button></td>";
-                content += "</tr>";
-            });
-            $("#tableProducts").html(content);
-        }
-
-        const productsLoad = () => {
-            products = JSON.parse(document.getElementById('products').value);
             let content = "";
             products.forEach((product) => {
                 content += "<tr>";
