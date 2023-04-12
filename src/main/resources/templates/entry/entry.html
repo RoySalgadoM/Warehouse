@@ -8,7 +8,7 @@
     <link th:insert="fragments/header :: fontawesome">
     <link th:insert="fragments/header :: fontawesome2">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed" onload="getProducts(), showDate(), productsSelected()">
+<body class="hold-transition sidebar-mini layout-fixed" onload="getProducts(), showDate(), productsLoad()">
 <div th:insert="fragments/header :: js"></div>
 <div class="wrapper">
     <div th:insert="fragments/navbar :: navbar"></div>
@@ -217,13 +217,14 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-primary" th:attr="onclick=|getEntry('${entry.id}')|">
+                                            <button type="button" class="btn btn-primary" th:attr="onclick=|getEntry('${entry.id}')|"
+                                                    data-toggle="modal"
+                                                    data-target="#detailsEntry">
                                                 <i class="nav-icon fas fa-info info-button"></i>
                                             </button>
                                         </td>
                                         <td>
-                                            <form th:if="${entry.requisition.status.id == 3}" th:action="@{/report/entry/{id} (id=${entry.id})}"
-                                                  method="post">
+                                            <form th:if="${entry.requisition.status.id == 3}" th:action="@{/report/entry/{id} (id=${entry.id})}">
                                                 <input th:value="${entry.id}" name="id" type="hidden">
                                                 <button type="submit" class="btn btn-primary">
                                                     <i class="nav-icon fa-solid fa-file"></i>
@@ -361,6 +362,23 @@
         }
 
         const productsSelected = () => {
+            let content = "";
+            products.forEach((product) => {
+                content += "<tr>";
+                content += "<td>" + product.id + "</td>";
+                content += "<td>" + product.name + "</td>";
+                content += "<td>" + product.description + "</td>";
+                content += "<td>" + product.quantity + "</td>";
+                content += "<td>" + product.unit + "</td>";
+                content += "<td>" + product.unitPrice + "</td>";
+                content += "<td><button class='btn btn-danger' onclick='removeProduct(" + product.id + ")'><i class='fas fa-trash'></i></button></td>";
+                content += "</tr>";
+            });
+            $("#tableProducts").html(content);
+        }
+
+        const productsLoad = () => {
+            products = JSON.parse(document.getElementById('products').value);
             let content = "";
             products.forEach((product) => {
                 content += "<tr>";

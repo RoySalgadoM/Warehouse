@@ -1,10 +1,12 @@
 package mx.edu.utez.warehouse.warehouse.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import mx.edu.utez.warehouse.entry.model.EntryModel;
 import mx.edu.utez.warehouse.log.service.LogServiceImpl;
 import mx.edu.utez.warehouse.message.model.MessageModel;
+import mx.edu.utez.warehouse.product.model.WarehouseProductModel;
 import mx.edu.utez.warehouse.product.service.ProductServiceImpl;
 import mx.edu.utez.warehouse.role.model.AuthorityName;
 import mx.edu.utez.warehouse.role.model.RoleModel;
@@ -13,6 +15,7 @@ import mx.edu.utez.warehouse.security.config.SecurityUser;
 import mx.edu.utez.warehouse.user.model.UserModel;
 import mx.edu.utez.warehouse.user.service.UserServiceImpl;
 import mx.edu.utez.warehouse.utils.MessageCatalog;
+import mx.edu.utez.warehouse.warehouse.model.WarehouseDTO;
 import mx.edu.utez.warehouse.warehouse.model.WarehouseModel;
 import mx.edu.utez.warehouse.warehouse.service.WarehouseServiceImpl;
 import org.apache.logging.log4j.LogManager;
@@ -26,6 +29,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -120,30 +124,34 @@ public class WarehouseController {
         }
     }
 
-
-
     @GetMapping("/dashboard")
-    public String findAllCost(Model model, HttpSession httpSession, Pageable pageable, @ModelAttribute("entry") EntryModel entry) {
+    public String findAllCost(Model model, HttpSession httpSession, Pageable pageable) {
         UUID uuid = UUID.randomUUID();
         String username = "";
         try {
             SecurityContextImpl securityContext = (SecurityContextImpl) httpSession.getAttribute(SPRING_SECURITY_CONTEXT);
             SecurityUser user = (SecurityUser) securityContext.getAuthentication().getPrincipal();
             username = user.getUsername();
-            logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING ENTRY MODULE ---> findAllEntries()", username, uuid);
-            MessageModel cost = service.findAllCost(pageable, username, uuid.toString());
-            logger.info("[USER : {}] || [UUID : {}] ---> ENTRY MODULE ---> findAllEntries() RESPONSE: {}", username, uuid, cost.getMessage());
+            logger.info("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> findAllCost()", username, uuid);
+            MessageModel cost = service.findWarehousesTotal(pageable, username, uuid.toString());
+            logger.info("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> findAllCost() RESPONSE: {}", username, uuid, cost.getMessage());
             cost.setUuid(uuid.toString());
+            List<WarehouseDTO> warehouses = (List<WarehouseDTO>) cost.getData();
+            Integer quantity = 0;
+            Double amount = 0.0;
+            for(WarehouseDTO warehouse : warehouses){
+                quantity += warehouse.getProducts();
+                amount += warehouse.getAmount();
+            }
             model.addAttribute("result", cost);
-            model.addAttribute("listWarehouses", warehouseService.findWarehouses());
-            model.addAttribute("listProducts", productService.findAllProducts(pageable, username, uuid.toString()));
+            model.addAttribute("quantity", quantity);
+            model.addAttribute("amount", amount);
             if (cost.getIsError()) {
                 return ERROR_PAGE_500;
             }
-            model.addAttribute(PAGE_SIZE, pageable.getPageSize());
             return DASHBOARD_REDIRECT;
         } catch (Exception exception) {
-            logger.error("[USER : {}] || [UUID : {}] ---> ENTRY MODULE ---> findAllEntries() ERROR: {}", username, uuid, exception.getMessage());
+            logger.error("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> findAllCost() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
             model.addAttribute(RESULT, message);

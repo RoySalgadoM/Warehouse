@@ -13,6 +13,7 @@ public interface WarehouseService {
     List<WarehouseModel> findWarehousesByWarehouser(String username);
     List<WarehouseModel> findWarehousesByInvoicer(String username);
     MessageModel findWarehousesByWarehouserW(Pageable page, UserModel userModel, String uuid);
+    MessageModel findWarehousesTotal(Pageable page, String username, String uuid);
     MessageModel findWarehousesByInvoicerW(Pageable page, UserModel userModel, String uuid);
     List<WarehouseModel> findWarehouses();
     List<ProductModel> findWarehouseProductsByType(Integer type, long idWarehouse);

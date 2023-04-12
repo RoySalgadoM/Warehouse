@@ -7,14 +7,15 @@ import mx.edu.utez.warehouse.product.model.ProductModel;
 import mx.edu.utez.warehouse.product.model.WarehouseProductModel;
 import mx.edu.utez.warehouse.user.model.UserModel;
 import mx.edu.utez.warehouse.utils.MessageCatalog;
+import mx.edu.utez.warehouse.warehouse.model.WarehouseDTO;
 import mx.edu.utez.warehouse.warehouse.model.WarehouseModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,10 +26,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Autowired
     WarehouseRepository repository;
-
-    @Autowired
-    DashboardRepository repositoryD;
-
 
     @Override
     public MessageModel findAllWarehouse(Pageable page, String username, String uuid) {
@@ -78,6 +75,32 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
+    public MessageModel findWarehousesTotal(Pageable page, String username, String uuid) {
+        try {
+            Page<WarehouseModel> warehouses = repository.findAll(page);
+            if(warehouses.getNumberOfElements() == 0){
+                return new MessageModel(MessageCatalog.NO_RECORDS_FOUND, null, false);
+            }
+            List<WarehouseDTO> listWarehouse = new ArrayList<>();
+            for (WarehouseModel warehouse : warehouses) {
+                Integer quantity = 0;
+                Double amount = 0.0;
+                List<WarehouseProductModel> listWarehouseProduct = warehouse.getWarehouseProductModels();
+                for(WarehouseProductModel warehouseProduct : listWarehouseProduct){
+                    quantity += warehouseProduct.getQuantity();
+                    amount += warehouseProduct.getQuantity() * warehouseProduct.getProduct().getUnitPrice();
+                }
+                WarehouseDTO warehouseDTO = new WarehouseDTO(warehouse.getId(), warehouse.getName(), warehouse.getIdentifier(), quantity, amount);
+                listWarehouse.add(warehouseDTO);
+            }
+            return new MessageModel(MessageCatalog.RECORDS_FOUND, listWarehouse, false);
+        }catch (Exception exception) {
+            logger.error("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> findWarehousesTotal() ERROR: {}", username, uuid, exception.getMessage());
+            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+        }
+    }
+
+    @Override
     public MessageModel findWarehousesByInvoicerW(Pageable page, UserModel userModel, String uuid) {
         try {
             Page<WarehouseModel> warehouses = repository.findAllByInvoicer(userModel, page);
@@ -109,22 +132,6 @@ public class WarehouseServiceImpl implements WarehouseService {
         List<ProductModel> products = warehouseProducts.stream().map(WarehouseProductModel::getProduct).toList();
         products = products.stream().filter(product -> product.getType() == type).toList();
         return products;
-    }
-
-    @Override
-    public MessageModel findAllCost(Pageable page, String username, String uuid) {
-        try {
-            Page<WarehouseProductModel> cost = repositoryD.findAll(page);
-
-            if (cost.getNumberOfElements() == 0) {
-                return new MessageModel(MessageCatalog.NO_RECORDS_FOUND, null, false);
-            }
-            return new MessageModel(MessageCatalog.RECORDS_FOUND, cost, false);
-
-        } catch (Exception exception) {
-            logger.error("[USER : {}] || [UUID : {}] ---> ENTRY MODULE ---> findAllEntries() ERROR: {}", username, uuid, exception.getMessage());
-            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
-        }
     }
 
     @Override
@@ -179,6 +186,11 @@ public class WarehouseServiceImpl implements WarehouseService {
             logger.error("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> updateWarehouse() ERROR: {}", username, uuid, exception.getMessage());
             return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
         }
+    }
+
+    @Override
+    public MessageModel findAllCost(Pageable page, String username, String uuid) {
+        return null;
     }
 
     public boolean isExistWarehouse(String identifier) {

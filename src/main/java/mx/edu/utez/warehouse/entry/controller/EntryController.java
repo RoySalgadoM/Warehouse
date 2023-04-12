@@ -208,7 +208,7 @@ public class EntryController {
                 model.addAttribute("listSupplies", supplierService.findSupplies());
                 model.addAttribute("listWarehouses", warehouseService.findWarehousesByWarehouser(username));
                 model.addAttribute("listProducts", productService.findProductsByType(1));
-                model.addAttribute("products", "");
+                model.addAttribute("products", products);
                 model.addAttribute(PAGE_SIZE, pageable.getPageSize());
                 return ENTRY_REDIRECT;
             }
