@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.util.ArrayUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -87,7 +88,7 @@ public class EntryController {
             logger.info("[USER : {}] || [UUID : {}] ---> ENTRY MODULE ---> findAllEntries() RESPONSE: {}", username, uuid, entries.getMessage());
             entries.setUuid(uuid.toString());
 
-            model.addAttribute("result", entries);
+            model.addAttribute(RESULT, entries);
             model.addAttribute("listSupplies", supplierService.findSupplies());
             model.addAttribute("listWarehouses", warehouseService.findWarehousesByWarehouser(username));
             model.addAttribute("listProducts", productService.findProductsByType(1));
@@ -149,7 +150,7 @@ public class EntryController {
             logger.error("[USER : {}] || [UUID : {}] ---> ENTRY MODULE ---> findProductsByType() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -158,7 +159,6 @@ public class EntryController {
         UUID uuid = UUID.randomUUID();
         String username = "";
         try {
-            RequisitionModel temp = entry.getRequisition();
             SecurityContextImpl securityContext = (SecurityContextImpl) httpSession.getAttribute(SPRING_SECURITY_CONTEXT);
             SecurityUser user = (SecurityUser) securityContext.getAuthentication().getPrincipal();
             username = user.getUsername();

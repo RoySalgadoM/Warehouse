@@ -134,7 +134,7 @@ public class WarehouseController {
             MessageModel cost = service.findAllCost(pageable, username, uuid.toString());
             logger.info("[USER : {}] || [UUID : {}] ---> ENTRY MODULE ---> findAllEntries() RESPONSE: {}", username, uuid, cost.getMessage());
             cost.setUuid(uuid.toString());
-            model.addAttribute("result", cost);
+            model.addAttribute(RESULT, cost);
             model.addAttribute("listWarehouses", warehouseService.findWarehouses());
             model.addAttribute("listProducts", productService.findAllProducts(pageable, username, uuid.toString()));
             if (cost.getIsError()) {

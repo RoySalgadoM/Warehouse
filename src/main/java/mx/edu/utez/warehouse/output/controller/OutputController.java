@@ -57,6 +57,9 @@ public class OutputController {
     private static final String OUTPUT_REDIRECT = "output/outputs";
     private static final String RESULT_ACTION = "resultAction";
     private static final String OUTPUT_REDIRECT_LIST = "redirect:/output/list";
+    private static final String REQUISITION_PRODUCT_MODEL_REJECTED = "requisition.requisitionProductModels";
+    private static final String REQUISITION_PRODUCT_MODEL_REJECTED_OUTPUT = "output.requisition.requisitionProductModels";
+
 
     @Autowired
     OutputServiceImpl service;
@@ -91,7 +94,7 @@ public class OutputController {
             logger.info("[USER : {}] || [UUID : {}] ---> OUTPUT MODULE ---> findAllOutputs() RESPONSE: {}", username, uuid, outputs.getMessage());
             outputs.setUuid(uuid.toString());
 
-            model.addAttribute("result", outputs);
+            model.addAttribute(RESULT, outputs);
             model.addAttribute("listAreas", areaService.findAreas());
             model.addAttribute("listWarehouses", warehouseService.findWarehousesByInvoicer(username));
             model.addAttribute("listProducts", warehouseService.findWarehouseProductsByType(1, warehouseService.findWarehousesByInvoicer(username).get(0).getId()));
@@ -153,7 +156,7 @@ public class OutputController {
             logger.error("[USER : {}] || [UUID : {}] ---> OUTPUT MODULE ---> findProductsByTypeAndWarehouse() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
             message.setUuid(uuid.toString());
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -199,7 +202,7 @@ public class OutputController {
             }
 
             if(products.isEmpty() || products.equals("[]")){
-                result.rejectValue("requisition.requisitionProductModels", "output.requisition.requisitionProductModels", "La salida debe tener al menos un producto");
+                result.rejectValue(REQUISITION_PRODUCT_MODEL_REJECTED, REQUISITION_PRODUCT_MODEL_REJECTED_OUTPUT, "La salida debe tener al menos un producto");
             }else{
                 listProducts = mapper.readValue(products, new TypeReference<List<ProductDTO>>(){});
                 List<RequisitionProductModel> productsTmp = listProducts.stream().map(product -> {
@@ -207,21 +210,18 @@ public class OutputController {
                     requisitionProductModel.setProduct(productRepository.findById(product.getId()).get());
                     requisitionProductModel.setQuantity(product.getQuantity());
                     return requisitionProductModel;
-                }).collect(Collectors.toList());
+                }).toList();
                 for (RequisitionProductModel product : productsTmp) {
                     WarehouseProductModel warehouseProduct = warehouseProductRepository.findWarehouseProductByWarehouseAndProduct(output.getRequisition().getWarehouse(), product.getProduct());
-                    if(warehouseProduct == null) {
-                        result.rejectValue("requisition.requisitionProductModels", "output.requisition.requisitionProductModels", "Uno o más productos no existen en el almacén o no tienen la cantidad suficiente");
-                        break;
-                    }else if (warehouseProduct.getQuantity() < product.getQuantity()){
-                        result.rejectValue("requisition.requisitionProductModels", "output.requisition.requisitionProductModels", "Uno o más productos no existen en el almacén o no tienen la cantidad suficiente");
+                    if(warehouseProduct == null || (warehouseProduct.getQuantity() < product.getQuantity())) {
+                        result.rejectValue(REQUISITION_PRODUCT_MODEL_REJECTED, REQUISITION_PRODUCT_MODEL_REJECTED_OUTPUT, "Uno o más productos no existen en el almacén o no tienen la cantidad suficiente");
                         break;
                     }
                 }
                 listProducts = mapper.readValue(products, new TypeReference<List<ProductDTO>>(){});
                 for (ProductDTO product : listProducts) {
                     if(product.getQuantity() == null || product.getQuantity() <= 0){
-                        result.rejectValue("requisition.requisitionProductModels", "output.requisition.requisitionProductModels", "Las cantidades de los productos deben ser mayor a 0");
+                        result.rejectValue(REQUISITION_PRODUCT_MODEL_REJECTED, REQUISITION_PRODUCT_MODEL_REJECTED_OUTPUT, "Las cantidades de los productos deben ser mayor a 0");
                         break;
                     }
                 }
@@ -270,7 +270,7 @@ public class OutputController {
             Integer quantity = 0;
             for (ProductDTO product : listProducts) {
                 if(product.getQuantity() == null || product.getQuantity() <= 0){
-                    result.rejectValue("requisition.requisitionProductModels", "output.requisition.requisitionProductModels", "Las cantidades de los productos deben ser mayor a 0");
+                    result.rejectValue(REQUISITION_PRODUCT_MODEL_REJECTED, REQUISITION_PRODUCT_MODEL_REJECTED_OUTPUT, "Las cantidades de los productos deben ser mayor a 0");
                 }
                 total += product.getQuantity() * product.getUnitPrice();
                 quantity += product.getQuantity();

@@ -26,8 +26,8 @@ import java.util.UUID;
 @Controller
 @RequestMapping("report")
 public class ReportController {
-    private static final String typeApp = "application/x-pdf";
-    private static final String attachment = "attachment; filename=entry.pdf";
+    private static final String TYPE_APP = "application/x-pdf";
+    private static final String ATTACHMENT = "attachment; filename=entry.pdf";
     private static final Logger logger = LogManager.getLogger(ReportController.class);
     private static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
     @Autowired
@@ -45,8 +45,8 @@ public class ReportController {
             username = user.getUsername();
             logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING REPORT MODULE ---> entryReport()", username, uuid);
             InputStream inputStream = this.getClass().getResourceAsStream("/reports/entry.jrxml");
-            response.setContentType(typeApp);
-            response.setHeader("Content-disposition", attachment);
+            response.setContentType(TYPE_APP);
+            response.setHeader("Content-disposition", ATTACHMENT);
             JasperReport jasperReport = JasperCompileManager.compileReport(inputStream);
             JRSaver.saveObject(jasperReport, "entry.pdf");
             Map<String, Object> parameters = new HashMap<>();
@@ -76,7 +76,7 @@ public class ReportController {
             username = user.getUsername();
             logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING REPORT MODULE ---> outputReport()", username, uuid);
             InputStream inputStream = this.getClass().getResourceAsStream("/reports/output.jrxml");
-            response.setContentType(typeApp);
+            response.setContentType(TYPE_APP);
             response.setHeader("Content-disposition", "attachment; filename=output.pdf");
             JasperReport jasperReport = JasperCompileManager.compileReport(inputStream);
             JRSaver.saveObject(jasperReport, "entry.pdf");

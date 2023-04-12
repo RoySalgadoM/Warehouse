@@ -1,7 +1,6 @@
 package mx.edu.utez.warehouse.security.service;
 
 import jakarta.persistence.NoResultException;
-import mx.edu.utez.warehouse.WarehouseApplication;
 import mx.edu.utez.warehouse.security.config.SecurityUser;
 import mx.edu.utez.warehouse.user.service.UserRepository;
 import org.apache.logging.log4j.LogManager;
@@ -12,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.UUID;
 
 @Service
