@@ -5,6 +5,7 @@ import mx.edu.utez.warehouse.message.model.MessageModel;
 
 import mx.edu.utez.warehouse.product.model.ProductModel;
 import mx.edu.utez.warehouse.product.model.WarehouseProductModel;
+import mx.edu.utez.warehouse.user.model.UserModel;
 import mx.edu.utez.warehouse.utils.MessageCatalog;
 import mx.edu.utez.warehouse.warehouse.model.WarehouseModel;
 import org.apache.logging.log4j.LogManager;
@@ -58,6 +59,39 @@ public class WarehouseServiceImpl implements WarehouseService {
         List<WarehouseModel> warehouses = repository.findAll();
         warehouses = warehouses.stream().filter(warehouse -> warehouse.getWarehouser().getUsername().equals(username) && warehouse.getWarehouser().getAuthorities().contains("INVOICER")).toList();
         return warehouses;
+    }
+    @Override
+    public MessageModel findWarehousesByWarehouserW(Pageable page, UserModel userModel, String uuid) {
+        try {
+            Page<WarehouseModel> warehouses = repository.findAllByWarehouser(userModel, page);
+
+            if (warehouses.getNumberOfElements() == 0) {
+                return new MessageModel(MessageCatalog.NO_RECORDS_FOUND, null, false);
+            }
+
+            return new MessageModel(MessageCatalog.RECORDS_FOUND, warehouses, false);
+
+        } catch (Exception exception) {
+            logger.error("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> findAllWarehouse() ERROR: {}", userModel.getUsername(), uuid, exception.getMessage());
+            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+        }
+    }
+
+    @Override
+    public MessageModel findWarehousesByInvoicerW(Pageable page, UserModel userModel, String uuid) {
+        try {
+            Page<WarehouseModel> warehouses = repository.findAllByInvoicer(userModel, page);
+
+            if (warehouses.getNumberOfElements() == 0) {
+                return new MessageModel(MessageCatalog.NO_RECORDS_FOUND, null, false);
+            }
+
+            return new MessageModel(MessageCatalog.RECORDS_FOUND, warehouses, false);
+
+        } catch (Exception exception) {
+            logger.error("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> findAllWarehouse() ERROR: {}", userModel.getUsername(), uuid, exception.getMessage());
+            return new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);
+        }
     }
 
     @Override

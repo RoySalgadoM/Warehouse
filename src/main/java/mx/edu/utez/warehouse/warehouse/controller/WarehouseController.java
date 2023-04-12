@@ -6,6 +6,7 @@ import mx.edu.utez.warehouse.entry.model.EntryModel;
 import mx.edu.utez.warehouse.log.service.LogServiceImpl;
 import mx.edu.utez.warehouse.message.model.MessageModel;
 import mx.edu.utez.warehouse.product.service.ProductServiceImpl;
+import mx.edu.utez.warehouse.role.model.AuthorityName;
 import mx.edu.utez.warehouse.role.model.RoleModel;
 import mx.edu.utez.warehouse.role.service.RoleServiceImpl;
 import mx.edu.utez.warehouse.security.config.SecurityUser;
@@ -40,6 +41,7 @@ public class WarehouseController {
     private static final String ERROR_PAGE_500 = "errorPages/500";
     private static final String PAGE_SIZE = "pageSize";
     private static final String WAREHOUSE_REDIRECT = "warehouse/warehouse";
+    private static final String WAREHOUSE_REDIRECT_NOT_ADMIN = "warehouse/warehouseNotAdmin";
     private static final String ERROR_WAREHOUSER = "warehouse.warehouser";
     private static final String WAREHOUSER_FIELD = "warehouser";
     private static final String INVOICER_FIELD = "invoicer";
@@ -74,8 +76,26 @@ public class WarehouseController {
             SecurityContextImpl securityContext = (SecurityContextImpl) httpSession.getAttribute(SPRING_SECURITY_CONTEXT);
             SecurityUser user = (SecurityUser) securityContext.getAuthentication().getPrincipal();
             username = user.getUsername();
+            boolean war = user.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("WAREHOUSER"));
+            boolean inv = user.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("INVOICER"));
+            boolean admin = user.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ADMIN"));
+
             logger.info("[USER : {}] || [UUID : {}] ---> EXECUTING WAREHOUSE MODULE ---> findAllWarehouse()", username, uuid);
-            MessageModel warehouses = service.findAllWarehouse(pageable, username, uuid.toString());
+            MessageModel warehouses = new MessageModel();
+
+            if(admin){
+                warehouses = service.findAllWarehouse(pageable, username, uuid.toString());
+            }
+
+            if(!admin && war){
+                UserModel userModel = serviceUser.findByUsr(username);
+                warehouses = warehouseService.findWarehousesByWarehouserW(pageable, userModel, uuid.toString());
+            }
+            if(!admin && inv){
+                UserModel userModel = serviceUser.findByUsr(username);
+                warehouses = warehouseService.findWarehousesByInvoicerW(pageable, userModel, uuid.toString());
+            }
+
             logger.info("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> findAllWarehouse() RESPONSE: {}", username, uuid, warehouses.getMessage());
             warehouses.setUuid(uuid.toString());
 
@@ -87,8 +107,10 @@ public class WarehouseController {
             }
             model.addAttribute(PAGE_SIZE, pageable.getPageSize());
             logService.saveLog("FINDING WAREHOUSES", 0L, username, uuid.toString());
-
-            return WAREHOUSE_REDIRECT;
+            if(admin){
+                return WAREHOUSE_REDIRECT;
+            }
+            return WAREHOUSE_REDIRECT_NOT_ADMIN;
         } catch (Exception exception) {
             logger.error("[USER : {}] || [UUID : {}] ---> WAREHOUSE MODULE ---> findAllWarehouse() ERROR: {}", username, uuid, exception.getMessage());
             MessageModel message = new MessageModel(MessageCatalog.UNK_ERROR_FOUND, null, true);

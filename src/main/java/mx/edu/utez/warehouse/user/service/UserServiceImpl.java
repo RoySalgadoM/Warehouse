@@ -193,7 +193,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public UserModel findByPassword(String password){
-        return repository.findByPassword(password);
+    public UserModel findByUsr(String username){
+        return repository.findByUsername(username).orElse(null);
     }
 }

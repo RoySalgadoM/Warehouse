@@ -27,12 +27,10 @@ public class WebSecurityConfig{
                     .requestMatchers("/js/**").permitAll()
                     .requestMatchers("/AdminLTE/**").permitAll()
                     .requestMatchers("/errors/**").permitAll()
-                    .requestMatchers("/**").hasAnyAuthority("ADMIN")
-
-                    /*
-                    .requestMatchers("/").access("hasAnyAuthority('WAREHOUSER')")
-                    .requestMatchers("/").access("hasAnyAuthority('INVOICER')")
-                    */
+                    .requestMatchers("/warehouse/list").hasAuthority("WAREHOUSER")
+                    .requestMatchers( "/user/**", "/log/**", "/warehouse/**").hasAuthority("ADMIN")
+                    .requestMatchers("/warehouse/**").hasAuthority("WAREHOUSER")
+                    .requestMatchers("/warehouse/list", "/warehouse/").hasAnyAuthority("INVOICER")
                     .anyRequest().authenticated()
                     .and()
                     .formLogin()
